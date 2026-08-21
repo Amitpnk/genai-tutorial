@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "genai-tutorial"
+version = "0.1.0"
+description = "A hands-on tutorial for building generative AI applications with Claude"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Amit P Naik" }]
+
+dependencies = [
+    "anthropic>=0.116.0",
+    "python-dotenv>=1.0",
+    "pydantic>=2.7",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+# Lessons 04-05: embeddings, chunking, vector search
+rag = [
+    "voyageai>=0.3",
+    "chromadb>=0.5",
+    "pypdf>=4.2",
+    "tiktoken>=0.7",
+]
+# Running and authoring the notebooks
+notebooks = [
+    "jupyterlab>=4.2",
+    "ipywidgets>=8.1",
+    "matplotlib>=3.8",
+    "pandas>=2.2",
+]
+dev = [
+    "pytest>=8.2",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.5",
+    "nbstripout>=0.7",
+    "nbclient>=0.10",
+    "nbformat>=5.10",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/genai_tutorial"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["notebooks", "solutions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "live: hits the real Claude API and costs money (deselect with '-m \"not live\"')",
+]
+addopts = "-m 'not live'"

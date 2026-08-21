@@ -1,0 +1,42 @@
+# Secrets — never commit real keys
+.env
+.env.local
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.python-version
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Notebook outputs are stripped before commit (see CONTRIBUTING.md)
+# but keep the escape hatch obvious rather than ignoring notebooks wholesale.
+
+# Data — sample corpora live in data/raw and are committed only if small.
+data/processed/*
+!data/processed/.gitkeep
+data/raw/*.large
+*.sqlite3
+*.duckdb
+
+# Vector indexes are build artifacts, not source
+.index/
+*.faiss
+*.chroma/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
