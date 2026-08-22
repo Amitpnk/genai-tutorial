@@ -1,462 +1,823 @@
 <title>Three Words, Three Different Things</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=JetBrains+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap">
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=JetBrains+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap">
 
 <style>
-/* ---------------------------------------------------------------
+  /* ---------------------------------------------------------------
    Tokens. Light palette on bare :root; dark redefines tokens only.
    --------------------------------------------------------------- */
-:root {
-  --ground:     #EDEFF2;
-  --surface:    #FFFFFF;
-  --surface-2:  #F5F7F9;
-  --ink:        #121820;
-  --ink-soft:   #515C68;
-  --ink-faint:  #8B96A2;
-  --rule:       #D2D8DF;
-  --rule-soft:  #E3E7EC;
+  :root {
+    --ground: #EDEFF2;
+    --surface: #FFFFFF;
+    --surface-2: #F5F7F9;
+    --ink: #121820;
+    --ink-soft: #515C68;
+    --ink-faint: #8B96A2;
+    --rule: #D2D8DF;
+    --rule-soft: #E3E7EC;
 
-  --t1: #0C7A84;   /* generative      — contained  */
-  --t2: #A2631A;   /* agent           — delegated  */
-  --t3: #A93A2C;   /* agentic         — autonomous */
+    --t1: #0C7A84;
+    /* generative      — contained  */
+    --t2: #A2631A;
+    /* agent           — delegated  */
+    --t3: #A93A2C;
+    /* agentic         — autonomous */
 
-  --shadow: 0 1px 2px rgba(18,24,32,.06), 0 12px 32px rgba(18,24,32,.07);
+    --shadow: 0 1px 2px rgba(18, 24, 32, .06), 0 12px 32px rgba(18, 24, 32, .07);
 
-  /* Flood panels commit to one look in both themes, so their
+    /* Flood panels commit to one look in both themes, so their
      contrast is fixed rather than theme-dependent. */
-  --t1-flood: #0A5F68;
-  --t2-flood: #8A5214;
-  --t3-flood: #8E2E22;
-  --flood-ink: #FBFAF8;
-  --flood-ink-soft: rgba(251,250,248,.72);
-}
+    --t1-flood: #0A5F68;
+    --t2-flood: #8A5214;
+    --t3-flood: #8E2E22;
+    --flood-ink: #FBFAF8;
+    --flood-ink-soft: rgba(251, 250, 248, .72);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ground:    #0E1216;
-    --surface:   #171D24;
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0E1216;
+      --surface: #171D24;
+      --surface-2: #1E252D;
+      --ink: #E9EDF2;
+      --ink-soft: #9BA7B4;
+      --ink-faint: #6B7885;
+      --rule: #2A333D;
+      --rule-soft: #222A33;
+
+      --t1: #38C0CA;
+      --t2: #E6A544;
+      --t3: #EA6E5C;
+
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 36px rgba(0, 0, 0, .34);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0E1216;
+    --surface: #171D24;
     --surface-2: #1E252D;
-    --ink:       #E9EDF2;
-    --ink-soft:  #9BA7B4;
+    --ink: #E9EDF2;
+    --ink-soft: #9BA7B4;
     --ink-faint: #6B7885;
-    --rule:      #2A333D;
+    --rule: #2A333D;
     --rule-soft: #222A33;
 
     --t1: #38C0CA;
     --t2: #E6A544;
     --t3: #EA6E5C;
 
-    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 36px rgba(0,0,0,.34);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 36px rgba(0, 0, 0, .34);
   }
-}
 
-:root[data-theme="dark"] {
-  --ground:    #0E1216;
-  --surface:   #171D24;
-  --surface-2: #1E252D;
-  --ink:       #E9EDF2;
-  --ink-soft:  #9BA7B4;
-  --ink-faint: #6B7885;
-  --rule:      #2A333D;
-  --rule-soft: #222A33;
+  * {
+    box-sizing: border-box;
+  }
 
-  --t1: #38C0CA;
-  --t2: #E6A544;
-  --t3: #EA6E5C;
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: Newsreader, Georgia, "Times New Roman", serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
 
-  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 36px rgba(0,0,0,.34);
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: var(--ground);
-  color: var(--ink);
-  font-family: Newsreader, Georgia, "Times New Roman", serif;
-  -webkit-font-smoothing: antialiased;
-  overflow: hidden;
-}
-
-/* ---------------------------------------------------------------
+  /* ---------------------------------------------------------------
    Stage — fixed 1280x720, scaled by JS to fit the viewport.
    --------------------------------------------------------------- */
-#app {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 54px;
-}
+  #app {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 54px;
+  }
 
-#wrap { position: relative; }
+  #wrap {
+    position: relative;
+  }
 
-#stage {
-  width: 1280px;
-  height: 720px;
-  transform-origin: top left;
-  position: relative;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
+  #stage {
+    width: 1280px;
+    height: 720px;
+    transform-origin: top left;
+    position: relative;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
 
-.slide {
-  position: absolute;
-  inset: 0;
-  display: none;
-  grid-template-columns: 92px 1fr;
-  padding: 58px 76px 62px 0;
-}
-.slide.on { display: grid; }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    grid-template-columns: 92px 1fr;
+    padding: 58px 76px 62px 0;
+  }
 
-/* Left rail: tier mark + running section name */
-.rail {
-  border-right: 1px solid var(--rule-soft);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 0 6px;
-  margin-left: 34px;
-}
-.rail-dot {
-  width: 11px; height: 11px;
-  border-radius: 50%;
-  background: var(--tier, var(--ink-faint));
-  margin-right: 1px;
-}
-.rail-name {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-family: Archivo, system-ui, sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .19em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  white-space: nowrap;
-}
-.rail-num {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 12px;
-  color: var(--ink-faint);
-  margin-right: 1px;
-}
+  .slide.on {
+    display: grid;
+  }
 
-.body { padding-left: 52px; min-width: 0; display: flex; flex-direction: column; }
+  /* Left rail: tier mark + running section name */
+  .rail {
+    border-right: 1px solid var(--rule-soft);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0 6px;
+    margin-left: 34px;
+  }
 
-/* --- Type scale ------------------------------------------------ */
-.eyebrow {
-  font-family: Archivo, system-ui, sans-serif;
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--tier, var(--ink-soft));
-  margin: 0 0 16px;
-}
-h1 {
-  font-family: Archivo, system-ui, sans-serif;
-  font-variation-settings: "wdth" 108;
-  font-size: 72px;
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -.02em;
-  text-wrap: balance;
-  margin: 0 0 26px;
-}
-h2 {
-  font-family: Archivo, system-ui, sans-serif;
-  font-variation-settings: "wdth" 104;
-  font-size: 43px;
-  font-weight: 650;
-  line-height: 1.1;
-  letter-spacing: -.015em;
-  text-wrap: balance;
-  margin: 0 0 24px;
-}
-h3 {
-  font-family: Archivo, system-ui, sans-serif;
-  font-size: 19px;
-  font-weight: 620;
-  letter-spacing: -.005em;
-  margin: 0 0 7px;
-}
-p {
-  font-size: 24px;
-  line-height: 1.52;
-  margin: 0 0 20px;
-  max-width: 62ch;
-  color: var(--ink);
-}
-p.lead { font-size: 28px; line-height: 1.44; }
-p.small { font-size: 20px; color: var(--ink-soft); }
+  .rail-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--tier, var(--ink-faint));
+    margin-right: 1px;
+  }
 
-strong { font-weight: 600; color: var(--ink); }
-em.hl { font-style: normal; color: var(--tier, var(--ink)); font-weight: 600; }
+  .rail-name {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .19em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
 
-.kicker {
-  margin-top: auto;
-  padding-top: 22px;
-  border-top: 1px solid var(--rule-soft);
-  font-size: 20px;
-  line-height: 1.45;
-  color: var(--ink-soft);
-  max-width: 74ch;
-}
-.kicker b { color: var(--ink); font-weight: 600; }
+  .rail-num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-right: 1px;
+  }
 
-code, .mono {
-  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  font-size: .86em;
-}
+  .body {
+    padding-left: 52px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
 
-/* --- Lists ------------------------------------------------------ */
-ul.plain { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; }
-ul.plain li { font-size: 23px; line-height: 1.42; padding-left: 26px; position: relative; max-width: 66ch; }
-ul.plain li::before {
-  content: "";
-  position: absolute; left: 0; top: .62em;
-  width: 9px; height: 2px;
-  background: var(--tier, var(--ink-faint));
-}
+  /* --- Type scale ------------------------------------------------ */
+  .eyebrow {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--tier, var(--ink-soft));
+    margin: 0 0 16px;
+  }
 
-/* Numbered consequence blocks — the numbering is real sequence,
+  h1 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-variation-settings: "wdth" 108;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -.02em;
+    text-wrap: balance;
+    margin: 0 0 26px;
+  }
+
+  h2 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-variation-settings: "wdth" 104;
+    font-size: 43px;
+    font-weight: 650;
+    line-height: 1.1;
+    letter-spacing: -.015em;
+    text-wrap: balance;
+    margin: 0 0 24px;
+  }
+
+  h3 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 19px;
+    font-weight: 620;
+    letter-spacing: -.005em;
+    margin: 0 0 7px;
+  }
+
+  p {
+    font-size: 24px;
+    line-height: 1.52;
+    margin: 0 0 20px;
+    max-width: 62ch;
+    color: var(--ink);
+  }
+
+  p.lead {
+    font-size: 28px;
+    line-height: 1.44;
+  }
+
+  p.small {
+    font-size: 20px;
+    color: var(--ink-soft);
+  }
+
+  strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  em.hl {
+    font-style: normal;
+    color: var(--tier, var(--ink));
+    font-weight: 600;
+  }
+
+  .kicker {
+    margin-top: auto;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule-soft);
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 74ch;
+  }
+
+  .kicker b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  code,
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    font-size: .86em;
+  }
+
+  /* --- Lists ------------------------------------------------------ */
+  ul.plain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  ul.plain li {
+    font-size: 23px;
+    line-height: 1.42;
+    padding-left: 26px;
+    position: relative;
+    max-width: 66ch;
+  }
+
+  ul.plain li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .62em;
+    width: 9px;
+    height: 2px;
+    background: var(--tier, var(--ink-faint));
+  }
+
+  /* Numbered consequence blocks — the numbering is real sequence,
    each item is answered by a later section of the deck. */
-ol.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; counter-reset: s; }
-ol.steps li {
-  counter-increment: s;
-  display: grid;
-  grid-template-columns: 34px 1fr;
-  gap: 16px;
-  align-items: baseline;
-}
-ol.steps li::before {
-  content: counter(s);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 15px;
-  color: var(--tier, var(--ink-faint));
-  border-top: 2px solid var(--tier, var(--rule));
-  padding-top: 5px;
-}
-ol.steps p { font-size: 20px; margin: 3px 0 0; line-height: 1.42; color: var(--ink-soft); max-width: 58ch; }
+  ol.steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    counter-reset: s;
+  }
 
-/* --- Panels & grids -------------------------------------------- */
-.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
-.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  ol.steps li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
 
-.panel {
-  background: var(--surface-2);
-  border: 1px solid var(--rule-soft);
-  border-top: 3px solid var(--pt, var(--rule));
-  padding: 20px 22px 22px;
-}
-.panel h3 { color: var(--pt, var(--ink)); }
-.panel ul.plain li { font-size: 19px; padding-left: 22px; }
-.panel ul.plain li::before { background: var(--pt, var(--ink-faint)); top: .58em; }
-.panel p { font-size: 19px; margin: 0; color: var(--ink-soft); }
+  ol.steps li::before {
+    content: counter(s);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+    color: var(--tier, var(--ink-faint));
+    border-top: 2px solid var(--tier, var(--rule));
+    padding-top: 5px;
+  }
 
-.callout {
-  border-left: 3px solid var(--tier, var(--ink));
-  padding: 4px 0 4px 24px;
-  font-size: 25px;
-  line-height: 1.4;
-  max-width: 60ch;
-}
+  ol.steps p {
+    font-size: 20px;
+    margin: 3px 0 0;
+    line-height: 1.42;
+    color: var(--ink-soft);
+    max-width: 58ch;
+  }
 
-pre {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 17.5px;
-  line-height: 1.62;
-  background: var(--surface-2);
-  border: 1px solid var(--rule-soft);
-  padding: 20px 24px;
-  margin: 0;
-  overflow-x: auto;
-  color: var(--ink);
-}
-pre .c { color: var(--ink-faint); }
-pre .k { color: var(--tier, var(--ink)); font-weight: 600; }
+  /* --- Panels & grids -------------------------------------------- */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+  }
 
-/* --- Table ------------------------------------------------------ */
-table { border-collapse: collapse; width: 100%; font-size: 18px; }
-th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; line-height: 1.36; }
-thead th {
-  font-family: Archivo, system-ui, sans-serif;
-  font-size: 12.5px;
-  font-weight: 650;
-  letter-spacing: .13em;
-  text-transform: uppercase;
-  border-bottom: 2px solid var(--rule);
-  padding-bottom: 9px;
-}
-thead th:nth-child(2) { color: var(--t1); }
-thead th:nth-child(3) { color: var(--t2); }
-thead th:nth-child(4) { color: var(--t3); }
-tbody th {
-  font-family: Archivo, system-ui, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  width: 148px;
-}
+  .cols-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
 
-/* --- Section flood --------------------------------------------- */
-.slide.flood {
-  grid-template-columns: 1fr;
-  padding: 0;
-  background: var(--flood);
-  color: var(--flood-ink);
-}
-.flood-inner {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 96px;
-}
-.flood .part-num {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 14px;
-  letter-spacing: .2em;
-  color: var(--flood-ink-soft);
-  margin: 0 0 18px;
-}
-.flood h1 { color: var(--flood-ink); font-size: 84px; margin-bottom: 20px; }
-.flood p { color: var(--flood-ink-soft); font-size: 27px; max-width: 46ch; margin: 0; }
+  .panel {
+    background: var(--surface-2);
+    border: 1px solid var(--rule-soft);
+    border-top: 3px solid var(--pt, var(--rule));
+    padding: 20px 22px 22px;
+  }
 
-/* --- Title slide ------------------------------------------------ */
-.slide.title-slide { grid-template-columns: 1fr; padding: 0; }
-.title-inner { height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 96px; }
-.title-rule { display: flex; gap: 0; height: 5px; width: 232px; margin-bottom: 34px; }
-.title-rule span { flex: 1; }
-.title-inner h1 { font-size: 82px; max-width: 20ch; }
-.title-inner p { font-size: 27px; color: var(--ink-soft); max-width: 54ch; }
-.title-meta {
-  margin-top: 46px;
-  font-family: Archivo, system-ui, sans-serif;
-  font-size: 14px;
-  letter-spacing: .08em;
-  color: var(--ink-faint);
-}
-.title-meta kbd {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 12px;
-  border: 1px solid var(--rule);
-  border-bottom-width: 2px;
-  border-radius: 3px;
-  padding: 2px 6px;
-  margin: 0 2px;
-  color: var(--ink-soft);
-}
+  .panel h3 {
+    color: var(--pt, var(--ink));
+  }
 
-/* --- Figures ---------------------------------------------------- */
-figure { margin: 0; }
-figure svg { display: block; width: 100%; max-width: 100%; height: auto; }
-figcaption {
-  font-size: 18px;
-  color: var(--ink-soft);
-  margin-top: 14px;
-  line-height: 1.45;
-  max-width: 74ch;
-}
-.d-line   { stroke: currentColor; stroke-width: 1.5; fill: none; opacity: .55; }
-.d-box    { fill: var(--surface-2); stroke: currentColor; stroke-width: 1.5; opacity: 1; }
-.d-box-o  { fill: none; stroke: currentColor; stroke-width: 1.5; opacity: .4; }
-.d-accent { stroke: var(--tier); }
-.d-accent-f { fill: var(--tier); }
-.d-fill   { fill: currentColor; }
-.d-t      { fill: currentColor; font-family: Archivo, system-ui, sans-serif; font-size: 14px; font-weight: 600; }
-.d-t-a    { fill: var(--tier); font-family: Archivo, system-ui, sans-serif; font-size: 14px; font-weight: 600; }
-.d-l      { fill: currentColor; opacity: .62; font-family: "JetBrains Mono", monospace; font-size: 11.5px; }
-.d-l-a    { fill: var(--tier); font-family: "JetBrains Mono", monospace; font-size: 11.5px; }
-.d-m      { fill: currentColor; opacity: .5; font-family: Archivo, system-ui, sans-serif; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+  .panel ul.plain li {
+    font-size: 19px;
+    padding-left: 22px;
+  }
 
-/* ---------------------------------------------------------------
+  .panel ul.plain li::before {
+    background: var(--pt, var(--ink-faint));
+    top: .58em;
+  }
+
+  .panel p {
+    font-size: 19px;
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .callout {
+    border-left: 3px solid var(--tier, var(--ink));
+    padding: 4px 0 4px 24px;
+    font-size: 25px;
+    line-height: 1.4;
+    max-width: 60ch;
+  }
+
+  pre {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 17.5px;
+    line-height: 1.62;
+    background: var(--surface-2);
+    border: 1px solid var(--rule-soft);
+    padding: 20px 24px;
+    margin: 0;
+    overflow-x: auto;
+    color: var(--ink);
+  }
+
+  pre .c {
+    color: var(--ink-faint);
+  }
+
+  pre .k {
+    color: var(--tier, var(--ink));
+    font-weight: 600;
+  }
+
+  /* --- Table ------------------------------------------------------ */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+    line-height: 1.36;
+  }
+
+  thead th {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 650;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 9px;
+  }
+
+  thead th:nth-child(2) {
+    color: var(--t1);
+  }
+
+  thead th:nth-child(3) {
+    color: var(--t2);
+  }
+
+  thead th:nth-child(4) {
+    color: var(--t3);
+  }
+
+  tbody th {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    width: 148px;
+  }
+
+  /* --- Section flood --------------------------------------------- */
+  .slide.flood {
+    grid-template-columns: 1fr;
+    padding: 0;
+    background: var(--flood);
+    color: var(--flood-ink);
+  }
+
+  .flood-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 96px;
+  }
+
+  .flood .part-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    letter-spacing: .2em;
+    color: var(--flood-ink-soft);
+    margin: 0 0 18px;
+  }
+
+  .flood h1 {
+    color: var(--flood-ink);
+    font-size: 84px;
+    margin-bottom: 20px;
+  }
+
+  .flood p {
+    color: var(--flood-ink-soft);
+    font-size: 27px;
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  /* --- Title slide ------------------------------------------------ */
+  .slide.title-slide {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .title-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 96px;
+  }
+
+  .title-rule {
+    display: flex;
+    gap: 0;
+    height: 5px;
+    width: 232px;
+    margin-bottom: 34px;
+  }
+
+  .title-rule span {
+    flex: 1;
+  }
+
+  .title-inner h1 {
+    font-size: 82px;
+    max-width: 20ch;
+  }
+
+  .title-inner p {
+    font-size: 27px;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+
+  .title-meta {
+    margin-top: 46px;
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 14px;
+    letter-spacing: .08em;
+    color: var(--ink-faint);
+  }
+
+  .title-meta kbd {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    border: 1px solid var(--rule);
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin: 0 2px;
+    color: var(--ink-soft);
+  }
+
+  /* --- Figures ---------------------------------------------------- */
+  figure {
+    margin: 0;
+  }
+
+  figure svg {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-top: 14px;
+    line-height: 1.45;
+    max-width: 74ch;
+  }
+
+  .d-line {
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    opacity: .55;
+  }
+
+  .d-box {
+    fill: var(--surface-2);
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: 1;
+  }
+
+  .d-box-o {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: .4;
+  }
+
+  .d-accent {
+    stroke: var(--tier);
+  }
+
+  .d-accent-f {
+    fill: var(--tier);
+  }
+
+  .d-fill {
+    fill: currentColor;
+  }
+
+  .d-t {
+    fill: currentColor;
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .d-t-a {
+    fill: var(--tier);
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .d-l {
+    fill: currentColor;
+    opacity: .62;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+  }
+
+  .d-l-a {
+    fill: var(--tier);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+  }
+
+  .d-m {
+    fill: currentColor;
+    opacity: .5;
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  /* ---------------------------------------------------------------
    HUD
    --------------------------------------------------------------- */
-#hud {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 0 22px;
-  border-top: 1px solid var(--rule-soft);
-  background: var(--ground);
-  font-family: Archivo, system-ui, sans-serif;
-}
-#spine { display: flex; gap: 4px; flex: 1; max-width: 640px; }
-.seg { flex: 1; height: 4px; background: var(--rule); position: relative; overflow: hidden; }
-.seg i { position: absolute; inset: 0; width: 0; background: var(--sc); transition: width .28s ease; }
-.seg:nth-child(1) { --sc: var(--t1); }
-.seg:nth-child(2) { --sc: var(--t2); }
-.seg:nth-child(3) { --sc: var(--t3); }
+  #hud {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 22px;
+    border-top: 1px solid var(--rule-soft);
+    background: var(--ground);
+    font-family: Archivo, system-ui, sans-serif;
+  }
 
-#hud .lbl { font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); }
-#count { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  #spine {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+    max-width: 640px;
+  }
 
-.btn {
-  font-family: Archivo, system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  background: transparent;
-  border: 1px solid var(--rule);
-  padding: 6px 12px;
-  cursor: pointer;
-}
-.btn:hover { color: var(--ink); border-color: var(--ink-faint); }
-.btn:focus-visible { outline: 2px solid var(--t1); outline-offset: 2px; }
+  .seg {
+    flex: 1;
+    height: 4px;
+    background: var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
 
-/* --- Index overlay ---------------------------------------------- */
-#index {
-  position: fixed; inset: 0;
-  background: var(--ground);
-  z-index: 20;
-  overflow-y: auto;
-  padding: 46px 56px 70px;
-}
-#index[hidden] { display: none; }
-#index h2 { font-size: 26px; margin-bottom: 26px; }
-.idx-group { margin-bottom: 30px; }
-.idx-head {
-  font-family: Archivo, system-ui, sans-serif;
-  font-size: 11.5px; font-weight: 650; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--gc, var(--ink-faint));
-  padding-bottom: 8px; margin-bottom: 12px;
-  border-bottom: 2px solid var(--gc, var(--rule));
-}
-.idx-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 3px; }
-.idx-item {
-  display: flex; gap: 13px; align-items: baseline;
-  padding: 8px 10px;
-  border: none; background: none; text-align: left; cursor: pointer;
-  font-family: Newsreader, Georgia, serif; font-size: 17px; color: var(--ink);
-  width: 100%;
-}
-.idx-item:hover { background: var(--surface-2); }
-.idx-item:focus-visible { outline: 2px solid var(--gc, var(--t1)); outline-offset: -2px; }
-.idx-item span { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+  .seg i {
+    position: absolute;
+    inset: 0;
+    width: 0;
+    background: var(--sc);
+    transition: width .28s ease;
+  }
 
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
-}
+  .seg:nth-child(1) {
+    --sc: var(--t1);
+  }
 
-@media print {
-  body { overflow: visible; }
-  #hud, #index { display: none; }
-  #app { display: block; height: auto; padding: 0; }
-  #stage { transform: none !important; box-shadow: none; }
-  .slide { display: grid !important; position: relative; page-break-after: always; }
-}
+  .seg:nth-child(2) {
+    --sc: var(--t2);
+  }
+
+  .seg:nth-child(3) {
+    --sc: var(--t3);
+  }
+
+  #hud .lbl {
+    font-size: 11.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  #count {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .btn {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    color: var(--ink);
+    border-color: var(--ink-faint);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--t1);
+    outline-offset: 2px;
+  }
+
+  /* --- Index overlay ---------------------------------------------- */
+  #index {
+    position: fixed;
+    inset: 0;
+    background: var(--ground);
+    z-index: 20;
+    overflow-y: auto;
+    padding: 46px 56px 70px;
+  }
+
+  #index[hidden] {
+    display: none;
+  }
+
+  #index h2 {
+    font-size: 26px;
+    margin-bottom: 26px;
+  }
+
+  .idx-group {
+    margin-bottom: 30px;
+  }
+
+  .idx-head {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 11.5px;
+    font-weight: 650;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gc, var(--ink-faint));
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid var(--gc, var(--rule));
+  }
+
+  .idx-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 3px;
+  }
+
+  .idx-item {
+    display: flex;
+    gap: 13px;
+    align-items: baseline;
+    padding: 8px 10px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: Newsreader, Georgia, serif;
+    font-size: 17px;
+    color: var(--ink);
+    width: 100%;
+  }
+
+  .idx-item:hover {
+    background: var(--surface-2);
+  }
+
+  .idx-item:focus-visible {
+    outline: 2px solid var(--gc, var(--t1));
+    outline-offset: -2px;
+  }
+
+  .idx-item span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    body {
+      overflow: visible;
+    }
+
+    #hud,
+    #index {
+      display: none;
+    }
+
+    #app {
+      display: block;
+      height: auto;
+      padding: 0;
+    }
+
+    #stage {
+      transform: none !important;
+      box-shadow: none;
+    }
+
+    .slide {
+      display: grid !important;
+      position: relative;
+      page-break-after: always;
+    }
+  }
 </style>
 
 <div id="app">
@@ -473,7 +834,8 @@ figcaption {
           </div>
           <h1>Generative AI, AI Agents, and Agentic</h1>
           <p>Three Words, Three Different Things. </p>
-          <p>What each one actually means, what changes between them, and why the difference decides how your system fails.</p>
+          <p>What each one actually means, what changes between them, and why the difference decides how your system
+            fails.</p>
           <div class="title-meta">
             <kbd>&rarr;</kbd> next &nbsp;·&nbsp; <kbd>&larr;</kbd> back &nbsp;·&nbsp; <kbd>I</kbd> index
           </div>
@@ -482,11 +844,16 @@ figcaption {
 
       <!-- 2 ------------------------------------------------------ -->
       <section class="slide" data-part="0" data-title="On every CV, in every profile">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Orientation</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Orientation</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Where this starts</p>
           <h2>The words are on every CV. The answers aren&rsquo;t.</h2>
-          <p>Open any LinkedIn profile or r&eacute;sum&eacute;: <em class="hl">Generative AI &middot; AI Agents &middot; Agentic AI</em>. Then ask one plain question, and the room goes quiet.</p>
+          <p>Open any LinkedIn profile or r&eacute;sum&eacute;: <em class="hl">Generative AI &middot; AI Agents &middot;
+              Agentic AI</em>. Then ask one plain question, and the room goes quiet.</p>
           <div class="cols-3">
             <div class="panel" style="--pt:var(--t1)">
               <h3>Is ChatGPT an AI agent?</h3>
@@ -501,7 +868,8 @@ figcaption {
               <p>The same person will use both in one sentence, meaning two different things.</p>
             </div>
           </div>
-          <div class="kicker">None of these are trick questions &mdash; they <i>are</i> the subject. <b>If you can answer all three in a sentence each by the end, the session did its job.</b></div>
+          <div class="kicker">None of these are trick questions &mdash; they <i>are</i> the subject. <b>If you can
+              answer all three in a sentence each by the end, the session did its job.</b></div>
         </div>
       </section>
 
@@ -516,6 +884,25 @@ figcaption {
 
       <!-- 6 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="What generative means">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Generative AI</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Definition</p>
+          <h2>It produces content instead of labelling it</h2>
+          <p>"Generative" is a contrast with <strong>discriminative</strong>. A spam filter tells you which bucket an
+            email belongs in — it picks from options you defined. A generative model writes the email.</p>
+          <div class="callout">The output space isn't a list of categories. It's every sequence of words the model could
+            produce.</div>
+          <div class="kicker">Same idea across media: text, code, images, audio, video. This session stays with
+            <b>language models</b>, because that is where agents are built.</div>
+        </div>
+      </section>
+
+
+      <!-- <section class="slide" data-part="1" data-title="What generative means">
         <div class="rail"><div class="rail-dot"></div><div class="rail-name">Generative AI</div><div class="rail-num"></div></div>
         <div class="body">
           <p class="eyebrow">Definition</p>
@@ -524,72 +911,85 @@ figcaption {
           <div class="callout">The output space isn't a list of categories. It's every sequence of words the model could produce.</div>
           <div class="kicker">Same idea across media: text, code, images, audio, video. This session stays with <b>language models</b>, because that is where agents are built.</div>
         </div>
-      </section>
+      </section> -->
+
+
+
 
       <!-- 7 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="How a language model works">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Generative AI</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Generative AI</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Mechanism</p>
           <h2>One trick, repeated: predict the next token</h2>
           <figure>
-            <svg viewBox="0 0 1030 268" role="img" aria-label="Prompt tokens feed into the model, which outputs a probability distribution over possible next tokens; one is sampled, appended to the input, and the process repeats.">
+            <svg viewBox="0 0 1030 268" role="img"
+              aria-label="Prompt tokens feed into the model, which outputs a probability distribution over possible next tokens; one is sampled, appended to the input, and the process repeats.">
               <defs>
                 <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55"/>
+                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55" />
                 </marker>
               </defs>
 
               <!-- input chips -->
               <text class="d-m" x="20" y="34">Input so far</text>
-              <rect class="d-box-o" x="20"  y="52" width="62" height="34"/>
-              <rect class="d-box-o" x="88"  y="52" width="82" height="34"/>
-              <rect class="d-box-o" x="176" y="52" width="46" height="34"/>
-              <rect class="d-box-o" x="228" y="52" width="74" height="34"/>
-              <rect class="d-box-o" x="308" y="52" width="42" height="34"/>
-              <text class="d-l" x="51"  y="74" text-anchor="middle">The</text>
+              <rect class="d-box-o" x="20" y="52" width="62" height="34" />
+              <rect class="d-box-o" x="88" y="52" width="82" height="34" />
+              <rect class="d-box-o" x="176" y="52" width="46" height="34" />
+              <rect class="d-box-o" x="228" y="52" width="74" height="34" />
+              <rect class="d-box-o" x="308" y="52" width="42" height="34" />
+              <text class="d-l" x="51" y="74" text-anchor="middle">The</text>
               <text class="d-l" x="129" y="74" text-anchor="middle">capital</text>
               <text class="d-l" x="199" y="74" text-anchor="middle">of</text>
               <text class="d-l" x="265" y="74" text-anchor="middle">France</text>
               <text class="d-l" x="329" y="74" text-anchor="middle">is</text>
 
-              <line class="d-line" x1="360" y1="69" x2="418" y2="69" marker-end="url(#ar2)"/>
+              <line class="d-line" x1="360" y1="69" x2="418" y2="69" marker-end="url(#ar2)" />
 
               <!-- model -->
-              <rect class="d-box" x="424" y="42" width="118" height="54"/>
+              <rect class="d-box" x="424" y="42" width="118" height="54" />
               <text class="d-t" x="483" y="74" text-anchor="middle">Model</text>
 
-              <line class="d-line" x1="548" y1="69" x2="606" y2="69" marker-end="url(#ar2)"/>
+              <line class="d-line" x1="548" y1="69" x2="606" y2="69" marker-end="url(#ar2)" />
 
               <!-- distribution -->
               <text class="d-m" x="614" y="34">Probability of each next token</text>
-              <rect class="d-accent-f" x="614" y="50" width="252" height="17"/>
-              <text class="d-l" x="878" y="63">" Paris"  0.91</text>
-              <rect class="d-fill" x="614" y="72" width="18" height="17" opacity=".3"/>
-              <text class="d-l" x="878" y="85">" located"  0.04</text>
-              <rect class="d-fill" x="614" y="94" width="9" height="17" opacity=".3"/>
-              <text class="d-l" x="878" y="107">" the"  0.02</text>
+              <rect class="d-accent-f" x="614" y="50" width="252" height="17" />
+              <text class="d-l" x="878" y="63">" Paris" 0.91</text>
+              <rect class="d-fill" x="614" y="72" width="18" height="17" opacity=".3" />
+              <text class="d-l" x="878" y="85">" located" 0.04</text>
+              <rect class="d-fill" x="614" y="94" width="9" height="17" opacity=".3" />
+              <text class="d-l" x="878" y="107">" the" 0.02</text>
 
               <!-- sample -->
-              <line class="d-line" x1="740" y1="122" x2="740" y2="164" marker-end="url(#ar2)"/>
+              <line class="d-line" x1="740" y1="122" x2="740" y2="164" marker-end="url(#ar2)" />
               <text class="d-l" x="752" y="148">sample one</text>
-              <rect class="d-box" x="694" y="170" width="92" height="34" style="stroke:var(--tier)"/>
+              <rect class="d-box" x="694" y="170" width="92" height="34" style="stroke:var(--tier)" />
               <text class="d-t-a" x="740" y="192" text-anchor="middle">" Paris"</text>
 
               <!-- loop back into the input row -->
-              <path class="d-line d-accent" d="M694,187 L180,187 L180,94" marker-end="url(#ar2)" style="opacity:.85"/>
+              <path class="d-line d-accent" d="M694,187 L180,187 L180,94" marker-end="url(#ar2)" style="opacity:.85" />
               <text class="d-l-a" x="440" y="176" text-anchor="middle">append to the input, run it again</text>
 
               <text class="d-m" x="20" y="248">Repeat until the model emits a stop token</text>
             </svg>
-            <figcaption>Every capability — reasoning, code, translation — is this loop running over a model good enough that the loop produces something useful.</figcaption>
+            <figcaption>Every capability — reasoning, code, translation — is this loop running over a model good enough
+              that the loop produces something useful.</figcaption>
           </figure>
         </div>
       </section>
 
       <!-- 8 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="Three consequences">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Generative AI</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Generative AI</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">What follows from that</p>
           <h2>Three limits, and they are structural</h2>
@@ -597,29 +997,37 @@ figcaption {
             <li>
               <div>
                 <h3>No memory</h3>
-                <p>Every API call is independent. A "conversation" is you re-sending the entire history on each turn. The model remembers nothing on its own.</p>
+                <p>Every API call is independent. A "conversation" is you re-sending the entire history on each turn.
+                  The model remembers nothing on its own.</p>
               </div>
             </li>
             <li>
               <div>
                 <h3>No actions</h3>
-                <p>It emits text. It cannot read your database, call your API, or send an email. There is no mechanism by which it could.</p>
+                <p>It emits text. It cannot read your database, call your API, or send an email. There is no mechanism
+                  by which it could.</p>
               </div>
             </li>
             <li>
               <div>
                 <h3>No goals</h3>
-                <p>Nothing persists between calls, so there is nowhere for a goal to live. What looks like intent is a pattern in the text it was given.</p>
+                <p>Nothing persists between calls, so there is nowhere for a goal to live. What looks like intent is a
+                  pattern in the text it was given.</p>
               </div>
             </li>
           </ol>
-          <div class="kicker">Everything in the next two parts of this session exists to work around one of these three. <b>That is the whole plot.</b></div>
+          <div class="kicker">Everything in the next two parts of this session exists to work around one of these three.
+            <b>That is the whole plot.</b></div>
         </div>
       </section>
 
       <!-- 9 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="Good at / breaks at">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Generative AI</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Generative AI</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Calibration</p>
           <h2>Where it earns its keep, and where it doesn't</h2>
@@ -645,13 +1053,18 @@ figcaption {
               </ul>
             </div>
           </div>
-          <div class="kicker">The pattern: it is strong on <b>text you put in front of it</b>, weak on <b>facts it has to supply itself</b>. Retrieval and tools exist to move work from the right column to the left.</div>
+          <div class="kicker">The pattern: it is strong on <b>text you put in front of it</b>, weak on <b>facts it has
+              to supply itself</b>. Retrieval and tools exist to move work from the right column to the left.</div>
         </div>
       </section>
 
       <!-- 10 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="Demo — one call">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Generative AI</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Generative AI</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Demo · lesson 00</p>
           <h2>The entire API surface is one request</h2>
@@ -664,7 +1077,8 @@ response = client.messages.create(
 
 <span class="c"># the reply is a LIST of typed blocks, not a string</span>
 <span class="c"># -> [TextBlock(type='text', text='A token is ...')]</span></pre>
-          <div class="kicker">Run this twice and the second call knows nothing about the first. <b>Everything from here on is scaffolding around this one request.</b></div>
+          <div class="kicker">Run this twice and the second call knows nothing about the first. <b>Everything from here
+              on is scaffolding around this one request.</b></div>
         </div>
       </section>
 
@@ -679,11 +1093,17 @@ response = client.messages.create(
 
       <!-- 12 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="Tools">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">AI Agents</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Fixing limit №2</p>
           <h2>A tool is a function, described in words</h2>
-          <p>You hand the model a list of functions it may request: a name, a description, and the shape of the arguments. The description is not documentation for you — <strong>it is the prompt the model reads when deciding what to call.</strong></p>
+          <p>You hand the model a list of functions it may request: a name, a description, and the shape of the
+            arguments. The description is not documentation for you — <strong>it is the prompt the model reads when
+              deciding what to call.</strong></p>
           <pre><span class="k">@beta_tool</span>
 def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> str:
     <span class="c">"""Get the current weather for a location.</span>
@@ -691,101 +1111,141 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
 <span class="c">    Args:</span>
 <span class="c">        location: City and region, e.g. "Pune, MH".</span>
 <span class="c">    """</span></pre>
-          <div class="kicker">Vague descriptions produce wrong tool calls. <b>Most "the model chose badly" bugs are actually docstring bugs.</b></div>
+          <div class="kicker">Vague descriptions produce wrong tool calls. <b>Most "the model chose badly" bugs are
+              actually docstring bugs.</b></div>
         </div>
       </section>
 
       <!-- 13 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="The loop">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">AI Agents</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">The core mechanic</p>
           <h2>The loop that makes it an agent</h2>
           <figure>
-            <svg viewBox="0 0 1030 300" role="img" aria-label="Your code sends a prompt and tool definitions to the model. The model either returns text and finishes, or returns a tool use request, which your code executes before feeding the result back to the model.">
+            <svg viewBox="0 0 1030 300" role="img"
+              aria-label="Your code sends a prompt and tool definitions to the model. The model either returns text and finishes, or returns a tool use request, which your code executes before feeding the result back to the model.">
               <defs>
                 <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55"/>
+                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55" />
                 </marker>
                 <marker id="ar3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" style="fill:var(--tier)"/>
+                  <path d="M0,0 L10,5 L0,10 z" style="fill:var(--tier)" />
                 </marker>
               </defs>
 
               <!-- your code -->
-              <rect class="d-box" x="24" y="96" width="150" height="60" style="stroke:var(--tier);stroke-width:2"/>
+              <rect class="d-box" x="24" y="96" width="150" height="60" style="stroke:var(--tier);stroke-width:2" />
               <text class="d-t-a" x="99" y="132" text-anchor="middle">Your code</text>
 
               <!-- to model -->
-              <line class="d-line" x1="180" y1="126" x2="352" y2="126" marker-end="url(#ar3)"/>
+              <line class="d-line" x1="180" y1="126" x2="352" y2="126" marker-end="url(#ar3)" />
               <text class="d-l" x="266" y="114" text-anchor="middle">prompt + tool defs</text>
 
               <!-- model -->
-              <rect class="d-box" x="358" y="90" width="160" height="72"/>
+              <rect class="d-box" x="358" y="90" width="160" height="72" />
               <text class="d-t" x="438" y="132" text-anchor="middle">Model</text>
 
               <!-- branch A: done -->
-              <path class="d-line" d="M524,110 L700,110 L700,74" marker-end="url(#ar3)"/>
+              <path class="d-line" d="M524,110 L700,110 L700,74" marker-end="url(#ar3)" />
               <text class="d-l" x="610" y="98" text-anchor="middle">text · stop_reason = end_turn</text>
-              <rect class="d-box-o" x="640" y="30" width="120" height="42"/>
+              <rect class="d-box-o" x="640" y="30" width="120" height="42" />
               <text class="d-t" x="700" y="56" text-anchor="middle">Answer</text>
 
               <!-- branch B: tool use -->
-              <path class="d-line d-accent" d="M524,146 L700,146 L700,196" marker-end="url(#ar3a)" style="opacity:.9"/>
+              <path class="d-line d-accent" d="M524,146 L700,146 L700,196" marker-end="url(#ar3a)" style="opacity:.9" />
               <text class="d-l-a" x="588" y="166" text-anchor="middle">tool_use request</text>
 
-              <rect class="d-box" x="592" y="200" width="216" height="60" style="stroke:var(--tier);stroke-width:2"/>
+              <rect class="d-box" x="592" y="200" width="216" height="60" style="stroke:var(--tier);stroke-width:2" />
               <text class="d-t-a" x="700" y="225" text-anchor="middle">Your code runs the tool</text>
               <text class="d-l" x="700" y="244" text-anchor="middle">check · execute · catch errors</text>
 
               <!-- back to model -->
-              <path class="d-line d-accent" d="M592,230 L438,230 L438,168" marker-end="url(#ar3a)" style="opacity:.9"/>
+              <path class="d-line d-accent" d="M592,230 L438,230 L438,168" marker-end="url(#ar3a)" style="opacity:.9" />
               <text class="d-l-a" x="500" y="248" text-anchor="middle">tool_result</text>
 
               <text class="d-m" x="838" y="228">loop until</text>
               <text class="d-m" x="838" y="246">no tool is requested</text>
             </svg>
-            <figcaption>Model, tools, and a loop. Remove the loop and you have a single call; remove the tools and the loop has nothing to do.</figcaption>
+            <figcaption>Model, tools, and a loop. Remove the loop and you have a single call; remove the tools and the
+              loop has nothing to do.</figcaption>
           </figure>
         </div>
       </section>
 
       <!-- 14 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="The model never executes">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">AI Agents</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">The detail most explanations skip</p>
           <h2>"The AI booked my flight." It didn't.</h2>
-          <p>The model produced a block of JSON naming a function and its arguments. <strong>Your software</strong> read that JSON, decided to honour it, and called the airline's API.</p>
+          <p>The model produced a block of JSON naming a function and its arguments. <strong>Your software</strong> read
+            that JSON, decided to honour it, and called the airline's API.</p>
           <pre><span class="c"># what the model actually emits — inert text:</span>
 {<span class="k">"type"</span>: <span class="k">"tool_use"</span>, <span class="k">"name"</span>: <span class="k">"book_flight"</span>,
  <span class="k">"input"</span>: {<span class="k">"to"</span>: <span class="k">"NRT"</span>, <span class="k">"passengers"</span>: 2}}</pre>
-          <div class="kicker">Three things follow. <b>Your guardrails live in your code</b>, because that is the only place execution happens. <b>Approval gates go in the tool</b>, not the prompt. And when it misbehaves, <b>suspect your tool before the model.</b></div>
+          <div class="kicker">Three things follow. <b>Your guardrails live in your code</b>, because that is the only
+            place execution happens. <b>Approval gates go in the tool</b>, not the prompt. And when it misbehaves,
+            <b>suspect your tool before the model.</b></div>
         </div>
       </section>
 
       <!-- 15 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="Anatomy of an agent">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">AI Agents</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Anatomy</p>
           <h2>Five parts, and one of them is always skipped</h2>
           <div class="cols-3">
-            <div class="panel" style="--pt:var(--t2)"><h3>Model</h3><p>Decides what to call and reads the results.</p></div>
-            <div class="panel" style="--pt:var(--t2)"><h3>Tools</h3><p>What it may request, described well enough to choose between.</p></div>
-            <div class="panel" style="--pt:var(--t2)"><h3>Loop</h3><p>Call, execute, feed back, repeat until done.</p></div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>Model</h3>
+              <p>Decides what to call and reads the results.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>Tools</h3>
+              <p>What it may request, described well enough to choose between.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>Loop</h3>
+              <p>Call, execute, feed back, repeat until done.</p>
+            </div>
           </div>
           <div class="cols-3" style="margin-top:22px">
-            <div class="panel" style="--pt:var(--t2)"><h3>State</h3><p>The message history you re-send, since the model holds none.</p></div>
-            <div class="panel" style="--pt:var(--t3)"><h3>Bounds</h3><p>Iteration cap, spend cap, a log of every call. Skipped almost every time.</p></div>
-            <div class="panel"><h3></h3><p style="font-style:italic">An agent without bounds is a billing incident with a countdown on it.</p></div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>State</h3>
+              <p>The message history you re-send, since the model holds none.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>Bounds</h3>
+              <p>Iteration cap, spend cap, a log of every call. Skipped almost every time.</p>
+            </div>
+            <div class="panel">
+              <h3></h3>
+              <p style="font-style:italic">An agent without bounds is a billing incident with a countdown on it.</p>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- 16 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="Demo — a tool call">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">AI Agents</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Demo · lesson 03</p>
           <h2>Watch the turns go past</h2>
@@ -793,8 +1253,10 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
 <span class="k">assistant</span>  [tool_use] get_weather(location=<span class="k">"Pune, MH"</span>)
 <span class="c">user     </span>  [tool_result] 22 degrees celsius and clear
 <span class="k">assistant</span>  No jacket needed — it's 22C and clear.</pre>
-          <p class="small">Four turns, two API calls, one function executed by your code. The middle two lines are the entire difference between a chatbot and an agent.</p>
-          <div class="kicker">Note the roles: <b>tool results come back as a <code>user</code> message.</b> From the model's side, your code is just another participant in the conversation.</div>
+          <p class="small">Four turns, two API calls, one function executed by your code. The middle two lines are the
+            entire difference between a chatbot and an agent.</p>
+          <div class="kicker">Note the roles: <b>tool results come back as a <code>user</code> message.</b> From the
+            model's side, your code is just another participant in the conversation.</div>
         </div>
       </section>
 
@@ -809,147 +1271,253 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
 
       <!-- 18 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="A degree, not a product">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Agentic AI</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Agentic AI</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Definition</p>
           <h2>It's an adjective, and it's a matter of degree</h2>
-          <p><strong>Agentic</strong> describes how much of the control flow the model owns: which steps run, in what order, and when to stop.</p>
-          <div class="callout">It is not a newer technology than AI agents, and it is not something you install. Same models, same tools — <em class="hl">different author of the arrows.</em></div>
-          <div class="kicker">Which is why "is this agentic?" is a bad question, and <b>"how much of my control flow did I hand over, and what did I get for it?"</b> is a good one.</div>
+          <p><strong>Agentic</strong> describes how much of the control flow the model owns: which steps run, in what
+            order, and when to stop.</p>
+          <div class="callout">It is not a newer technology than AI agents, and it is not something you install. Same
+            models, same tools — <em class="hl">different author of the arrows.</em></div>
+          <div class="kicker">Which is why "is this agentic?" is a bad question, and <b>"how much of my control flow did
+              I hand over, and what did I get for it?"</b> is a good one.</div>
         </div>
       </section>
 
       <!-- 19 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Workflow vs agent">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Agentic AI</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Agentic AI</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">The real distinction</p>
           <h2>Who wrote the arrows?</h2>
           <figure>
-            <svg viewBox="0 0 1030 250" role="img" aria-label="On the left, a workflow: three fixed steps wired in a sequence you wrote, each calling the model. On the right, an agent: the model sits in the centre choosing which tool to call and looping back to itself until it decides to stop.">
+            <svg viewBox="0 0 1030 250" role="img"
+              aria-label="On the left, a workflow: three fixed steps wired in a sequence you wrote, each calling the model. On the right, an agent: the model sits in the centre choosing which tool to call and looping back to itself until it decides to stop.">
               <defs>
                 <marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55"/>
+                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55" />
                 </marker>
                 <marker id="ar4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" style="fill:var(--tier)"/>
+                  <path d="M0,0 L10,5 L0,10 z" style="fill:var(--tier)" />
                 </marker>
               </defs>
 
               <!-- LEFT: workflow -->
               <text class="d-m" x="24" y="30">Workflow</text>
-              <rect class="d-box" x="24"  y="92" width="112" height="50"/>
+              <rect class="d-box" x="24" y="92" width="112" height="50" />
               <text class="d-t" x="80" y="122" text-anchor="middle">Extract</text>
-              <rect class="d-box" x="176" y="92" width="112" height="50"/>
+              <rect class="d-box" x="176" y="92" width="112" height="50" />
               <text class="d-t" x="232" y="122" text-anchor="middle">Classify</text>
-              <rect class="d-box" x="328" y="92" width="112" height="50"/>
+              <rect class="d-box" x="328" y="92" width="112" height="50" />
               <text class="d-t" x="384" y="122" text-anchor="middle">Draft</text>
-              <line class="d-line" x1="142" y1="117" x2="170" y2="117" marker-end="url(#ar4)"/>
-              <line class="d-line" x1="294" y1="117" x2="322" y2="117" marker-end="url(#ar4)"/>
+              <line class="d-line" x1="142" y1="117" x2="170" y2="117" marker-end="url(#ar4)" />
+              <line class="d-line" x1="294" y1="117" x2="322" y2="117" marker-end="url(#ar4)" />
               <text class="d-l" x="24" y="176">every box calls the model</text>
               <text class="d-l" x="24" y="194">you wrote this order, at build time</text>
               <text class="d-l" x="24" y="212">cost and path known in advance</text>
 
               <!-- divider -->
-              <line class="d-line" x1="515" y1="16" x2="515" y2="234" style="opacity:.22"/>
+              <line class="d-line" x1="515" y1="16" x2="515" y2="234" style="opacity:.22" />
 
               <!-- RIGHT: agent -->
               <text class="d-m" x="556" y="30">Agent</text>
-              <rect class="d-box" x="676" y="88" width="140" height="58" style="stroke:var(--tier);stroke-width:2"/>
+              <rect class="d-box" x="676" y="88" width="140" height="58" style="stroke:var(--tier);stroke-width:2" />
               <text class="d-t-a" x="746" y="123" text-anchor="middle">Model</text>
 
               <!-- goal in -->
-              <line class="d-line" x1="556" y1="117" x2="670" y2="117" marker-end="url(#ar4)"/>
+              <line class="d-line" x1="556" y1="117" x2="670" y2="117" marker-end="url(#ar4)" />
               <text class="d-l" x="556" y="104">goal</text>
 
               <!-- tools -->
-              <rect class="d-box-o" x="880" y="44" width="118" height="38"/>
+              <rect class="d-box-o" x="880" y="44" width="118" height="38" />
               <text class="d-l" x="939" y="68" text-anchor="middle">search</text>
-              <rect class="d-box-o" x="880" y="98" width="118" height="38"/>
+              <rect class="d-box-o" x="880" y="98" width="118" height="38" />
               <text class="d-l" x="939" y="122" text-anchor="middle">read_file</text>
-              <rect class="d-box-o" x="880" y="152" width="118" height="38"/>
+              <rect class="d-box-o" x="880" y="152" width="118" height="38" />
               <text class="d-l" x="939" y="176" text-anchor="middle">run_tests</text>
 
-              <path class="d-line d-accent" d="M822,105 L874,63" marker-end="url(#ar4a)" style="opacity:.85"/>
-              <path class="d-line d-accent" d="M822,117 L874,117" marker-end="url(#ar4a)" style="opacity:.85"/>
-              <path class="d-line d-accent" d="M822,129 L874,171" marker-end="url(#ar4a)" style="opacity:.85"/>
+              <path class="d-line d-accent" d="M822,105 L874,63" marker-end="url(#ar4a)" style="opacity:.85" />
+              <path class="d-line d-accent" d="M822,117 L874,117" marker-end="url(#ar4a)" style="opacity:.85" />
+              <path class="d-line d-accent" d="M822,129 L874,171" marker-end="url(#ar4a)" style="opacity:.85" />
 
               <!-- self loop -->
-              <path class="d-line d-accent" d="M700,152 C690,196 802,196 792,152" marker-end="url(#ar4a)" style="opacity:.85"/>
+              <path class="d-line d-accent" d="M700,152 C690,196 802,196 792,152" marker-end="url(#ar4a)"
+                style="opacity:.85" />
               <text class="d-l-a" x="746" y="212" text-anchor="middle">chooses again, or stops</text>
             </svg>
-            <figcaption>Same model, same tools on both sides. The difference is whether the sequence was written by you at build time or chosen by the model at run time.</figcaption>
+            <figcaption>Same model, same tools on both sides. The difference is whether the sequence was written by you
+              at build time or chosen by the model at run time.</figcaption>
           </figure>
         </div>
       </section>
 
       <!-- 20 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="The spectrum, with examples">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Agentic AI</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Agentic AI</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Calibration</p>
           <h2>How agentic is it, really?</h2>
           <ul class="plain">
-            <li><strong>Summarise every incoming ticket.</strong> <span style="color:var(--ink-soft)">Fixed pipeline. Not agentic — the model fills a slot you defined.</span></li>
-            <li><strong>Route a ticket to one of three teams.</strong> <span style="color:var(--ink-soft)">Barely. One decision, from a menu you wrote.</span></li>
-            <li><strong>Standard RAG: retrieve, then answer.</strong> <span style="color:var(--ink-soft)">Not agentic. The order is fixed; retrieval always happens exactly once.</span></li>
-            <li><strong>Agentic RAG: model decides whether and what to search, and how often.</strong> <span style="color:var(--ink-soft)">Yes — the retrieval decision moved to run time.</span></li>
-            <li><strong>Coding agent: plans, edits, runs tests, reads failures, re-plans.</strong> <span style="color:var(--ink-soft)">Strongly agentic. Nobody wrote that sequence.</span></li>
+            <li><strong>Summarise every incoming ticket.</strong> <span style="color:var(--ink-soft)">Fixed pipeline.
+                Not agentic — the model fills a slot you defined.</span></li>
+            <li><strong>Route a ticket to one of three teams.</strong> <span style="color:var(--ink-soft)">Barely. One
+                decision, from a menu you wrote.</span></li>
+            <li><strong>Standard RAG: retrieve, then answer.</strong> <span style="color:var(--ink-soft)">Not agentic.
+                The order is fixed; retrieval always happens exactly once.</span></li>
+            <li><strong>Agentic RAG: model decides whether and what to search, and how often.</strong> <span
+                style="color:var(--ink-soft)">Yes — the retrieval decision moved to run time.</span></li>
+            <li><strong>Coding agent: plans, edits, runs tests, reads failures, re-plans.</strong> <span
+                style="color:var(--ink-soft)">Strongly agentic. Nobody wrote that sequence.</span></li>
           </ul>
-          <div class="kicker">Notice that the last two use <b>exactly the same tools</b> as the versions above them. What moved was the decision, not the capability.</div>
+          <div class="kicker">Notice that the last two use <b>exactly the same tools</b> as the versions above them.
+            What moved was the decision, not the capability.</div>
         </div>
       </section>
 
       <!-- 21 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Should you build one?">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Agentic AI</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Agentic AI</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Before you build</p>
           <h2>Four questions. One "no" is enough.</h2>
           <ol class="steps">
-            <li><div><h3>Complexity</h3><p>Is the task genuinely hard to specify in advance? If you can draw the flowchart, draw the flowchart.</p></div></li>
-            <li><div><h3>Value</h3><p>Does the result justify the latency and the token bill? An agent costs several times a single call.</p></div></li>
-            <li><div><h3>Viability</h3><p>Is the model actually good at this task? Autonomy multiplies whatever quality you started with — in both directions.</p></div></li>
-            <li><div><h3>Cost of error</h3><p>Can a mistake be caught and undone? Irreversible actions need a human in the loop, not more autonomy.</p></div></li>
+            <li>
+              <div>
+                <h3>Complexity</h3>
+                <p>Is the task genuinely hard to specify in advance? If you can draw the flowchart, draw the flowchart.
+                </p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Value</h3>
+                <p>Does the result justify the latency and the token bill? An agent costs several times a single call.
+                </p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Viability</h3>
+                <p>Is the model actually good at this task? Autonomy multiplies whatever quality you started with — in
+                  both directions.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Cost of error</h3>
+                <p>Can a mistake be caught and undone? Irreversible actions need a human in the loop, not more autonomy.
+                </p>
+              </div>
+            </li>
           </ol>
-          <div class="kicker"><b>Most production "agents" should have been workflows.</b> The workflow is cheaper, testable, and it fails in ways you can reproduce on a Tuesday afternoon.</div>
+          <div class="kicker"><b>Most production "agents" should have been workflows.</b> The workflow is cheaper,
+            testable, and it fails in ways you can reproduce on a Tuesday afternoon.</div>
         </div>
       </section>
 
       <!-- 22 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Six things videos get wrong">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Corrections</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Corrections</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Corrections</p>
           <h2>Six claims to push back on</h2>
           <ul class="plain" style="gap:13px">
-            <li><strong>"Agentic AI is the next generation after AI agents."</strong><br><span style="color:var(--ink-soft);font-size:20px">No. It's a property of a system, not a successor product. They aren't on a timeline together.</span></li>
-            <li><strong>"The agent executes the action."</strong><br><span style="color:var(--ink-soft);font-size:20px">No. It emits a request. Your code executes — which is exactly where your security boundary sits.</span></li>
-            <li><strong>"Agentic means it thinks, wants, has goals."</strong><br><span style="color:var(--ink-soft);font-size:20px">No. The goal is text in a prompt and structure in your loop. Nothing persists between calls.</span></li>
-            <li><strong>"More autonomy is better."</strong><br><span style="color:var(--ink-soft);font-size:20px">No. Autonomy is a price you pay when a task can't be specified — not a feature you upgrade to.</span></li>
-            <li><strong>"I wrote a clever prompt, so I built an agent."</strong><br><span style="color:var(--ink-soft);font-size:20px">No tools and no loop means no agent. A named persona is still a single API call.</span></li>
-            <li><strong>"RAG is agentic."</strong><br><span style="color:var(--ink-soft);font-size:20px">Only if the model decides the retrieval. Fixed retrieve-then-answer is a pipeline.</span></li>
+            <li><strong>"Agentic AI is the next generation after AI agents."</strong><br><span
+                style="color:var(--ink-soft);font-size:20px">No. It's a property of a system, not a successor product.
+                They aren't on a timeline together.</span></li>
+            <li><strong>"The agent executes the action."</strong><br><span
+                style="color:var(--ink-soft);font-size:20px">No. It emits a request. Your code executes — which is
+                exactly where your security boundary sits.</span></li>
+            <li><strong>"Agentic means it thinks, wants, has goals."</strong><br><span
+                style="color:var(--ink-soft);font-size:20px">No. The goal is text in a prompt and structure in your
+                loop. Nothing persists between calls.</span></li>
+            <li><strong>"More autonomy is better."</strong><br><span style="color:var(--ink-soft);font-size:20px">No.
+                Autonomy is a price you pay when a task can't be specified — not a feature you upgrade to.</span></li>
+            <li><strong>"I wrote a clever prompt, so I built an agent."</strong><br><span
+                style="color:var(--ink-soft);font-size:20px">No tools and no loop means no agent. A named persona is
+                still a single API call.</span></li>
+            <li><strong>"RAG is agentic."</strong><br><span style="color:var(--ink-soft);font-size:20px">Only if the
+                model decides the retrieval. Fixed retrieve-then-answer is a pipeline.</span></li>
           </ul>
         </div>
       </section>
 
       <!-- 23 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Side by side">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Corrections</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Corrections</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Summary</p>
           <h2>The three, side by side</h2>
           <table>
             <thead>
-              <tr><th></th><th>Generative AI</th><th>AI agent</th><th>Agentic system</th></tr>
+              <tr>
+                <th></th>
+                <th>Generative AI</th>
+                <th>AI agent</th>
+                <th>Agentic system</th>
+              </tr>
             </thead>
             <tbody>
-              <tr><th>What it is</th><td>A kind of model</td><td>A system built around one</td><td>A property of that system</td></tr>
-              <tr><th>Can it act?</th><td>No — text only</td><td>Yes, via your code</td><td>Yes, via your code</td></tr>
-              <tr><th>Who picks steps</th><td>You, entirely</td><td>You write the loop; it picks tools</td><td>The model, at run time</td></tr>
-              <tr><th>Cost per task</th><td>Fixed, known</td><td>A few calls</td><td>Unbounded unless you bound it</td></tr>
-              <tr><th>Fails by</th><td>Confident wrong answers</td><td>Wrong tool, bad arguments</td><td>Looping, drifting, compounding errors</td></tr>
-              <tr><th>Test it by</th><td>Scoring outputs</td><td>Scoring outputs + call traces</td><td>Trajectory review — much harder</td></tr>
+              <tr>
+                <th>What it is</th>
+                <td>A kind of model</td>
+                <td>A system built around one</td>
+                <td>A property of that system</td>
+              </tr>
+              <tr>
+                <th>Can it act?</th>
+                <td>No — text only</td>
+                <td>Yes, via your code</td>
+                <td>Yes, via your code</td>
+              </tr>
+              <tr>
+                <th>Who picks steps</th>
+                <td>You, entirely</td>
+                <td>You write the loop; it picks tools</td>
+                <td>The model, at run time</td>
+              </tr>
+              <tr>
+                <th>Cost per task</th>
+                <td>Fixed, known</td>
+                <td>A few calls</td>
+                <td>Unbounded unless you bound it</td>
+              </tr>
+              <tr>
+                <th>Fails by</th>
+                <td>Confident wrong answers</td>
+                <td>Wrong tool, bad arguments</td>
+                <td>Looping, drifting, compounding errors</td>
+              </tr>
+              <tr>
+                <th>Test it by</th>
+                <td>Scoring outputs</td>
+                <td>Scoring outputs + call traces</td>
+                <td>Trajectory review — much harder</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -957,7 +1525,11 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
 
       <!-- 24 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Where it breaks">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Corrections</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Corrections</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Reality check</p>
           <h2>What actually goes wrong in production</h2>
@@ -968,7 +1540,8 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
             </div>
             <div class="panel" style="--pt:var(--t3)">
               <h3>Cost runs away</h3>
-              <p>A loop with no iteration cap and a paid API on the other end. Set a spend limit before your first run.</p>
+              <p>A loop with no iteration cap and a paid API on the other end. Set a spend limit before your first run.
+              </p>
             </div>
             <div class="panel" style="--pt:var(--t3)">
               <h3>No audit trail</h3>
@@ -976,7 +1549,8 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
             </div>
             <div class="panel" style="--pt:var(--t3)">
               <h3>Injection via tool results</h3>
-              <p>Text a tool returns is untrusted input. A fetched page can carry instructions — treat results as data, never orders.</p>
+              <p>Text a tool returns is untrusted input. A fetched page can carry instructions — treat results as data,
+                never orders.</p>
             </div>
           </div>
         </div>
@@ -984,7 +1558,11 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
 
       <!-- 25 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Where to go next">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Close</div><div class="rail-num"></div></div>
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Close</div>
+          <div class="rail-num"></div>
+        </div>
         <div class="body">
           <p class="eyebrow">Hands on</p>
           <h2>Build the three layers yourself</h2>
@@ -995,7 +1573,8 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
             <li><strong>Lesson 06</strong> — hand over the control flow, and put the bounds back on.</li>
             <li><strong>Lesson 07</strong> — measure it, because past this point intuition stops working.</li>
           </ul>
-          <div class="kicker">If you remember one thing: <b>the model never does anything. It produces text, and your code decides what that text is worth.</b> Everything else is a detail.</div>
+          <div class="kicker">If you remember one thing: <b>the model never does anything. It produces text, and your
+              code decides what that text is worth.</b> Everything else is a detail.</div>
         </div>
       </section>
 
@@ -1022,111 +1601,111 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
 </div>
 
 <script>
-(function () {
-  var stage  = document.getElementById('stage');
-  var wrap   = document.getElementById('wrap');
-  var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
-  var index  = document.getElementById('index');
-  var TIERS  = { '0': 'var(--ink-soft)', '1': 'var(--t1)', '2': 'var(--t2)', '3': 'var(--t3)' };
-  var NAMES  = { '0': 'Orientation', '1': 'Generative AI', '2': 'AI Agents', '3': 'Agentic AI' };
-  var cur = 0;
+  (function () {
+    var stage = document.getElementById('stage');
+    var wrap = document.getElementById('wrap');
+    var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
+    var index = document.getElementById('index');
+    var TIERS = { '0': 'var(--ink-soft)', '1': 'var(--t1)', '2': 'var(--t2)', '3': 'var(--t3)' };
+    var NAMES = { '0': 'Orientation', '1': 'Generative AI', '2': 'AI Agents', '3': 'Agentic AI' };
+    var cur = 0;
 
-  function fit() {
-    var k = Math.min(window.innerWidth / 1280, (window.innerHeight - 54) / 720);
-    stage.style.transform = 'scale(' + k + ')';
-    wrap.style.width  = (1280 * k) + 'px';
-    wrap.style.height = (720 * k) + 'px';
-  }
+    function fit() {
+      var k = Math.min(window.innerWidth / 1280, (window.innerHeight - 54) / 720);
+      stage.style.transform = 'scale(' + k + ')';
+      wrap.style.width = (1280 * k) + 'px';
+      wrap.style.height = (720 * k) + 'px';
+    }
 
-  function partProgress(part) {
-    var inPart = slides.filter(function (s) { return s.dataset.part === part; });
-    if (!inPart.length) return 0;
-    var seen = inPart.filter(function (s) { return slides.indexOf(s) <= cur; }).length;
-    return seen / inPart.length;
-  }
+    function partProgress(part) {
+      var inPart = slides.filter(function (s) { return s.dataset.part === part; });
+      if (!inPart.length) return 0;
+      var seen = inPart.filter(function (s) { return slides.indexOf(s) <= cur; }).length;
+      return seen / inPart.length;
+    }
 
-  function show(i) {
-    cur = Math.max(0, Math.min(slides.length - 1, i));
-    slides.forEach(function (s, n) { s.classList.toggle('on', n === cur); });
+    function show(i) {
+      cur = Math.max(0, Math.min(slides.length - 1, i));
+      slides.forEach(function (s, n) { s.classList.toggle('on', n === cur); });
 
-    var part = slides[cur].dataset.part;
-    stage.style.setProperty('--tier', TIERS[part]);
-    document.getElementById('partname').textContent = NAMES[part];
-    document.getElementById('count').textContent =
-      String(cur + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+      var part = slides[cur].dataset.part;
+      stage.style.setProperty('--tier', TIERS[part]);
+      document.getElementById('partname').textContent = NAMES[part];
+      document.getElementById('count').textContent =
+        String(cur + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
 
-    var bars = document.querySelectorAll('#spine .seg i');
-    ['1', '2', '3'].forEach(function (p, n) {
-      bars[n].style.width = (partProgress(p) * 100) + '%';
-    });
-
-    var num = slides[cur].querySelector('.rail-num');
-    if (num) num.textContent = String(cur + 1).padStart(2, '0');
-
-    try { localStorage.setItem('genai-deck-slide', String(cur)); } catch (e) {}
-  }
-
-  function buildIndex() {
-    var body = document.getElementById('idxbody');
-    var order = ['0', '1', '2', '3'];
-    order.forEach(function (p) {
-      var items = slides.filter(function (s) { return s.dataset.part === p; });
-      if (!items.length) return;
-      var g = document.createElement('div');
-      g.className = 'idx-group';
-      g.style.setProperty('--gc', TIERS[p]);
-      var h = document.createElement('div');
-      h.className = 'idx-head';
-      h.textContent = NAMES[p];
-      g.appendChild(h);
-      var list = document.createElement('div');
-      list.className = 'idx-list';
-      items.forEach(function (s) {
-        var n = slides.indexOf(s);
-        var b = document.createElement('button');
-        b.className = 'idx-item';
-        b.innerHTML = '<span>' + String(n + 1).padStart(2, '0') + '</span>';
-        b.appendChild(document.createTextNode(s.dataset.title || ''));
-        b.addEventListener('click', function () { show(n); toggleIndex(false); });
-        list.appendChild(b);
+      var bars = document.querySelectorAll('#spine .seg i');
+      ['1', '2', '3'].forEach(function (p, n) {
+        bars[n].style.width = (partProgress(p) * 100) + '%';
       });
-      g.appendChild(list);
-      body.appendChild(g);
+
+      var num = slides[cur].querySelector('.rail-num');
+      if (num) num.textContent = String(cur + 1).padStart(2, '0');
+
+      try { localStorage.setItem('genai-deck-slide', String(cur)); } catch (e) { }
+    }
+
+    function buildIndex() {
+      var body = document.getElementById('idxbody');
+      var order = ['0', '1', '2', '3'];
+      order.forEach(function (p) {
+        var items = slides.filter(function (s) { return s.dataset.part === p; });
+        if (!items.length) return;
+        var g = document.createElement('div');
+        g.className = 'idx-group';
+        g.style.setProperty('--gc', TIERS[p]);
+        var h = document.createElement('div');
+        h.className = 'idx-head';
+        h.textContent = NAMES[p];
+        g.appendChild(h);
+        var list = document.createElement('div');
+        list.className = 'idx-list';
+        items.forEach(function (s) {
+          var n = slides.indexOf(s);
+          var b = document.createElement('button');
+          b.className = 'idx-item';
+          b.innerHTML = '<span>' + String(n + 1).padStart(2, '0') + '</span>';
+          b.appendChild(document.createTextNode(s.dataset.title || ''));
+          b.addEventListener('click', function () { show(n); toggleIndex(false); });
+          list.appendChild(b);
+        });
+        g.appendChild(list);
+        body.appendChild(g);
+      });
+    }
+
+    function toggleIndex(on) {
+      var want = (typeof on === 'boolean') ? on : index.hidden;
+      index.hidden = !want;
+      if (want) { var f = index.querySelector('.idx-item'); if (f) f.focus(); }
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var k = e.key;
+      if (k === 'Escape') { toggleIndex(false); return; }
+      if (k === 'i' || k === 'I') { e.preventDefault(); toggleIndex(); return; }
+      if (!index.hidden) return;
+      if (k === 'ArrowRight' || k === ' ' || k === 'PageDown' || k === 'j') { e.preventDefault(); show(cur + 1); }
+      else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'k') { e.preventDefault(); show(cur - 1); }
+      else if (k === 'Home') { e.preventDefault(); show(0); }
+      else if (k === 'End') { e.preventDefault(); show(slides.length - 1); }
     });
-  }
 
-  function toggleIndex(on) {
-    var want = (typeof on === 'boolean') ? on : index.hidden;
-    index.hidden = !want;
-    if (want) { var f = index.querySelector('.idx-item'); if (f) f.focus(); }
-  }
+    document.getElementById('next').addEventListener('click', function () { show(cur + 1); });
+    document.getElementById('prev').addEventListener('click', function () { show(cur - 1); });
+    document.getElementById('idxbtn').addEventListener('click', function () { toggleIndex(); });
 
-  document.addEventListener('keydown', function (e) {
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
-    var k = e.key;
-    if (k === 'Escape') { toggleIndex(false); return; }
-    if (k === 'i' || k === 'I') { e.preventDefault(); toggleIndex(); return; }
-    if (!index.hidden) return;
-    if (k === 'ArrowRight' || k === ' ' || k === 'PageDown' || k === 'j') { e.preventDefault(); show(cur + 1); }
-    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'k') { e.preventDefault(); show(cur - 1); }
-    else if (k === 'Home') { e.preventDefault(); show(0); }
-    else if (k === 'End') { e.preventDefault(); show(slides.length - 1); }
-  });
+    window.addEventListener('resize', fit);
 
-  document.getElementById('next').addEventListener('click', function () { show(cur + 1); });
-  document.getElementById('prev').addEventListener('click', function () { show(cur - 1); });
-  document.getElementById('idxbtn').addEventListener('click', function () { toggleIndex(); });
+    buildIndex();
+    fit();
 
-  window.addEventListener('resize', fit);
-
-  buildIndex();
-  fit();
-
-  var start = 0;
-  try {
-    var saved = parseInt(localStorage.getItem('genai-deck-slide'), 10);
-    if (!isNaN(saved) && saved >= 0 && saved < slides.length) start = saved;
-  } catch (e) {}
-  show(start);
-})();
+    var start = 0;
+    try {
+      var saved = parseInt(localStorage.getItem('genai-deck-slide'), 10);
+      if (!isNaN(saved) && saved >= 0 && saved < slides.length) start = saved;
+    } catch (e) { }
+    show(start);
+  })();
 </script>
