@@ -873,7 +873,7 @@
         </div>
       </section>
 
-      <!-- 5 ------------------------------------------------------ -->
+      <!-- 3 ------------------------------------------------------ -->
       <section class="slide flood" data-part="1" style="--flood:var(--t1-flood)" data-title="Part one — Generative AI">
         <div class="flood-inner">
           <p class="part-num">PART ONE</p>
@@ -882,7 +882,7 @@
         </div>
       </section>
 
-      <!-- 6 ------------------------------------------------------ -->
+      <!-- 4 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="What generative means">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -892,7 +892,8 @@
         <div class="body">
           <p class="eyebrow">Definition</p>
           <h2>What generative means</h2>
-          <p>Generative AI (Gen AI) is AI that can generate new content based on what it has learned and the instructions you give it.</p>
+          <p>Generative AI (Gen AI) is AI that can generate new content based on what it has learned and the
+            instructions you give it.</p>
           <ul class="plain">
             <li><strong>Text</strong> &mdash; an email, an article, a summary, an answer to a question.</li>
             <li><strong>Code</strong> &mdash; Copilot turning &ldquo;paginate this endpoint&rdquo; into a working
@@ -903,9 +904,9 @@
           </ul>
         </div>
       </section>
- 
 
-      <!-- 8 ------------------------------------------------------ -->
+
+      <!-- 5 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="Prompt to content">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -957,11 +958,11 @@
         </div>
       </section>
 
- 
 
 
 
-      <!-- 9 ------------------------------------------------------ -->
+
+      <!-- 6 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="How a language model works">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -970,7 +971,7 @@
         </div>
         <div class="body">
           <p class="eyebrow">Mechanism</p>
-          <h2>How a language model works</h2>
+          <h2>How it works</h2>
           <figure>
             <svg viewBox="0 0 1030 268" role="img"
               aria-label="Prompt tokens feed into the model, which outputs a probability distribution over possible next tokens; one is sampled, appended to the input, and the process repeats.">
@@ -1028,7 +1029,7 @@
         </div>
       </section>
 
-      <!-- 10 ----------------------------------------------------- -->
+      <!-- 7 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="Three consequences">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1053,29 +1054,23 @@
                   mechanism by which it could.</p>
               </div>
             </li>
-            <!-- <li>
-              <div>
-                <h3>No goals</h3>
-                <p>Nothing persists between calls, so there is nowhere for a goal to live. What looks like intent is
-                  text you supplied.</p>
-              </div>
-            </li> -->
             <li>
               <div>
                 <h3>Hallucination</h3>
-                <p>Hallucination is about accuracy. The model generates a plausible continuation rather than retrieving a fact, so it produces confident text that happens to be false.</p>
+                <p>Hallucination is about accuracy. The model generates a plausible continuation rather than retrieving
+                  a fact, so it produces confident text that happens to be false.</p>
               </div>
             </li>
           </ol>
-          
+
           <div class="kicker">Everything in the next two parts of this session exists to work around one of the first
             three. <b>Nothing works around the fourth</b> &mdash; a wrong fact just becomes a wrong action faster.</div>
         </div>
       </section>
 
-     
 
-      <!-- 12 ----------------------------------------------------- -->
+
+      <!-- 8 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="Demo — one call">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1099,7 +1094,7 @@ response = client.messages.create(
         </div>
       </section>
 
-      <!-- 13 ----------------------------------------------------- -->
+      <!-- 9 ------------------------------------------------------ -->
       <section class="slide flood" data-part="2" style="--flood:var(--t2-flood)" data-title="Part two — AI agents">
         <div class="flood-inner">
           <p class="part-num">PART TWO</p>
@@ -1108,32 +1103,122 @@ response = client.messages.create(
         </div>
       </section>
 
-      <!-- 14 ----------------------------------------------------- -->
-      <section class="slide" data-part="2" data-title="Tools">
+      <!-- 10 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="What is an AI agent">
         <div class="rail">
           <div class="rail-dot"></div>
           <div class="rail-name">AI Agents</div>
           <div class="rail-num"></div>
         </div>
         <div class="body">
-          <p class="eyebrow">Fixing limit №2</p>
-          <h2>A tool is a function, described in words</h2>
-          <p>You hand the model a list of functions it may request: a name, a description, and the shape of the
-            arguments. The description is not documentation for you — <strong>it is the prompt the model reads when
-              deciding what to call.</strong></p>
-          <pre><span class="k">@beta_tool</span>
-def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> str:
-    <span class="c">"""Get the current weather for a location.</span>
-
-<span class="c">    Args:</span>
-<span class="c">        location: City and region, e.g. "Pune, MH".</span>
-<span class="c">    """</span></pre>
-          <div class="kicker">Vague descriptions produce wrong tool calls. <b>Most "the model chose badly" bugs are
-              actually docstring bugs.</b></div>
+          <p class="eyebrow">Definition</p>
+          <h2>What is an AI agent</h2>
+          <p>An AI agent is a system that can hold a <strong>goal</strong>, decide what to do next, use
+            <strong>tools</strong>, and keep acting until the goal is met.
+          </p>
+          
+          <div class="cols">
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Gen AI &mdash; generates an answer</h3>
+              <p>You ask, it produces text. Everything that happens after that is still your job.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>AI agent &mdash; takes action</h3>
+              <p>You give it a goal. It works out the steps, runs them, and reacts to what comes back.</p>
+            </div>
+          </div>
+          <p>An AI Agent is a Gen AI-powered system that can reason, plan, use tools, and take actions autonomously to
+            accomplish a goal.</p>
+          <div class="kicker">In one line: <b>a Gen AI&ndash;powered system that can reason, plan, use tools, and act to
+              accomplish a goal.</b> Hold on to the word <i>system</i> &mdash; the model is only one part of it.</div>
         </div>
       </section>
 
-      <!-- 15 ----------------------------------------------------- -->
+      <!-- 11 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="Example — book a hotel">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Example &mdash; answering vs doing</p>
+          <h2>&ldquo;Find me a good hotel in Goa this weekend and book it.&rdquo;</h2>
+          <div class="cols">
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Gen AI replies</h3>
+              <p>&ldquo;Here are some good hotels in Goa&hellip;&rdquo;</p>
+              <p style="margin-top:12px">Genuinely useful. And every step that follows is still yours to do.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>An agent works through it</h3>
+              <ul class="plain">
+                <li>Search for hotels</li>
+                <li>Compare price, rating, location</li>
+                <li>Check availability for the dates</li>
+                <li>Pick the best fit</li>
+                <li>Ask you to confirm</li>
+                <li>Make the booking</li>
+              </ul>
+            </div>
+          </div>
+          <div class="kicker">Not answering &mdash; <b>doing</b>. Note step five: it pauses for confirmation because
+            <b>you</b> built that pause into the tool, not because the model chose to be careful.
+          </div>
+        </div>
+      </section>
+
+      <!-- 12 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="Example — fix a bug">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Example &mdash; a coding agent</p>
+          <h2>&ldquo;Fix the login bug in my application.&rdquo;</h2>
+          <pre><span class="c">goal   fix the login bug in my application</span>
+
+  read the code       the session check runs before the password check
+  edit the code       reorder the two checks
+  run the tests       <span class="k">2 failed</span>
+  read the failures   the test fixture logs in twice
+  edit the code       reset state between tests
+  run the tests       <span class="k">all passed</span>
+
+<span class="c">done   here is the change, and why it works</span></pre>
+          <div class="kicker">Nobody wrote that sequence in advance. <b>Each step was chosen after seeing the result of
+              the last one</b> &mdash; including the detour when the tests failed. That rhythm is what the rest of this
+            part is about.</div>
+        </div>
+      </section>
+
+
+      <!-- 13 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="Demo — a tool call">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Demo · lesson 03</p>
+          <h2>Watch the turns go past</h2>
+          <pre><span class="c">user     </span>  Should I take a jacket in Pune today?
+<span class="k">assistant</span>  [tool_use] get_weather(location=<span class="k">"Pune, MH"</span>)
+<span class="c">user     </span>  [tool_result] 22 degrees celsius and clear
+<span class="k">assistant</span>  No jacket needed — it's 22C and clear.</pre>
+          <p class="small">Four turns, two API calls, one function executed by your code. The middle two lines are the
+            entire difference between a chatbot and an agent.</p>
+          <div class="kicker">Note the roles: <b>tool results come back as a <code>user</code> message.</b> From the
+            model's side, your code is just another participant in the conversation.</div>
+        </div>
+      </section>
+
+
+
+      <!-- 14 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="The loop">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1142,7 +1227,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
         <div class="body">
           <p class="eyebrow">The core mechanic</p>
-          <h2>The loop that makes it an agent</h2>
+          <h2>How it works</h2>
           <figure>
             <svg viewBox="0 0 1030 300" role="img"
               aria-label="Your code sends a prompt and tool definitions to the model. The model either returns text and finishes, or returns a tool use request, which your code executes before feeding the result back to the model.">
@@ -1194,90 +1279,59 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
+
+      <!-- 15 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="Gen AI vs AI agent">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">AI Agents</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">The difference, in a grid</p>
+          <h2>Same model underneath, different job</h2>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Gen AI</th>
+                <th>AI agent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Produces</th>
+                <td>Content</td>
+                <td>A finished outcome</td>
+              </tr>
+              <tr>
+                <th>Behaviour</th>
+                <td>Responds</td>
+                <td>Acts</td>
+              </tr>
+              <tr>
+                <th>Shape</th>
+                <td>Usually one exchange</td>
+                <td>Many steps, decided as it goes</td>
+              </tr>
+              <tr>
+                <th>Tools</th>
+                <td>None needed</td>
+                <td>Calls your functions and APIs</td>
+              </tr>
+              <tr>
+                <th>You say</th>
+                <td>&ldquo;Tell me how to fix this&rdquo;</td>
+                <td>&ldquo;Fix this for me&rdquo;</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="kicker">The whole difference is <b>scaffolding you write</b>: tools, a loop, and somewhere to keep
+            state. The next three slides are those three pieces.</div>
+        </div>
+      </section>
+
       <!-- 16 ----------------------------------------------------- -->
-      <section class="slide" data-part="2" data-title="The model never executes">
-        <div class="rail">
-          <div class="rail-dot"></div>
-          <div class="rail-name">AI Agents</div>
-          <div class="rail-num"></div>
-        </div>
-        <div class="body">
-          <p class="eyebrow">The detail most explanations skip</p>
-          <h2>"The AI booked my flight." It didn't.</h2>
-          <p>The model produced a block of JSON naming a function and its arguments. <strong>Your software</strong> read
-            that JSON, decided to honour it, and called the airline's API.</p>
-          <pre><span class="c"># what the model actually emits — inert text:</span>
-{<span class="k">"type"</span>: <span class="k">"tool_use"</span>, <span class="k">"name"</span>: <span class="k">"book_flight"</span>,
- <span class="k">"input"</span>: {<span class="k">"to"</span>: <span class="k">"NRT"</span>, <span class="k">"passengers"</span>: 2}}</pre>
-          <div class="kicker">Three things follow. <b>Your guardrails live in your code</b>, because that is the only
-            place execution happens. <b>Approval gates go in the tool</b>, not the prompt. And when it misbehaves,
-            <b>suspect your tool before the model.</b></div>
-        </div>
-      </section>
-
-      <!-- 17 ----------------------------------------------------- -->
-      <section class="slide" data-part="2" data-title="Anatomy of an agent">
-        <div class="rail">
-          <div class="rail-dot"></div>
-          <div class="rail-name">AI Agents</div>
-          <div class="rail-num"></div>
-        </div>
-        <div class="body">
-          <p class="eyebrow">Anatomy</p>
-          <h2>Five parts, and one of them is always skipped</h2>
-          <div class="cols-3">
-            <div class="panel" style="--pt:var(--t2)">
-              <h3>Model</h3>
-              <p>Decides what to call and reads the results.</p>
-            </div>
-            <div class="panel" style="--pt:var(--t2)">
-              <h3>Tools</h3>
-              <p>What it may request, described well enough to choose between.</p>
-            </div>
-            <div class="panel" style="--pt:var(--t2)">
-              <h3>Loop</h3>
-              <p>Call, execute, feed back, repeat until done.</p>
-            </div>
-          </div>
-          <div class="cols-3" style="margin-top:22px">
-            <div class="panel" style="--pt:var(--t2)">
-              <h3>State</h3>
-              <p>The message history you re-send, since the model holds none.</p>
-            </div>
-            <div class="panel" style="--pt:var(--t3)">
-              <h3>Bounds</h3>
-              <p>Iteration cap, spend cap, a log of every call. Skipped almost every time.</p>
-            </div>
-            <div class="panel">
-              <h3></h3>
-              <p style="font-style:italic">An agent without bounds is a billing incident with a countdown on it.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 18 ----------------------------------------------------- -->
-      <section class="slide" data-part="2" data-title="Demo — a tool call">
-        <div class="rail">
-          <div class="rail-dot"></div>
-          <div class="rail-name">AI Agents</div>
-          <div class="rail-num"></div>
-        </div>
-        <div class="body">
-          <p class="eyebrow">Demo · lesson 03</p>
-          <h2>Watch the turns go past</h2>
-          <pre><span class="c">user     </span>  Should I take a jacket in Pune today?
-<span class="k">assistant</span>  [tool_use] get_weather(location=<span class="k">"Pune, MH"</span>)
-<span class="c">user     </span>  [tool_result] 22 degrees celsius and clear
-<span class="k">assistant</span>  No jacket needed — it's 22C and clear.</pre>
-          <p class="small">Four turns, two API calls, one function executed by your code. The middle two lines are the
-            entire difference between a chatbot and an agent.</p>
-          <div class="kicker">Note the roles: <b>tool results come back as a <code>user</code> message.</b> From the
-            model's side, your code is just another participant in the conversation.</div>
-        </div>
-      </section>
-
-      <!-- 19 ----------------------------------------------------- -->
       <section class="slide flood" data-part="3" style="--flood:var(--t3-flood)" data-title="Part three — Agentic AI">
         <div class="flood-inner">
           <p class="part-num">PART THREE</p>
@@ -1286,8 +1340,9 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 20 ----------------------------------------------------- -->
-      <section class="slide" data-part="3" data-title="A degree, not a product">
+
+      <!-- 17 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="What is agentic AI">
         <div class="rail">
           <div class="rail-dot"></div>
           <div class="rail-name">Agentic AI</div>
@@ -1295,161 +1350,137 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
         <div class="body">
           <p class="eyebrow">Definition</p>
-          <h2>It's an adjective, and it's a matter of degree</h2>
-          <p><strong>Agentic</strong> describes how much of the control flow the model owns: which steps run, in what
-            order, and when to stop.</p>
-          <div class="callout">It is not a newer technology than AI agents, and it is not something you install. Same
-            models, same tools — <em class="hl">different author of the arrows.</em></div>
-          <div class="kicker">Which is why "is this agentic?" is a bad question, and <b>"how much of my control flow did
-              I hand over, and what did I get for it?"</b> is a good one.</div>
+          <h2>What is an Agentic AI</h2>
+          <p>Agentic AI takes a goal, makes a plan, uses tools, acts, <strong>looks at what came back</strong>, and
+            adapts until the goal is met.</p>
+          <div class="callout">Goal &plus; reasoning &plus; planning &plus; tools &plus; actions &plus;
+            <em class="hl">feedback</em>.</div>
+          <p class="small" style="margin-top:22px">That last term is the one that does the work. Without feedback you
+            have a script; with it, the system can notice it was wrong and try something else.</p>
+          <div class="kicker"><b>Gen AI creates. AI agents act. Agentic AI orchestrates those actions toward a
+              goal.</b></div>
         </div>
       </section>
 
-      <!-- 21 ----------------------------------------------------- -->
-      <section class="slide" data-part="3" data-title="Workflow vs agent">
+      <!-- 18 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="Example — plan a trip">
         <div class="rail">
           <div class="rail-dot"></div>
           <div class="rail-name">Agentic AI</div>
           <div class="rail-num"></div>
         </div>
         <div class="body">
-          <p class="eyebrow">The real distinction</p>
-          <h2>Who wrote the arrows?</h2>
-          <figure>
-            <svg viewBox="0 0 1030 250" role="img"
-              aria-label="On the left, a workflow: three fixed steps wired in a sequence you wrote, each calling the model. On the right, an agent: the model sits in the centre choosing which tool to call and looping back to itself until it decides to stop.">
-              <defs>
-                <marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55" />
-                </marker>
-                <marker id="ar4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" style="fill:var(--tier)" />
-                </marker>
-              </defs>
-
-              <!-- LEFT: workflow -->
-              <text class="d-m" x="24" y="30">Workflow</text>
-              <rect class="d-box" x="24" y="92" width="112" height="50" />
-              <text class="d-t" x="80" y="122" text-anchor="middle">Extract</text>
-              <rect class="d-box" x="176" y="92" width="112" height="50" />
-              <text class="d-t" x="232" y="122" text-anchor="middle">Classify</text>
-              <rect class="d-box" x="328" y="92" width="112" height="50" />
-              <text class="d-t" x="384" y="122" text-anchor="middle">Draft</text>
-              <line class="d-line" x1="142" y1="117" x2="170" y2="117" marker-end="url(#ar4)" />
-              <line class="d-line" x1="294" y1="117" x2="322" y2="117" marker-end="url(#ar4)" />
-              <text class="d-l" x="24" y="176">every box calls the model</text>
-              <text class="d-l" x="24" y="194">you wrote this order, at build time</text>
-              <text class="d-l" x="24" y="212">cost and path known in advance</text>
-
-              <!-- divider -->
-              <line class="d-line" x1="515" y1="16" x2="515" y2="234" style="opacity:.22" />
-
-              <!-- RIGHT: agent -->
-              <text class="d-m" x="556" y="30">Agent</text>
-              <rect class="d-box" x="676" y="88" width="140" height="58" style="stroke:var(--tier);stroke-width:2" />
-              <text class="d-t-a" x="746" y="123" text-anchor="middle">Model</text>
-
-              <!-- goal in -->
-              <line class="d-line" x1="556" y1="117" x2="670" y2="117" marker-end="url(#ar4)" />
-              <text class="d-l" x="556" y="104">goal</text>
-
-              <!-- tools -->
-              <rect class="d-box-o" x="880" y="44" width="118" height="38" />
-              <text class="d-l" x="939" y="68" text-anchor="middle">search</text>
-              <rect class="d-box-o" x="880" y="98" width="118" height="38" />
-              <text class="d-l" x="939" y="122" text-anchor="middle">read_file</text>
-              <rect class="d-box-o" x="880" y="152" width="118" height="38" />
-              <text class="d-l" x="939" y="176" text-anchor="middle">run_tests</text>
-
-              <path class="d-line d-accent" d="M822,105 L874,63" marker-end="url(#ar4a)" style="opacity:.85" />
-              <path class="d-line d-accent" d="M822,117 L874,117" marker-end="url(#ar4a)" style="opacity:.85" />
-              <path class="d-line d-accent" d="M822,129 L874,171" marker-end="url(#ar4a)" style="opacity:.85" />
-
-              <!-- self loop -->
-              <path class="d-line d-accent" d="M700,152 C690,196 802,196 792,152" marker-end="url(#ar4a)"
-                style="opacity:.85" />
-              <text class="d-l-a" x="746" y="212" text-anchor="middle">chooses again, or stops</text>
-            </svg>
-            <figcaption>Same model, same tools on both sides. The difference is whether the sequence was written by you
-              at build time or chosen by the model at run time.</figcaption>
-          </figure>
+          <p class="eyebrow">Example</p>
+          <h2>&ldquo;Plan a trip to Goa for me.&rdquo;</h2>
+          <div class="cols">
+            <ul class="plain">
+              <li>Work out what you actually need</li>
+              <li>Draft a plan for getting there</li>
+              <li>Search flights and hotels</li>
+              <li>Compare prices and options</li>
+            </ul>
+            <ul class="plain">
+              <li>Build an itinerary around them</li>
+              <li>Call the booking tools</li>
+              <li><strong>Re-plan when something is unavailable</strong></li>
+              <li>Hand you the finished plan</li>
+            </ul>
+          </div>
+          <div class="kicker">Seven is the one that matters. <b>When the hotel is full, nobody told it what to do
+              next</b> &mdash; it decides, and the rest of the plan changes. That is the whole of &ldquo;agentic&rdquo;
+            in one step.</div>
         </div>
       </section>
 
-      <!-- 22 ----------------------------------------------------- -->
-      <section class="slide" data-part="3" data-title="The spectrum, with examples">
+      <!-- 19 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="The cake analogy">
         <div class="rail">
           <div class="rail-dot"></div>
           <div class="rail-name">Agentic AI</div>
           <div class="rail-num"></div>
         </div>
         <div class="body">
-          <p class="eyebrow">Calibration</p>
-          <h2>How agentic is it, really?</h2>
-          <ul class="plain">
-            <li><strong>Summarise every incoming ticket.</strong> <span style="color:var(--ink-soft)">Fixed pipeline.
-                Not agentic — the model fills a slot you defined.</span></li>
-            <li><strong>Route a ticket to one of three teams.</strong> <span style="color:var(--ink-soft)">Barely. One
-                decision, from a menu you wrote.</span></li>
-            <li><strong>Standard RAG: retrieve, then answer.</strong> <span style="color:var(--ink-soft)">Not agentic.
-                The order is fixed; retrieval always happens exactly once.</span></li>
-            <li><strong>Agentic RAG: model decides whether and what to search, and how often.</strong> <span
-                style="color:var(--ink-soft)">Yes — the retrieval decision moved to run time.</span></li>
-            <li><strong>Coding agent: plans, edits, runs tests, reads failures, re-plans.</strong> <span
-                style="color:var(--ink-soft)">Strongly agentic. Nobody wrote that sequence.</span></li>
-          </ul>
-          <div class="kicker">Notice that the last two use <b>exactly the same tools</b> as the versions above them.
-            What moved was the decision, not the capability.</div>
+          <p class="eyebrow">All three, in one kitchen</p>
+          <h2>Ask three people for a cake</h2>
+          <div class="cols-3">
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Gen AI</h3>
+              <p><i>&ldquo;Tell me how to make a cake.&rdquo;</i></p>
+              <p style="margin-top:12px">You get the recipe. You do the baking.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>AI agent</h3>
+              <p><i>&ldquo;Make a cake.&rdquo;</i></p>
+              <p style="margin-top:12px">It follows the recipe, using the tools it has been given.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>Agentic AI</h3>
+              <p><i>&ldquo;A birthday cake for 10 people, by 6 PM.&rdquo;</i></p>
+              <ul class="plain" style="margin-top:12px;gap:9px">
+                <li>Plan backwards from six</li>
+                <li>Check what's in the cupboard</li>
+                <li>Buy what's missing</li>
+                <li>Bake, taste, adjust</li>
+                <li>Deliver on time</li>
+              </ul>
+            </div>
+          </div>
+          <div class="kicker">Same kitchen, same recipe, same oven. What changes is <b>how much of &ldquo;what to do
+              next&rdquo; you handed over</b> &mdash; and the third one is the only order you could give a colleague.
+          </div>
         </div>
       </section>
 
-      <!-- 23 ----------------------------------------------------- -->
-      <section class="slide" data-part="3" data-title="Should you build one?">
+      <!-- 20 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="The four terms">
         <div class="rail">
           <div class="rail-dot"></div>
           <div class="rail-name">Agentic AI</div>
           <div class="rail-num"></div>
         </div>
         <div class="body">
-          <p class="eyebrow">Before you build</p>
-          <h2>Four questions. One "no" is enough.</h2>
-          <ol class="steps">
-            <li>
-              <div>
-                <h3>Complexity</h3>
-                <p>Is the task genuinely hard to specify in advance? If you can draw the flowchart, draw the flowchart.
-                </p>
-              </div>
-            </li>
-            <li>
-              <div>
-                <h3>Value</h3>
-                <p>Does the result justify the latency and the token bill? An agent costs several times a single call.
-                </p>
-              </div>
-            </li>
-            <li>
-              <div>
-                <h3>Viability</h3>
-                <p>Is the model actually good at this task? Autonomy multiplies whatever quality you started with — in
-                  both directions.</p>
-              </div>
-            </li>
-            <li>
-              <div>
-                <h3>Cost of error</h3>
-                <p>Can a mistake be caught and undone? Irreversible actions need a human in the loop, not more autonomy.
-                </p>
-              </div>
-            </li>
-          </ol>
-          <div class="kicker"><b>Most production "agents" should have been workflows.</b> The workflow is cheaper,
-            testable, and it fails in ways you can reproduce on a Tuesday afternoon.</div>
+          <p class="eyebrow">The ladder</p>
+          <h2>Four words people use interchangeably</h2>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>In one line</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>AI</th>
+                <td>Makes a prediction or a decision</td>
+                <td>Flagging an email as spam</td>
+              </tr>
+              <tr>
+                <th>Gen AI</th>
+                <td>Creates new content</td>
+                <td>Writing the email</td>
+              </tr>
+              <tr>
+                <th>AI agent</th>
+                <td>Performs a task using tools</td>
+                <td>Searching and comparing hotels</td>
+              </tr>
+              <tr>
+                <th>Agentic AI</th>
+                <td>Plans, acts, observes, and adapts toward a goal</td>
+                <td>Planning and booking the whole trip</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="kicker">That is how the four terms get used in practice. <b>The next slide sharpens the last
+              one</b> &mdash; &ldquo;agentic&rdquo; is not a fourth product you buy, it is a matter of degree.</div>
         </div>
       </section>
+ 
+    
 
-      <!-- 24 ----------------------------------------------------- -->
-      <section class="slide" data-part="3" data-title="Six things videos get wrong">
+      <!-- 25 ----------------------------------------------------- -->
+      <!-- <section class="slide" data-part="3" data-title="Six things videos get wrong">
         <div class="rail">
           <div class="rail-dot"></div>
           <div class="rail-name">Corrections</div>
@@ -1477,9 +1508,9 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
                 model decides the retrieval. Fixed retrieve-then-answer is a pipeline.</span></li>
           </ul>
         </div>
-      </section>
+      </section> -->
 
-      <!-- 25 ----------------------------------------------------- -->
+      <!-- 26 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Side by side">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1540,40 +1571,8 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 26 ----------------------------------------------------- -->
-      <section class="slide" data-part="3" data-title="Where it breaks">
-        <div class="rail">
-          <div class="rail-dot"></div>
-          <div class="rail-name">Corrections</div>
-          <div class="rail-num"></div>
-        </div>
-        <div class="body">
-          <p class="eyebrow">Reality check</p>
-          <h2>What actually goes wrong in production</h2>
-          <div class="cols">
-            <div class="panel" style="--pt:var(--t3)">
-              <h3>Errors compound</h3>
-              <p>95% accurate per step is 60% over ten steps. Long autonomous chains are where this becomes visible.</p>
-            </div>
-            <div class="panel" style="--pt:var(--t3)">
-              <h3>Cost runs away</h3>
-              <p>A loop with no iteration cap and a paid API on the other end. Set a spend limit before your first run.
-              </p>
-            </div>
-            <div class="panel" style="--pt:var(--t3)">
-              <h3>No audit trail</h3>
-              <p>When routing goes wrong, someone has to say why. Design the log before you write the loop.</p>
-            </div>
-            <div class="panel" style="--pt:var(--t3)">
-              <h3>Injection via tool results</h3>
-              <p>Text a tool returns is untrusted input. A fetched page can carry instructions — treat results as data,
-                never orders.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 27 ----------------------------------------------------- -->
+     
+      <!-- 28 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Where to go next">
         <div class="rail">
           <div class="rail-dot"></div>
