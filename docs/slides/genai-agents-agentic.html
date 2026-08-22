@@ -892,12 +892,36 @@
         <div class="body">
           <p class="eyebrow">Definition</p>
           <h2>It produces content instead of labelling it</h2>
-          <p>"Generative" is a contrast with <strong>discriminative</strong>. A spam filter tells you which bucket an
-            email belongs in — it picks from options you defined. A generative model writes the email.</p>
-          <div class="callout">The output space isn't a list of categories. It's every sequence of words the model could
-            produce.</div>
-          <div class="kicker">Same idea across media: text, code, images, audio, video. This session stays with
-            <b>language models</b>, because that is where agents are built.</div>
+          <p>Generative AI (Gen AI) is AI that can generate new content based on what it has learned and the instructions you give it.</p>
+          <ul class="plain">
+            <li><strong>Text</strong> &mdash; an email, an article, a summary, an answer to a question.</li>
+            <li><strong>Code</strong> &mdash; Copilot turning &ldquo;paginate this endpoint&rdquo; into a working
+              function.</li>
+            <li><strong>Images</strong> &mdash; a picture from &ldquo;a dog sitting on the moon.&rdquo;</li>
+            <li><strong>Audio</strong> &mdash; a new piece of music, or a voice reading your script.</li>
+            <li><strong>Video</strong> &mdash; a clip generated from a written prompt.</li>
+          </ul>
+          
+        </div>
+      </section>
+ 
+
+      <!-- 8 ------------------------------------------------------ -->
+      <section class="slide" data-part="1" data-title="What it can generate">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Generative AI</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Range</p>
+          <h2>New content, in whatever medium you ask for</h2>
+          
+          <div class="callout" style="margin-top:26px">Your prompt &rarr; the model &rarr; patterns it learned from a
+            huge amount of data &rarr; new content.</div>
+          <div class="kicker">Ask it to &ldquo;explain microservices to a beginner&rdquo; and you get a fresh
+            explanation, not a lookup. From here the session stays with <b>language models</b>, because that is
+            where agents are built &mdash; and the next slide opens up that middle box.</div>
         </div>
       </section>
 
@@ -916,7 +940,7 @@
 
 
 
-      <!-- 7 ------------------------------------------------------ -->
+      <!-- 9 ------------------------------------------------------ -->
       <section class="slide" data-part="1" data-title="How a language model works">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -983,7 +1007,7 @@
         </div>
       </section>
 
-      <!-- 8 ------------------------------------------------------ -->
+      <!-- 10 ----------------------------------------------------- -->
       <section class="slide" data-part="1" data-title="Three consequences">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1021,44 +1045,9 @@
         </div>
       </section>
 
-      <!-- 9 ------------------------------------------------------ -->
-      <section class="slide" data-part="1" data-title="Good at / breaks at">
-        <div class="rail">
-          <div class="rail-dot"></div>
-          <div class="rail-name">Generative AI</div>
-          <div class="rail-num"></div>
-        </div>
-        <div class="body">
-          <p class="eyebrow">Calibration</p>
-          <h2>Where it earns its keep, and where it doesn't</h2>
-          <div class="cols">
-            <div class="panel" style="--pt:var(--t1)">
-              <h3>Reliable</h3>
-              <ul class="plain">
-                <li>Transforming text you supply</li>
-                <li>Drafting, rewriting, summarising</li>
-                <li>Pulling structure out of prose</li>
-                <li>Writing and explaining code</li>
-                <li>Classifying with a clear rubric</li>
-              </ul>
-            </div>
-            <div class="panel">
-              <h3>Unreliable</h3>
-              <ul class="plain">
-                <li>Facts outside its training data</li>
-                <li>Anything that happened recently</li>
-                <li>Long arithmetic, exact counting</li>
-                <li>Being a system of record</li>
-                <li>Knowing what it doesn't know</li>
-              </ul>
-            </div>
-          </div>
-          <div class="kicker">The pattern: it is strong on <b>text you put in front of it</b>, weak on <b>facts it has
-              to supply itself</b>. Retrieval and tools exist to move work from the right column to the left.</div>
-        </div>
-      </section>
+     
 
-      <!-- 10 ------------------------------------------------------ -->
+      <!-- 12 ----------------------------------------------------- -->
       <section class="slide" data-part="1" data-title="Demo — one call">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1082,7 +1071,7 @@ response = client.messages.create(
         </div>
       </section>
 
-      <!-- 11 ----------------------------------------------------- -->
+      <!-- 13 ----------------------------------------------------- -->
       <section class="slide flood" data-part="2" style="--flood:var(--t2-flood)" data-title="Part two — AI agents">
         <div class="flood-inner">
           <p class="part-num">PART TWO</p>
@@ -1091,7 +1080,7 @@ response = client.messages.create(
         </div>
       </section>
 
-      <!-- 12 ----------------------------------------------------- -->
+      <!-- 14 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="Tools">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1116,7 +1105,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 13 ----------------------------------------------------- -->
+      <!-- 15 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="The loop">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1177,7 +1166,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 14 ----------------------------------------------------- -->
+      <!-- 16 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="The model never executes">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1198,7 +1187,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 15 ----------------------------------------------------- -->
+      <!-- 17 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="Anatomy of an agent">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1239,7 +1228,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 16 ----------------------------------------------------- -->
+      <!-- 18 ----------------------------------------------------- -->
       <section class="slide" data-part="2" data-title="Demo — a tool call">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1260,7 +1249,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 17 ----------------------------------------------------- -->
+      <!-- 19 ----------------------------------------------------- -->
       <section class="slide flood" data-part="3" style="--flood:var(--t3-flood)" data-title="Part three — Agentic AI">
         <div class="flood-inner">
           <p class="part-num">PART THREE</p>
@@ -1269,7 +1258,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 18 ----------------------------------------------------- -->
+      <!-- 20 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="A degree, not a product">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1288,7 +1277,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 19 ----------------------------------------------------- -->
+      <!-- 21 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Workflow vs agent">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1359,7 +1348,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 20 ----------------------------------------------------- -->
+      <!-- 22 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="The spectrum, with examples">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1386,7 +1375,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 21 ----------------------------------------------------- -->
+      <!-- 23 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Should you build one?">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1431,7 +1420,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 22 ----------------------------------------------------- -->
+      <!-- 24 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Six things videos get wrong">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1462,7 +1451,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 23 ----------------------------------------------------- -->
+      <!-- 25 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Side by side">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1523,7 +1512,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 24 ----------------------------------------------------- -->
+      <!-- 26 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Where it breaks">
         <div class="rail">
           <div class="rail-dot"></div>
@@ -1556,7 +1545,7 @@ def get_weather(location: str, unit: str = <span class="k">"celsius"</span>) -> 
         </div>
       </section>
 
-      <!-- 25 ----------------------------------------------------- -->
+      <!-- 27 ----------------------------------------------------- -->
       <section class="slide" data-part="3" data-title="Where to go next">
         <div class="rail">
           <div class="rail-dot"></div>
