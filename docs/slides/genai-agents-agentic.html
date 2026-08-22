@@ -891,7 +891,7 @@
         </div>
         <div class="body">
           <p class="eyebrow">Definition</p>
-          <h2>It produces content instead of labelling it</h2>
+          <h2>What generative means</h2>
           <p>Generative AI (Gen AI) is AI that can generate new content based on what it has learned and the instructions you give it.</p>
           <ul class="plain">
             <li><strong>Text</strong> &mdash; an email, an article, a summary, an answer to a question.</li>
@@ -901,42 +901,63 @@
             <li><strong>Audio</strong> &mdash; a new piece of music, or a voice reading your script.</li>
             <li><strong>Video</strong> &mdash; a clip generated from a written prompt.</li>
           </ul>
-          
         </div>
       </section>
  
 
       <!-- 8 ------------------------------------------------------ -->
-      <section class="slide" data-part="1" data-title="What it can generate">
+      <section class="slide" data-part="1" data-title="Prompt to content">
         <div class="rail">
           <div class="rail-dot"></div>
           <div class="rail-name">Generative AI</div>
           <div class="rail-num"></div>
         </div>
         <div class="body">
-          <p class="eyebrow">Range</p>
-          <h2>New content, in whatever medium you ask for</h2>
-          
-          <div class="callout" style="margin-top:26px">Your prompt &rarr; the model &rarr; patterns it learned from a
-            huge amount of data &rarr; new content.</div>
-          <div class="kicker">Ask it to &ldquo;explain microservices to a beginner&rdquo; and you get a fresh
-            explanation, not a lookup. From here the session stays with <b>language models</b>, because that is
-            where agents are built &mdash; and the next slide opens up that middle box.</div>
+          <p class="eyebrow">Pipeline</p>
+          <h2>From your prompt to new content</h2>
+          <p>You give it an instruction. It runs that instruction against patterns learned from an enormous amount of
+            text, and writes something that fits.</p>
+          <figure style="margin-top:6px">
+            <svg viewBox="0 0 1030 122" role="img"
+              aria-label="Your prompt goes into the model, which was trained on huge amounts of data, and the model produces new content.">
+              <defs>
+                <marker id="arGen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55" />
+                </marker>
+              </defs>
+
+              <!-- prompt -->
+              <rect class="d-box-o" x="4" y="22" width="290" height="52" />
+              <text class="d-t" x="149" y="45" text-anchor="middle">Your prompt</text>
+              <text class="d-l" x="149" y="64" text-anchor="middle">&ldquo;explain microservices&hellip;&rdquo;</text>
+
+              <line class="d-line" x1="302" y1="48" x2="358" y2="48" marker-end="url(#arGen)" />
+
+              <!-- model -->
+              <rect class="d-box" x="366" y="14" width="200" height="68" />
+              <text class="d-t" x="466" y="44" text-anchor="middle">Model</text>
+              <text class="d-l" x="466" y="64" text-anchor="middle">applies learned patterns</text>
+
+              <!-- training data feeding the model -->
+              <rect class="d-box-o" x="336" y="94" width="260" height="24" />
+              <text class="d-l" x="466" y="110" text-anchor="middle">trained on huge amounts of data</text>
+              <line class="d-line" x1="466" y1="92" x2="466" y2="84" marker-end="url(#arGen)" />
+
+              <line class="d-line" x1="574" y1="48" x2="630" y2="48" marker-end="url(#arGen)" />
+
+              <!-- output -->
+              <rect class="d-box-o d-accent" x="638" y="22" width="388" height="52" style="opacity:.85" />
+              <text class="d-t-a" x="832" y="45" text-anchor="middle">New content</text>
+              <text class="d-l-a" x="832" y="64" text-anchor="middle">a paragraph nobody wrote before</text>
+            </svg>
+          </figure>
+          <div class="kicker">Ask for &ldquo;microservices, explained to a beginner&rdquo; and you get a fresh
+            explanation, not a document it looked up. From here we stay with <b>language models</b> &mdash; and the
+            next slide opens up that middle box.</div>
         </div>
       </section>
 
-
-      <!-- <section class="slide" data-part="1" data-title="What generative means">
-        <div class="rail"><div class="rail-dot"></div><div class="rail-name">Generative AI</div><div class="rail-num"></div></div>
-        <div class="body">
-          <p class="eyebrow">Definition</p>
-          <h2>It produces content instead of labelling it</h2>
-          <p>"Generative" is a contrast with <strong>discriminative</strong>. A spam filter tells you which bucket an email belongs in — it picks from options you defined. A generative model writes the email.</p>
-          <div class="callout">The output space isn't a list of categories. It's every sequence of words the model could produce.</div>
-          <div class="kicker">Same idea across media: text, code, images, audio, video. This session stays with <b>language models</b>, because that is where agents are built.</div>
-        </div>
-      </section> -->
-
+ 
 
 
 
@@ -949,7 +970,7 @@
         </div>
         <div class="body">
           <p class="eyebrow">Mechanism</p>
-          <h2>One trick, repeated: predict the next token</h2>
+          <h2>How a language model works</h2>
           <figure>
             <svg viewBox="0 0 1030 268" role="img"
               aria-label="Prompt tokens feed into the model, which outputs a probability distribution over possible next tokens; one is sampled, appended to the input, and the process repeats.">
@@ -1021,27 +1042,34 @@
             <li>
               <div>
                 <h3>No memory</h3>
-                <p>Every API call is independent. A "conversation" is you re-sending the entire history on each turn.
-                  The model remembers nothing on its own.</p>
+                <p>Every API call is independent. A "conversation" is you re-sending the history each turn; the model
+                  remembers nothing.</p>
               </div>
             </li>
             <li>
               <div>
                 <h3>No actions</h3>
-                <p>It emits text. It cannot read your database, call your API, or send an email. There is no mechanism
-                  by which it could.</p>
+                <p>It emits text. It cannot read your database, call your API, or send an email &mdash; there is no
+                  mechanism by which it could.</p>
               </div>
             </li>
-            <li>
+            <!-- <li>
               <div>
                 <h3>No goals</h3>
-                <p>Nothing persists between calls, so there is nowhere for a goal to live. What looks like intent is a
-                  pattern in the text it was given.</p>
+                <p>Nothing persists between calls, so there is nowhere for a goal to live. What looks like intent is
+                  text you supplied.</p>
+              </div>
+            </li> -->
+            <li>
+              <div>
+                <h3>Hallucination</h3>
+                <p>Hallucination is about accuracy. The model generates a plausible continuation rather than retrieving a fact, so it produces confident text that happens to be false.</p>
               </div>
             </li>
           </ol>
-          <div class="kicker">Everything in the next two parts of this session exists to work around one of these three.
-            <b>That is the whole plot.</b></div>
+          
+          <div class="kicker">Everything in the next two parts of this session exists to work around one of the first
+            three. <b>Nothing works around the fourth</b> &mdash; a wrong fact just becomes a wrong action faster.</div>
         </div>
       </section>
 
