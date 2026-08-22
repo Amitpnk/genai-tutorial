@@ -1476,8 +1476,6 @@ response = client.messages.create(
               one</b> &mdash; &ldquo;agentic&rdquo; is not a fourth product you buy, it is a matter of degree.</div>
         </div>
       </section>
- 
-    
 
       <!-- 25 ----------------------------------------------------- -->
       <!-- <section class="slide" data-part="3" data-title="Six things videos get wrong">
@@ -1531,28 +1529,28 @@ response = client.messages.create(
             </thead>
             <tbody>
               <tr>
-                <th>What it is</th>
-                <td>A kind of model</td>
-                <td>A system built around one</td>
-                <td>A property of that system</td>
+                <th>Core parts</th>
+                <td>A model, and nothing else</td>
+                <td>Model &plus; tools &plus; a loop you wrote</td>
+                <td>Model &plus; tools &plus; planning and state &mdash; sometimes several agents</td>
               </tr>
               <tr>
-                <th>Can it act?</th>
-                <td>No — text only</td>
-                <td>Yes, via your code</td>
-                <td>Yes, via your code</td>
+                <th>Action</th>
+                <td>Generates content only</td>
+                <td>Performs narrow tasks using tools</td>
+                <td>Plans and executes multi-step work</td>
               </tr>
               <tr>
-                <th>Who picks steps</th>
-                <td>You, entirely</td>
-                <td>You write the loop; it picks tools</td>
-                <td>The model, at run time</td>
+                <th>Memory</th>
+                <td>None</td>
+                <td>Short-term &mdash; the history you re-send</td>
+                <td>Longer-term &mdash; state your code keeps between runs</td>
               </tr>
               <tr>
-                <th>Cost per task</th>
-                <td>Fixed, known</td>
-                <td>A few calls</td>
-                <td>Unbounded unless you bound it</td>
+                <th>Autonomy</th>
+                <td>Low &mdash; you drive every step</td>
+                <td>Medium &mdash; it picks tools, you wrote the loop</td>
+                <td>High &mdash; it picks the steps too</td>
               </tr>
               <tr>
                 <th>Fails by</th>
@@ -1561,13 +1559,16 @@ response = client.messages.create(
                 <td>Looping, drifting, compounding errors</td>
               </tr>
               <tr>
-                <th>Test it by</th>
-                <td>Scoring outputs</td>
-                <td>Scoring outputs + call traces</td>
-                <td>Trajectory review — much harder</td>
+                <th>Example</th>
+                <td>Write a story</td>
+                <td>Book a flight</td>
+                <td>Plan a whole holiday, visa included</td>
               </tr>
             </tbody>
           </table>
+          <div class="kicker">Read two rows carefully. <b>Memory</b> is state your code stores and re-sends &mdash; no
+            row of this table lives inside the model. And <b>autonomy</b> is not a setting; it is how much of the
+            control flow you handed over.</div>
         </div>
       </section>
 
