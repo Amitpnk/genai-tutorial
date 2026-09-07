@@ -147,20 +147,6 @@ may get added over time).
 
 ---
 
-## 6. Timeline
-
-| Question | Answer |
-| --- | --- |
-| When does it start? | Very soon — the first video within a day or two |
-| Release frequency | **2 videos per week** |
-| Total videos | ~17 |
-| Total duration | ~**8 weeks ≈ 2 months** |
-
-It can't go faster because other work is running in parallel — the PyTorch playlist continues, and
-the builder side still has to be covered. Two videos a week also leaves you time to practise.
-
----
-
 ## Key takeaways
 
 1. **LangChain is the entry point to the user side of GenAI** — not because it's the only tool, but
