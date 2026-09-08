@@ -133,16 +133,16 @@ HUGGINGFACEHUB_API_TOKEN="..."
 rename them, `load_dotenv()` will load the file fine but the library won't find its key and your
 code fails.
 
-> ⚠️ The video writes the Hugging Face variable as `HUGGINGFACEHUB_ACCESS_TOKEN`. The
-> `langchain-huggingface` package actually looks for **`HUGGINGFACEHUB_API_TOKEN`**. If you hit an
-> auth error there, this is why. Check the current provider docs when in doubt.
-
 **Where to get the keys:**
 
-| Provider | Key page |
-| --- | --- |
-| Anthropic (Claude) | <https://platform.claude.com/settings/keys> |
-| OpenAI | <https://platform.openai.com/api-keys> |
+| Provider | Key page | Model list |
+| --- | --- | --- |
+| Anthropic (Claude) | <https://platform.claude.com/settings/keys> | <https://platform.claude.com/docs/en/models/overview> |
+| OpenAI | <https://platform.openai.com/api-keys> | <https://developers.openai.com/api/docs/models/all> |
+| Google (Gemini) | <https://aistudio.google.com/api-keys> | <https://ai.google.dev/gemini-api/docs/models> |
+
+The model-list pages are worth a look before you pick a model — they carry the current IDs, context
+windows, and max output tokens, which is what you actually choose between.
 
 Create the key, copy it once (neither console shows it again), and paste it straight into `.env`.
 
