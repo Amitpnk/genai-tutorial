@@ -79,23 +79,32 @@ time on chat models — which is what you should actually use.
 
 ## 4. Setup
 
-```bash
-# 1. make a project folder and open it in your editor
-# 2. create and activate a virtual environment
-python -m venv venv
-venv/Scripts/activate          # Windows
-# source venv/bin/activate     # macOS / Linux
+1. make a project folder and open it in your editor
+2. create and activate a virtual environment
+   ```bash
+   python -m venv venv
+   ```
+3. Activate the venv.
+   ```bash
+   venv\Scripts\Activate        # Windows
+   source venv/bin/activate     # macOS / Linux
+   ```
+4. Create a new venv.
+   ```bash
+   python -m venv venv
+   ```
+5. Create the `requirements.txt` — the package list for this project.
+6. Install the packages from it.
+   ```bash
+   pip install -r requirements.txt
+   ```
+7. Verify the LangChain installation.
 
-# 3. install the dependencies listed in requirements.txt
-pip install -r requirements.txt
-```
-
-Verify LangChain landed:
-
-```python
-import langchain
-print(langchain.__version__)
-```
+   Verify LangChain landed:
+   ```python
+   import langchain
+   print(langchain.__version__)
+   ```
 
 Then create three folders to keep the demos apart:
 
@@ -127,6 +136,15 @@ code fails.
 > ⚠️ The video writes the Hugging Face variable as `HUGGINGFACEHUB_ACCESS_TOKEN`. The
 > `langchain-huggingface` package actually looks for **`HUGGINGFACEHUB_API_TOKEN`**. If you hit an
 > auth error there, this is why. Check the current provider docs when in doubt.
+
+**Where to get the keys:**
+
+| Provider | Key page |
+| --- | --- |
+| Anthropic (Claude) | <https://platform.claude.com/settings/keys> |
+| OpenAI | <https://platform.openai.com/api-keys> |
+
+Create the key, copy it once (neither console shows it again), and paste it straight into `.env`.
 
 Both OpenAI and Anthropic now require **paid credits** before they issue usable API keys — roughly
 $5 is more than enough for a playlist's worth of experimenting. Free credits for new accounts are
