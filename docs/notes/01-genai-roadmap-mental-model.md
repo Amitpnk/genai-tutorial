@@ -75,7 +75,7 @@ AI  ⊃  Machine Learning  ⊃  Deep Learning  ⊃  Generative AI
 
 ---
 
-## 5. The mental model
+## 4. The mental model
 
 ### Step 1 — Put one term at the centre: **Foundation Models**
 
@@ -133,7 +133,7 @@ are the result.
 
 ---
 
-## 8. Curriculum A — Builder's Perspective
+## 5. Curriculum A — Builder's Perspective
 
 *Building a foundation model and deploying it so the world can use it. More technical; closer to
 what ML/DL practitioners already do.*
@@ -174,7 +174,7 @@ what ML/DL practitioners already do.*
 
 ---
 
-## 8. Curriculum B — User's Perspective
+## 6. Curriculum B — User's Perspective
 
 *Using a ready-made foundation model. Less technical and, in the speaker's view, easier and more
 fun than the builder side — you get to build interesting things.*
@@ -208,7 +208,7 @@ fun than the builder side — you get to build interesting things.*
 
 ---
 
-## 9. Should you learn both sides?
+## 7. Should you learn both sides?
 
 **Yes — but the weighting depends on your target role.**
 
