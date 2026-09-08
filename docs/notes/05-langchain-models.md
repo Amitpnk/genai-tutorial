@@ -64,7 +64,6 @@ messages** as input and return **chat messages** as output.
 | Training | General text — books, articles, Wikipedia | The same, then **fine-tuned on chat datasets** |
 | Memory | No memory concept | Supports conversation history |
 | Role awareness | None — you can't assign roles | Yes — system / user / assistant roles |
-| Input → output | string → string | messages → message |
 | Use when | Summarisation, translation, code generation | Chatbots, virtual assistants, customer support, AI tutors, agents |
 
 ### The important practical point
