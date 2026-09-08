@@ -1,39 +1,9 @@
-# LangChain Playlist — Roadmap and Curriculum
+# Introduction of Langchain
 
-## 1. Where this sits in the bigger picture
-
-This is the **first playlist** of the end-to-end Generative AI roadmap — the first concrete step
-after the curriculum-planning video.
-
-### Quick recap of the previous video
-
-All of Generative AI splits into two sides:
-
-- **Builder's side** — developing foundation models (transformer architecture, types of
-  transformers, pre-training, fine-tuning, optimization)
-- **User's side** — using ready-made foundation models to build applications
-
-The user-side curriculum was:
-
-1. How to build LLM-based applications
-2. Three ways to improve the response coming out of an LLM — **prompt engineering**, **RAG**,
-   **fine-tuning**
-3. **Agentic AI** — a completely new field emerging out of all this
-4. **LLMOps**
-5. Miscellaneous topics
-
-**This playlist covers item 1** — building LLM applications, using LangChain. It is the starting
-point (the "origin") of the user side of the GenAI curriculum. The remaining topics get covered
-gradually afterwards.
-
----
-
-## 2. What is LangChain?
+## 1. What is LangChain?
 
 In the simplest terms: **a framework for building any LLM-based application** — chatbots, agents,
 and so on.
-
-**Formal definition used in the video:**
 
 > LangChain is an open-source framework that helps in building LLM-based applications. It provides
 > modular components and end-to-end tools that help developers build complex AI applications such
@@ -87,10 +57,7 @@ own dedicated playlist afterwards —
 
 ---
 
-## 4. Playlist curriculum
-
-The playlist is mentally divided into **three parts**. Roughly **17 videos** total (a couple more
-may get added over time).
+## 4.  GenAI curriculum
 
 ### Part 1 — Fundamentals (the most important part; nothing later makes sense without it)
 
@@ -119,32 +86,7 @@ may get added over time).
 15. Tools and toolkits
 16. Tool calling
 17. **Build an AI agent**
-
----
-
-## 5. Focus areas for the playlist
-
-1. **Most up-to-date information**
-   LangChain's site currently shows three versions (0.1, 0.2, 0.3), and the three are quite
-   different from each other — learn 0.1 and parts of 0.3 may not make sense. The entire playlist
-   will be based on the **latest version (0.3)**, with some guidance about 0.1 and 0.2 along the
-   way.
-
-2. **Clarity**
-   A lot of existing LangChain content lets you code along and get a working application without
-   ever understanding *how it works behind the scenes*. This playlist targets that conceptual
-   clarity instead — so videos will be detailed, likely **30–40 minutes each** despite there being
-   17 of them.
-
-3. **Conceptual understanding**
-   LangChain is a practical framework, but it has real concepts inside it — runnables, chains, and
-   so on. Understanding those means that when version 0.4 eventually replaces 0.3, learning it
-   won't be painful.
-
-4. **Cover ~80% of LangChain, not 100%**
-   Not all of it is useful. The playlist targets the most useful 80%. If other parts become
-   important later, the playlist gets updated.
-
+ 
 ---
 
 ## Key takeaways
@@ -152,7 +94,6 @@ may get added over time).
 1. **LangChain is the entry point to the user side of GenAI** — not because it's the only tool, but
    because it touches every other topic on the list at least a little.
 2. **Chains are the central idea** for composing complex applications out of simple parts.
-3. **Version matters** — 0.1, 0.2, and 0.3 differ significantly; learn against 0.3.
 4. **Aim for concepts, not copy-paste** — runnables and chains are what carry across framework
    versions.
 5. **Three parts:** Fundamentals → RAG → Agents, with a build-from-scratch project ending each of
