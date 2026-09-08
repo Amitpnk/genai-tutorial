@@ -67,6 +67,59 @@ Every provider wrote their API differently. If your application needs two differ
 two different styles of code. And if you built on OpenAI and later want to switch to Claude because
 it's cheaper, you have to rewrite that part of the codebase. Different request shapes, different
 response shapes, different parsing. **Standardisation became the challenge.**
+Here are the two provider SDKs side by side — the same job, written two different ways:
+
+```python
+# OpenAI — create a human-like response to a prompt
+from openai import OpenAI
+client = OpenAI()
+
+completion = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {
+            "role": "user",
+            "content": "Write a haiku about recursion in programming."
+        }
+    ]
+)
+
+print(completion.choices[0].message)
+```
+
+```python
+# Anthropic — claude_quickstart.py
+import anthropic
+
+client = anthropic.Anthropic()
+
+message = client.messages.create(
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=1000,
+    temperature=0,
+    system="You are a world-class poet. Respond only with short poems.",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Why is the ocean salty?"
+                }
+            ]
+        }
+    ]
+)
+
+print(message.content)
+```
+
+Look at what differs: the client object (`OpenAI()` vs `anthropic.Anthropic()`), the call itself
+(`client.chat.completions.create` vs `client.messages.create`), where the system instruction goes
+(inside `messages` vs its own `system` argument), the shape of the message content (a plain string
+vs a list of typed blocks), and how you dig the answer out (`completion.choices[0].message` vs
+`message.content`). Switching providers means rewriting all of it.
 
 **LangChain's Models component fixes exactly this.** It is an interface that lets you talk to any
 provider's model in a standardised way. Switching providers is a **two-line change** — import a
@@ -103,11 +156,9 @@ LangChain talks to both kinds.
 
 ### Worth exploring in the docs
 
-- The **chat models** page lists every provider you can talk to — ChatAnthropic, ChatMistralAI,
-  AzureChatOpenAI, ChatVertexAI, ChatBedrock (AWS), ChatHuggingFace, and many more. It also shows a
-  feature matrix per model: tool calling (needed when you build agents), structured / JSON output,
-  local execution, multimodal input.
-- The **embedding models** page lists the embedding providers — OpenAI, Mistral AI, IBM, Llama, …
+- The [Chat Models](https://docs.langchain.com/oss/python/integrations/chat) page lists every provider you can talk to — ChatAnthropic, ChatMistralAI,
+  AzureChatOpenAI, ChatVertexAI, ChatBedrock (AWS), ChatHuggingFace, and many more. It also shows a feature matrix per model: tool calling (needed when you build agents), structured / JSON output, local execution, multimodal input.
+- The [Embedding Models](https://docs.langchain.com/oss/python/integrations/embeddings) page lists the embedding providers — OpenAI, Mistral AI, IBM, Llama, 
 
 **In a nutshell:** Models is an interface for talking to AI models, and its main job is to
 standardise a world where every LLM API sang its own tune.
@@ -116,11 +167,9 @@ standardise a world where every LLM API sang its own tune.
 
 ## 3. Prompts
 
-**A prompt is the input you send to an LLM.** When you ask ChatGPT "What is campus X?", that string
-is the prompt.
+**A prompt is the input you send to an LLM.** When you ask ChatGPT "What is campus X?", that string is the prompt.
 
-Prompts matter enormously, because **LLM output is extremely sensitive to them.** Change one word
-and the output changes a lot:
+Prompts matter enormously, because **LLM output is extremely sensitive to them.** Change one word and the output changes a lot:
 
 - "Explain linear regression in an **academic** tone"
 - "Explain linear regression in a **fun** tone"
@@ -133,7 +182,7 @@ media. LangChain recognised this and built a dedicated component for handling pr
 
 ### What you can build with it
 
-**a) Dynamic and reusable prompts.** You don't know in advance what topic or tone a user will ask
+**a) Dynamic and Reusable prompts.** You don't know in advance what topic or tone a user will ask
 for, so leave placeholders:
 
 ```
@@ -141,6 +190,20 @@ for, so leave placeholders:
 ```
 
 One user fills it with *cricket / fun*, the next with *biology / serious*. Same template, reused.
+
+In code:
+
+```python
+from langchain_core.prompts import PromptTemplate
+
+prompt = PromptTemplate.from_template('Summarize {topic} in {emotion} tone')
+
+print(prompt.format(topic='Cricket', emotion='fun'))
+```
+
+The two placeholders in the template — `{topic}` and `{emotion}` — are the names you pass to
+`format()`. They must match: the template declares `{emotion}`, so the call passes `emotion='fun'`.
+Pass a name that isn't in the template and you get a `KeyError`.
 
 **b) Role-based prompts.** A system-level message plus a user-level message, both templated:
 
@@ -151,6 +214,31 @@ user:   "Tell me about {topic}."
 
 → *experienced doctor* + *viral fever*, or *experienced engineer* + *developing bridges*. You are
 guiding the LLM into a persona before it answers.
+
+In code:
+
+```python
+from langchain_core.prompts import ChatPromptTemplate
+
+# Define the ChatPromptTemplate
+chat_prompt = ChatPromptTemplate.from_messages([
+    ("system", "Hi you are a experienced {profession}"),
+    ("user", "Tell me about {topic}"),
+])
+
+# Format the prompt with the variables
+formatted_messages = chat_prompt.format_messages(
+    profession="Doctor",
+    topic="Viral Fever",
+)
+```
+
+Each message is a `(role, template)` tuple, and `format_messages()` fills every placeholder across
+all of them at once, returning a list of ready-to-send messages.
+
+> Note: the screenshot shows `ChatPromptTemplate.from_template([...])`. That won't run —
+> `from_template` builds a template from a *single string*; the list-of-messages form is
+> **`from_messages`**, used above.
 
 **c) Few-shot prompts.** Show the LLM some examples first, then ask your real question. For a
 customer-support classifier:
@@ -168,6 +256,70 @@ all the examples → the new query, with the category left for the LLM to fill i
 
 The point here is not the code (that comes later in the playlist) but the range: many different
 prompting techniques are implementable through this one component.
+
+In code, it comes together in three steps:
+
+```python
+from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate
+
+# Step 1: the labelled examples
+examples = [
+    {"input": "I was charged twice for my subscription this month.", "output": "Billing Issue"},
+    {"input": "The app crashes every time I try to log in.", "output": "Technical Problem"},
+    {"input": "Can you explain how to upgrade my plan?", "output": "General Inquiry"},
+    {"input": "I need a refund for a payment I didn't authorize.", "output": "Billing Issue"},
+]
+
+# Step 2: create an example template — the shape each example is rendered in
+example_template = """
+Ticket: {input}
+Category: {output}
+"""
+
+# Step 3: build the few-shot prompt template
+few_shot_prompt = FewShotPromptTemplate(
+    examples=examples,
+    example_prompt=PromptTemplate(
+        input_variables=["input", "output"],
+        template=example_template,
+    ),
+    prefix=(
+        "Classify the following customer support tickets into one of the categories: "
+        "'Billing Issue', 'Technical Problem', or 'General Inquiry'.\n\n"
+    ),
+    suffix="\nTicket: {user_input}\nCategory:",
+    input_variables=["user_input"],
+)
+```
+
+The three arguments that do the assembling: **`prefix`** is the instruction that goes on top,
+**`examples` + `example_prompt`** render every example through the same template, and **`suffix`**
+appends the new ticket with `Category:` left dangling for the model to complete.
+
+Given a new ticket, the fully rendered prompt looks like this:
+
+```text
+Classify the following customer support tickets into one of the categories: 'Billing Issue',
+'Technical Problem', or 'General Inquiry'.
+
+Ticket: I was charged twice for my subscription this month.
+Category: Billing Issue
+
+Ticket: The app crashes every time I try to log in.
+Category: Technical Problem
+
+Ticket: Can you explain how to upgrade my plan?
+Category: General Inquiry
+
+Ticket: I need a refund for a payment I didn't authorize.
+Category: Billing Issue
+
+Ticket: I am unable to connect to the internet using your service.
+Category:
+```
+
+The pattern is established four times over, then broken off mid-pattern — so the most natural
+continuation for the model is exactly the label you want.
 
 ---
 
