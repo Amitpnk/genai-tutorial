@@ -1,18 +1,8 @@
 # GenAI Roadmap — The Builder vs. User Mental Model
 
-## 1. Why this video exists
-
-The speaker planned to make GenAI videos but found it genuinely hard to teach: the field moves so
-fast that a new model, paper, tool, or term shows up almost daily, which makes designing a stable
-curriculum difficult. He spent ~3 months on research, planning, and curriculum design. This video
-is not just an announcement — it walks through the thought process, the mental model he built, and
-the resulting two-track curriculum.
-
----
-
 ## 2. What Generative AI is
 
-**Definition used in the video:** a type of AI that creates new content — text, images, music, even
+**Definition:** a type of AI that creates new content — text, images, music, even
 code — by learning patterns from existing data, mimicking human creativity.
 
 ### Historical context
