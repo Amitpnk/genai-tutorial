@@ -1,26 +1,5 @@
 # LangChain — Overview: What It Is and Why It Exists
 
-Video 1 of the LangChain playlist. Covers: what LangChain is, *why* it is needed (via a worked
-system-design example), what you can build with it, and what the alternatives are.
-
----
-
-## 1. What is LangChain?
-
-**One-sentence definition:**
-
-> LangChain is an open-source framework for developing applications powered by LLMs.
-
-If you want to build any LLM-based application, LangChain is the framework that helps you build it.
-
-But a one-line definition doesn't convey the importance. The teaching principle used here:
-
-> If you want to study *what X is*, you should first know *why X was needed in the first place.*
-
-So the bulk of this video works backwards from a real problem.
-
----
-
 ## 2. Why do we need LangChain? — the motivating example
 
 ### The idea (from around 2014)
@@ -40,29 +19,8 @@ Not just reading — **talking to your book.** Incredibly useful.
 
 ## 3. High-level system design
 
-```
- User uploads PDF ──▶ store in database
-                             │
- User asks a query ──────────┤
- "What are the assumptions   │
-  of linear regression?"     ▼
-                     ┌───────────────┐
-                     │ SEMANTIC      │  find WHERE in the book
-                     │ SEARCH        │  this topic is discussed
-                     └───────┬───────┘
-                             │ returns e.g. page 372, page 461
-                             ▼
-              original query + retrieved pages
-                             │
-                             ▼
-                     ┌───────────────┐
-                     │    "BRAIN"    │  1. understand the query (NLU)
-                     │               │  2. context-aware text generation
-                     └───────┬───────┘
-                             ▼
-                       Final answer
-```
-
+![HLD](../images/03-pdf-chat-system-design.drawio.svg)
+ 
 ### Keyword search vs. semantic search
 
 | | Keyword search | Semantic search |

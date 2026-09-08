@@ -40,3 +40,4 @@ data/raw/*.large
 Thumbs.db
 .vscode/
 .idea/
+*.bkp
