@@ -56,8 +56,8 @@ the semantic search step.
 
 ## 4. How semantic search actually works
 
-Suppose you have three paragraphs about three cricketers — Virat Kohli, Jasprit Bumrah, Rohit
-Sharma — and the question *"How many runs has Virat scored?"* You know the answer is in the Kohli
+Suppose you have three paragraphs about three cricketers — Virat Kohli, MS Dhoni, Sachin Tendulkar
+— and the question *"How many runs has Virat scored?"* You know the answer is in the Kohli
 paragraph, but how does the code know?
 
 **The mechanism:**
