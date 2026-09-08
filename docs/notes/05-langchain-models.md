@@ -260,11 +260,9 @@ and you've switched providers.
 
 The formal definition, and the two ends of the dial:
 
-> `temperature` is a parameter that **controls the randomness of a language model's output**. It
-> affects how **creative or deterministic** the responses are.
->
-> - **Lower values** (`0.0` – `0.3`) → more **deterministic** and predictable.
-> - **Higher values** (`0.7` – `1.5`) → more **random**, creative, and diverse.
+`temperature` is a parameter that **controls the randomness of a language model's output**. It affects how **creative or deterministic** the responses are.
+- **Lower values** (`0.0` – `0.3`) → more **deterministic** and predictable.
+- **Higher values** (`0.7` – `1.5`) → more **random**, creative, and diverse.
 
 | Use case | Suggested temperature |
 | --- | --- |
