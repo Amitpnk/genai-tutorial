@@ -140,6 +140,7 @@ code fails.
 | Anthropic (Claude) | <https://platform.claude.com/settings/keys> | <https://platform.claude.com/docs/en/models/overview> |
 | OpenAI | <https://platform.openai.com/api-keys> | <https://developers.openai.com/api/docs/models/all> |
 | Google (Gemini) | <https://aistudio.google.com/api-keys> | <https://ai.google.dev/gemini-api/docs/models> |
+| Hugging Face | <https://huggingface.co/settings/tokens> | <https://huggingface.co/models> |
 
 The model-list pages are worth a look before you pick a model — they carry the current IDs, context
 windows, and max output tokens, which is what you actually choose between.
@@ -256,13 +257,14 @@ and you've switched providers.
 
 ### `temperature` — the creativity dial
 
-Controls the randomness of the output: how creative versus how deterministic the responses are.
-Range is roughly 0 to 2.
 
-> **Clarification (added in video 4).** The precise property is *reproducibility for the same
-> input*: at `temperature=0` the same prompt returns **exactly the same output on every run**; as
-> you raise it, repeated runs of an identical prompt diverge. See
-> [06-langchain-prompts.md](06-langchain-prompts.md) §0.5.
+The formal definition, and the two ends of the dial:
+
+> `temperature` is a parameter that **controls the randomness of a language model's output**. It
+> affects how **creative or deterministic** the responses are.
+>
+> - **Lower values** (`0.0` – `0.3`) → more **deterministic** and predictable.
+> - **Higher values** (`0.7` – `1.5`) → more **random**, creative, and diverse.
 
 | Use case | Suggested temperature |
 | --- | --- |
@@ -270,6 +272,11 @@ Range is roughly 0 to 2.
 | General QA, explanation | 0.5 – 0.7 |
 | Creative writing, storytelling, jokes | 0.9 – 1.2 |
 | Maximum randomness, brainstorming | 1.5+ |
+
+> **Clarification** The precise property is *reproducibility for the same
+> input*: at `temperature=0` the same prompt returns **exactly the same output on every run**; as
+> you raise it, repeated runs of an identical prompt diverge. See
+> [06-langchain-prompts.md](06-langchain-prompts.md) §0.5.
 
 ```python
 model = ChatOpenAI(model="gpt-4", temperature=1.5)
