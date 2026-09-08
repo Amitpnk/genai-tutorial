@@ -1,0 +1,88 @@
+<mxfile host="app.diagrams.net" agent="Claude Code" version="24.7.17">
+  <diagram name="LLM API calls are stateless" id="stateless-llm-calls">
+    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="LLM API calls are stateless" style="text;html=1;align=left;verticalAlign=middle;fontSize=20;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="50" y="25" width="600" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Every request is independent — the model has no memory of the previous one." style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="50" y="55" width="700" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Call 1 ===== -->
+        <mxCell id="lbl1" value="&lt;b&gt;CALL 1&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="50" y="105" width="80" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q1" value="Who is &lt;u&gt;Narendra Modi&lt;/u&gt;?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="50" y="135" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="llm1" value="&lt;b&gt;LLM&lt;br&gt;API&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;(GPT)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="420" y="130" width="170" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a1" value="Narendra Modi is an Indian politician serving as the 14th and current Prime Minister of India since May 2014" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontSize=13;align=left;" vertex="1" parent="1">
+          <mxGeometry x="690" y="130" width="450" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Call 2 ===== -->
+        <mxCell id="lbl2" value="&lt;b&gt;CALL 2&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="50" y="365" width="80" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q2" value="How old is &lt;b&gt;he&lt;/b&gt;?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="50" y="395" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hemark" value="&lt;font style=&quot;font-size:11px;&quot;&gt;&quot;he&quot; refers to call 1 —&lt;br&gt;but call 1 never happened,&lt;br&gt;as far as this request knows&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="50" y="485" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="llm2" value="&lt;b&gt;LLM&lt;br&gt;API&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;(GPT)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="420" y="390" width="170" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a2" value="As an AI, I don't have access to &lt;u&gt;personal data&lt;/u&gt; about individuals unless it has been shared with me in the course of our conversation." style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontSize=13;align=left;" vertex="1" parent="1">
+          <mxGeometry x="690" y="390" width="450" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ===== The missing link ===== -->
+        <mxCell id="nomemory" value="&lt;b&gt;✗&amp;nbsp; nothing carries over&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;strokeColor=#b85450;strokeWidth=2;fontSize=12;fontColor=#b85450;endArrow=none;" edge="1" parent="1" source="llm1" target="llm2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cross" value="✗" style="text;html=1;align=center;verticalAlign=middle;fontSize=28;fontColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="480" y="280" width="50" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Notes ===== -->
+        <mxCell id="note" value="&lt;b&gt;Stateless means every request starts from nothing.&lt;/b&gt;&lt;br&gt;The two calls above hit the same model with the same API key, seconds apart — and the second one has no idea the first one existed. Build a chatbot on this and the user has to restate the context in every single message." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;size=20;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="690" y="490" width="450" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="footer" value="&lt;b&gt;This is the problem the Memory component solves&lt;/b&gt; — by storing the conversation and sending it along with each new call." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="620" width="1090" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Edges ===== -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#333333;" edge="1" parent="1" source="q1" target="llm1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#333333;" edge="1" parent="1" source="llm1" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#333333;" edge="1" parent="1" source="q2" target="llm2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#333333;" edge="1" parent="1" source="llm2" target="a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
