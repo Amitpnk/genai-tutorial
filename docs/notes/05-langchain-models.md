@@ -21,9 +21,36 @@ Embeddings are just vectors — sets of numbers that capture the *contextual mea
 
 ---
 
-## 2. Language models split again: LLMs vs. Chat models
+## 2. Plan of action
+
+The rest of this note is code. Here's the ground it covers — every kind of model, in a fixed order.
+
+![Plan of action](../images/05-plan-of-action.drawio.svg)
+
+**Part 1 — language models.** Closed-source first (OpenAI's GPT, Anthropic's Claude, Google's
+Gemini), then open-source via Hugging Face, both through the inference API and downloaded to run
+locally.
+
+**Part 2 — embedding models.** The same split: a closed-source embedding model, then an
+open-source one downloaded from Hugging Face.
+
+**Finally**, a small document-similarity application that puts embeddings to work — the seed of
+every RAG app later in the playlist.
+
+| | Closed source — paid, via API | Open source — free |
+| --- | --- | --- |
+| **Language models** | OpenAI, Claude, Gemini | Hugging Face (API + local) |
+| **Embedding models** | OpenAI | Hugging Face (local) |
+
+The reason for covering both columns: closed-source models are what most companies actually use in production, so they're worth practising against — but they cost money, and open-source models are the free route as well as the only option when your data can't leave your machine.
+
+---
+
+## 3. Language models split again: LLMs vs. Chat models
 
 This distinction matters, and it decides which class you import.
+
+![Language models split into LLMs and chat models](../images/05-language-models-split.drawio.svg)
 
 **LLMs** are general-purpose models: text generation, summarisation, code generation, question
 answering — anything. You give them a **plain string**, you get back a **plain string**.
@@ -51,7 +78,7 @@ time on chat models — which is what you should actually use.
 
 ---
 
-## 3. Setup
+## 4. Setup
 
 ```bash
 # 1. make a project folder and open it in your editor
@@ -110,7 +137,7 @@ Add `.env` to `.gitignore`. A key committed to a public repo is a key that gets 
 
 ---
 
-## 4. LLMs — the old interface
+## 5. LLMs — the old interface
 
 ```python
 from langchain_openai import OpenAI
@@ -137,7 +164,7 @@ Note the shape:
 
 ---
 
-## 5. Chat models
+## 6. Chat models
 
 ### OpenAI
 
@@ -208,7 +235,7 @@ and you've switched providers.
 
 ---
 
-## 6. Two parameters worth knowing
+## 7. Two parameters worth knowing
 
 ### `temperature` — the creativity dial
 
@@ -249,7 +276,7 @@ topic of its own.
 
 ---
 
-## 7. Open-source models
+## 8. Open-source models
 
 > Open-source models are freely available AI models that can be downloaded, modified, fine-tuned
 > and deployed without restrictions from a central provider.
@@ -337,7 +364,7 @@ os.environ["HF_HOME"] = "D:/huggingface_cache"
 
 ---
 
-## 8. Embedding models
+## 9. Embedding models
 
 Same interface, different output: text in, **vector out**.
 
@@ -397,7 +424,7 @@ better than the free local models, which in practice are somewhat less accurate.
 
 ---
 
-## 9. Mini-project: document similarity search
+## 10. Mini-project: document similarity search
 
 The payoff — a working semantic search in about 30 lines.
 
@@ -463,7 +490,7 @@ in the playlist.
 
 ---
 
-## 10. What's next
+## 11. What's next
 
 The planned chatbot application was deferred: **prompts** need covering first. That's the next
 video, after which the chatbot becomes straightforward.
