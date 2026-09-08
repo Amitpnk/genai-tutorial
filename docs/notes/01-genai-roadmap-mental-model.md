@@ -75,54 +75,7 @@ AI  ⊃  Machine Learning  ⊃  Deep Learning  ⊃  Generative AI
 
 ---
 
-## 4. Is GenAI a *successful* technology?
-
-Before investing time in a technology, check that it is worth learning. The video benchmarks GenAI
-against two reference points from the speaker's lifetime:
-
-- **Internet** — the most successful technology he has seen
-- **Blockchain / crypto** — a technology that may not yet have reached its potential
-
-The test is a set of questions; if the answers are "yes", the technology is on the successful path.
-
-| Question | Internet | Crypto | GenAI |
-| --- | --- | --- | --- |
-| Does it solve real-world problems? | Yes — letters → email, branch visits → net banking, station queues → online tickets, shops → e-commerce | No obvious popular example | **Yes** — customer support at scale, personal tutoring |
-| Is it useful on a daily basis? | Yes | — | **Yes** |
-| Is it impacting the world economy? | Yes | — | **Yes** — the DeepSeek-R1 release was followed by a ~$1 trillion wipeout in US tech stocks (≈ ₹80 lakh crore), from a single AI model entering the market |
-| Is it creating new jobs? | Yes | — | **Yes** — the *AI Engineer* role is new and growing daily on job boards; plausibly as common as web/software developer within ~5 years |
-| Is it accessible? | Yes | — | **Yes** — no coding needed; you talk to it in English or Hindi. Even non-technical family members can use it |
-
-**Conclusion:** GenAI sits on the *internet* side of the spectrum, not the crypto side. It is early
-and has not reached full potential — which is exactly why people working in it now stand to benefit
-most.
-
-> Note on the jobs question: this is deliberately answered from a *strictly technical* point of
-> view (new roles created), not the separate debate about jobs being displaced.
-
----
-
-## 5. Why the videos were delayed — three reasons
-
-1. **Doubt about the technology** — was it genuinely powerful, or a hype bubble? *(now resolved —
-   he is convinced there is substance)*
-2. **Time commitment** — other things in life left no room to allocate. *(now resolved)*
-3. **Fear of the pace** — a new model, tool, paper, or term every single day. *(the remaining
-   problem, and the one this video solves)*
-
-### The core problem with learning GenAI
-
-- **Speed of change** — tracking daily advancements and extracting meaning from them is hard
-- **Noise** — a lot of FOMO-mongering ("if you have not learned GenAI, what are you even doing"),
-  which is demotivating rather than useful
-- **No single trustworthy source** — because the technology is still new
-
-Without solving this, you cannot design a good curriculum — so the first step was to build a
-**mental model**.
-
----
-
-## 6. The mental model
+## 5. The mental model
 
 ### Step 1 — Put one term at the centre: **Foundation Models**
 
@@ -180,7 +133,7 @@ are the result.
 
 ---
 
-## 7. Curriculum A — Builder's Perspective
+## 8. Curriculum A — Builder's Perspective
 
 *Building a foundation model and deploying it so the world can use it. More technical; closer to
 what ML/DL practitioners already do.*
@@ -274,39 +227,6 @@ an AI application today; someone who knows both sides can always command a bette
 | App developer using LLMs | User side |
 | **AI Engineer** | **Both, in parallel** |
 
----
-
-## 10. Delivery plan and timeline
-
-**Approach:** cover both sides **in parallel** (they do not overlap much), and release **many small
-dedicated playlists** instead of one giant playlist — a big playlist demands too much commitment,
-whereas small chunks are easier to work through.
-
-**Builder side:**
-- Transformer architecture — already covered in detail in the existing Deep Learning playlist
-  (treated as a prerequisite)
-- Next: a playlist on types of transformers — encoder-only, decoder-only, encoder–decoder,
-  including BERT and GPT
-- Then separate playlists on: pre-training → fine-tuning → deployment
-
-**User side:**
-- First: a playlist on building basic LLM applications
-- Then: prompt engineering → RAG → fine-tuning, and onwards
-
-**Timeline:** no firm estimate, since the content is not pre-recorded. Goal is **2–3 videos per
-week**, with one longer video that covers a lot. Rough guess: **the whole curriculum takes about a
-year** — which is reasonable, since mastering this genuinely takes at least a year for anyone.
-
----
-
-## 11. Why no paid course?
-
-Many people (and several large ed-tech companies) asked for a paid GenAI course over the past year —
-a significant earning opportunity that was turned down. The reason given: **he does not feel he has
-100% mastered the technology yet**, so he could not justify the price and does not want to deliver a
-sub-par experience. YouTube also reaches a wide audience and returns feedback quickly, which helps
-him improve. A paid course may come later; right now the goal is to learn the technology in and out
-and teach it free on YouTube.
 
 ---
 
