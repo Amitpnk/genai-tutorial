@@ -75,55 +75,7 @@ paragraph, but how does the code know?
 
 ## 5. Low-level system design
 
-```
-  User uploads PDF
-        │
-        ▼
-  ┌──────────────┐
-  │  AWS S3      │   store the PDF in the cloud
-  └──────┬───────┘
-         ▼
-  ┌──────────────┐
-  │ DOCUMENT     │   bring the PDF into the system
-  │ LOADER       │
-  └──────┬───────┘
-         ▼
-  ┌──────────────┐
-  │ TEXT         │   split into small chunks — by chapter,
-  │ SPLITTER     │   page, or paragraph. 1000 pages → 1000 chunks
-  └──────┬───────┘
-         ▼
-  ┌──────────────┐
-  │ EMBEDDING    │   each page → one vector in n-dimensional space
-  │ MODEL        │   → 1000 vectors
-  └──────┬───────┘
-         ▼
-  ┌──────────────┐
-  │ DATABASE     │   store the embeddings so you can query them later
-  └──────┬───────┘
-         │
-         │      ┌─────────────────────────────────────────┐
-         │      │ User query ──▶ SAME embedding model ──▶  │
-         │      │ query vector (n-dimensional)             │
-         │      └──────────────────┬──────────────────────┘
-         ▼                         ▼
-  ┌──────────────────────────────────────┐
-  │ Compare query vector against all      │  compute distances,
-  │ 1000 stored vectors                   │  return the top-k (say 5)
-  └──────────────────┬───────────────────┘  most similar
-                     ▼
-        extract the corresponding pages
-                     │
-                     ▼
-      original query + retrieved pages = SYSTEM QUERY
-                     │
-                     ▼
-              ┌─────────────┐
-              │    BRAIN    │  NLU + context-aware text generation
-              └──────┬──────┘
-                     ▼
-              Final output to user
-```
+![LLD](../images/03-pdf-chat-low-level-design.drawio.svg)
 
 ---
 
