@@ -1,21 +1,5 @@
 # LangChain — The Models Component (in depth)
 
-Video 3 of the LangChain playlist, and the first **code-based** one. It takes the first of the six
-components — Models — and works through every kind of model you can talk to from LangChain, with
-running code for each.
-
----
-
-## 0. Recap
-
-- Video 1: what LangChain is, why it exists, what you can build, and the alternatives.
-- Video 2: the six components — Models, Prompts, Chains, Memory, Indexes, Agents — each explained
-  with an industrial example. See [04-langchain-components.md](04-langchain-components.md).
-
-This video takes component #1 end to end.
-
----
-
 ## 1. What the Models component is
 
 > The Model component in LangChain is a crucial part of the framework, designed to facilitate
@@ -24,25 +8,14 @@ This video takes component #1 end to end.
 In plain terms: many different AI models exist in the world, and each company's API behaves
 differently. The Models component gives you **one common interface** to connect to any of them.
 
-```
-                        ┌──────────────────┐
-                        │  MODELS (LangChain)  │
-                        └────────┬─────────┘
-                 ┌───────────────┴───────────────┐
-                 ▼                               ▼
-       ┌────────────────────┐          ┌────────────────────┐
-       │  LANGUAGE MODELS   │          │  EMBEDDING MODELS  │
-       │  text in → text out│          │  text in → vector  │
-       └────────────────────┘          └────────────────────┘
-       build chatbots, agents          semantic search, RAG
-```
-
 | | Language models | Embedding models |
 | --- | --- | --- |
-| Input | Text — "What is the capital of India?" | Text — same sentence |
+| Input | Text — "What is the capital of India?" | Text — "What is the capital of India?" | 
 | Output | Text — "New Delhi" | A series of numbers (a vector) |
 | The output is called | a completion / reply | an **embedding** |
 | What it's for | Chatbots and similar apps | **Semantic search**, and therefore RAG |
+
+![Model](../images/05-models-taxonomy.drawio.svg)
 
 Embeddings are just vectors — sets of numbers that capture the *contextual meaning* of the text.
 

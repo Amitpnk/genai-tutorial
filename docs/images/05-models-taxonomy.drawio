@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net" agent="Claude Code" version="24.7.17">
+  <diagram name="The Models component" id="langchain-models-taxonomy">
+    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="640" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="The Models component — two kinds of AI model" style="text;html=1;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="25" width="600" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="One common interface for talking to any provider's model." style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="52" width="600" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="models" value="&lt;b&gt;MODELS&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;(LangChain)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="340" y="105" width="240" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lang" value="&lt;b&gt;LANGUAGE MODELS&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:13px;&quot;&gt;text in&amp;nbsp; →&amp;nbsp; text out&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;color:#666666;&quot;&gt;&quot;What is the capital of India?&quot;&lt;br&gt;→ &quot;New Delhi&quot;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="110" y="265" width="300" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="embed" value="&lt;b&gt;EMBEDDING MODELS&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:13px;&quot;&gt;text in&amp;nbsp; →&amp;nbsp; vector&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;color:#666666;&quot;&gt;&quot;What is the capital of India?&quot;&lt;br&gt;→ [0.12, −0.03, 0.88, …]&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="510" y="265" width="300" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="languse" value="build &lt;b&gt;chatbots&lt;/b&gt;, &lt;b&gt;agents&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#b3b3b3;dashed=1;fontSize=13;fontColor=#444444;" vertex="1" parent="1">
+          <mxGeometry x="110" y="450" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="embeduse" value="&lt;b&gt;semantic search&lt;/b&gt;, and therefore &lt;b&gt;RAG&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#b3b3b3;dashed=1;fontSize=13;fontColor=#444444;" vertex="1" parent="1">
+          <mxGeometry x="510" y="450" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="footer" value="&lt;b&gt;Embeddings are just vectors&lt;/b&gt; — sets of numbers that capture the contextual meaning of the text, so two similar sentences land close together and can be compared." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;" vertex="1" parent="1">
+          <mxGeometry x="110" y="540" width="700" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#333333;" edge="1" parent="1" source="models" target="lang">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#333333;" edge="1" parent="1" source="models" target="embed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#999999;dashed=1;endArrow=none;" edge="1" parent="1" source="lang" target="languse">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#999999;dashed=1;endArrow=none;" edge="1" parent="1" source="embed" target="embeduse">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
