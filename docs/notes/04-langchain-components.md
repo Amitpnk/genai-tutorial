@@ -1,36 +1,5 @@
 # LangChain — The Six Components
 
-Video 2 of the LangChain playlist. A conceptual tour of everything LangChain is made of. No code
-and no project here — deliberately. The claim: most online LangChain resources jump straight into
-building projects before laying a foundation, and that is the wrong way to learn the library. Take
-a conceptual overview first, *then* start coding.
-
-Two payoffs from this video:
-
-1. A deep intuition for how LangChain is organised as a framework — and the thought process of the
-   people who built it.
-2. A roadmap for the rest of the playlist. Every future video expands on one of the six components
-   introduced here.
-
----
-
-## 0. Recap of video 1
-
-- **LangChain is an open-source framework for building LLM-powered applications.**
-- The motivating example was "chat with a PDF". A system design for it showed how many components
-  are involved and how much interaction they need — building it from scratch is a lot of work.
-- LangChain's biggest advantage is **orchestration** between those components: maximum output for
-  minimal code.
-- **Chains** let you string components together so that *one component's output automatically
-  becomes the next one's input* — no manual glue code.
-- LangChain is **model-agnostic**: switching from OpenAI's GPT models to Google's models is
-  literally a one-or-two-line change.
-- What people build with it today: conversational chatbots, AI knowledge assistants, and
-  increasingly, agents.
-
-See [langchain-introduction.md](langchain-introduction.md) for the full version.
-
----
 
 ## 1. The six components
 
