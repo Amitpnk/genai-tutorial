@@ -1,4 +1,4 @@
-# LangChain — Introduction: What It Is and Why It Exists
+# LangChain — Overview: What It Is and Why It Exists
 
 Video 1 of the LangChain playlist. Covers: what LangChain is, *why* it is needed (via a worked
 system-design example), what you can build with it, and what the alternatives are.

@@ -33,7 +33,7 @@ and so on.
 
 ---
 
-## 3. Why LangChain first?
+## 2. Why LangChain first?
 
 Because it gives you a **holistic view** of the whole user-side landscape early. Learning LangChain
 first means you get a flavour of nearly everything else on the list:
@@ -57,7 +57,7 @@ own dedicated playlist afterwards —
 
 ---
 
-## 4.  GenAI curriculum
+## 3.  GenAI curriculum
 
 ### Part 1 — Fundamentals (the most important part; nothing later makes sense without it)
 
