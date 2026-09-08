@@ -318,14 +318,43 @@ model.
 The privacy point is the one that decides real projects: **you cannot send confidential company
 documents to a third-party API**, but you can run an open-source model against them locally.
 
+### Disadvantages
+
+| Disadvantage | Details |
+| --- | --- |
+| **High hardware requirements** | Running large models (e.g. LLaMA-2-70B) requires expensive GPUs. |
+| **Setup complexity** | Requires installation of dependencies like PyTorch, CUDA, transformers. |
+| **Lack of RLHF** | Most open-source models don't have fine-tuning with human feedback, making them weaker in instruction-following. |
+| **Limited multimodal abilities** | Open models don't support images, audio, or video the way the big closed models do. |
+
+The hardware row is not theoretical: on an 8 GB-RAM machine with no GPU, even a small
+**1.1B-parameter** model took around **10 minutes** and made the machine unusable — a
+restart was needed. Fine-tuning is your lever against the RLHF gap.
+
 **Well-known open-source models:** Llama (Meta) is the most famous, plus Mistral, Falcon, and
 domain-specific ones like BLOOM.
 
-**Where to find them: Hugging Face** — the largest repository of open-source models, with thousands
-hosted across multimodal, computer-vision and NLP tasks. For this note, the relevant category is
-*text generation*.
+| Model | Developer | Parameters | Best use case |
+| --- | --- | --- | --- |
+| LLaMA-2-7B / 13B / 70B | Meta AI | 7B – 70B | General-purpose text generation |
+| Mixtral-8x7B | Mistral AI | 8x7B (MoE) | Efficient and fast responses |
+| Mistral-7B | Mistral AI | 7B | Best small-scale model (outperforms LLaMA-2-13B) |
+| Falcon-7B / 40B | TII UAE | 7B – 40B | High-speed inference |
+| BLOOM-176B | BigScience | 176B | Multilingual text generation |
+| GPT-J-6B | EleutherAI | 6B | Lightweight and efficient |
+| GPT-NeoX-20B | EleutherAI | 20B | Large-scale applications |
+| StableLM | Stability AI | 3B – 7B | Compact models for chatbots |
+
+Parameter count is the number to watch: it drives how much RAM or VRAM you need to run the model, which is the practical limit on what you can host yourself. A 7B model is realistic on a decent
+laptop; 70B and 176B are not.
+
+
+**Where to find them: Hugging Face** — <https://huggingface.co/models?pipeline_tag=text-generation&sort=downloads> — the largest repository of
+open-source models, with thousands hosted across multimodal, computer-vision and NLP tasks. For this note, the relevant category is *text generation*.
 
 ### Two ways to use them
+
+![Two ways to use an open-source model](../images/05-open-source-two-ways.drawio.svg)
 
 **a) Through the Hugging Face Inference API** — the model stays on Hugging Face's servers:
 
@@ -373,16 +402,6 @@ To move the download location off your system drive:
 import os
 os.environ["HF_HOME"] = "D:/huggingface_cache"
 ```
-
-### The honest caveats
-
-- **Hardware.** On an 8 GB-RAM machine with no GPU, even this small 1.1B-parameter model took
-  around **10 minutes** and made the machine unusable — a restart was needed. Bigger models need
-  expensive GPUs most individuals don't own.
-- **Setup complexity.** Getting the environment right is fiddly compared to calling an API.
-- **Less refinement.** Open-source models generally receive less RLHF (reinforcement learning from
-  human feedback), so answers feel rougher than GPT or Claude. Fine-tuning is your lever here.
-- **Limited multimodal ability** — mostly text-only today.
 
 ---
 
