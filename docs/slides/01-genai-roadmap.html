@@ -1,0 +1,1799 @@
+<title>The GenAI Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=JetBrains+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap">
+
+<style>
+  /* ---------------------------------------------------------------
+   Tokens. Light palette on bare :root; dark redefines tokens only.
+   --------------------------------------------------------------- */
+  :root {
+    --ground: #EDEFF2;
+    --surface: #FFFFFF;
+    --surface-2: #F5F7F9;
+    --ink: #121820;
+    --ink-soft: #515C68;
+    --ink-faint: #8B96A2;
+    --rule: #D2D8DF;
+    --rule-soft: #E3E7EC;
+
+    --t1: #0C7A84;
+    /* part one — what gen ai is  */
+    --t2: #A2631A;
+    /* part two — the mental model */
+    --t3: #A93A2C;
+    /* part three — the curricula  */
+
+    --shadow: 0 1px 2px rgba(18, 24, 32, .06), 0 12px 32px rgba(18, 24, 32, .07);
+
+    /* Flood panels commit to one look in both themes, so their
+     contrast is fixed rather than theme-dependent. */
+    --t1-flood: #0A5F68;
+    --t2-flood: #8A5214;
+    --t3-flood: #8E2E22;
+    --flood-ink: #FBFAF8;
+    --flood-ink-soft: rgba(251, 250, 248, .72);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0E1216;
+      --surface: #171D24;
+      --surface-2: #1E252D;
+      --ink: #E9EDF2;
+      --ink-soft: #9BA7B4;
+      --ink-faint: #6B7885;
+      --rule: #2A333D;
+      --rule-soft: #222A33;
+
+      --t1: #38C0CA;
+      --t2: #E6A544;
+      --t3: #EA6E5C;
+
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 36px rgba(0, 0, 0, .34);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0E1216;
+    --surface: #171D24;
+    --surface-2: #1E252D;
+    --ink: #E9EDF2;
+    --ink-soft: #9BA7B4;
+    --ink-faint: #6B7885;
+    --rule: #2A333D;
+    --rule-soft: #222A33;
+
+    --t1: #38C0CA;
+    --t2: #E6A544;
+    --t3: #EA6E5C;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 36px rgba(0, 0, 0, .34);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: Newsreader, Georgia, "Times New Roman", serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  /* ---------------------------------------------------------------
+   Stage — fixed 1280x720, scaled by JS to fit the viewport.
+   --------------------------------------------------------------- */
+  #app {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 54px;
+  }
+
+  #wrap {
+    position: relative;
+  }
+
+  #stage {
+    width: 1280px;
+    height: 720px;
+    transform-origin: top left;
+    position: relative;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    grid-template-columns: 92px 1fr;
+    padding: 58px 76px 62px 0;
+  }
+
+  .slide.on {
+    display: grid;
+  }
+
+  /* Left rail: tier mark + running section name */
+  .rail {
+    border-right: 1px solid var(--rule-soft);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0 6px;
+    margin-left: 34px;
+  }
+
+  .rail-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--tier, var(--ink-faint));
+    margin-right: 1px;
+  }
+
+  .rail-name {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .19em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  .rail-num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-right: 1px;
+  }
+
+  .body {
+    padding-left: 52px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* --- Type scale ------------------------------------------------ */
+  .eyebrow {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--tier, var(--ink-soft));
+    margin: 0 0 16px;
+  }
+
+  h1 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-variation-settings: "wdth" 108;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -.02em;
+    text-wrap: balance;
+    margin: 0 0 26px;
+  }
+
+  h2 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-variation-settings: "wdth" 104;
+    font-size: 43px;
+    font-weight: 650;
+    line-height: 1.1;
+    letter-spacing: -.015em;
+    text-wrap: balance;
+    margin: 0 0 24px;
+  }
+
+  h3 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 19px;
+    font-weight: 620;
+    letter-spacing: -.005em;
+    margin: 0 0 7px;
+  }
+
+  p {
+    font-size: 24px;
+    line-height: 1.52;
+    margin: 0 0 20px;
+    max-width: 62ch;
+    color: var(--ink);
+  }
+
+  p.lead {
+    font-size: 28px;
+    line-height: 1.44;
+  }
+
+  p.small {
+    font-size: 20px;
+    color: var(--ink-soft);
+  }
+
+  strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  em.hl {
+    font-style: normal;
+    color: var(--tier, var(--ink));
+    font-weight: 600;
+  }
+
+  .kicker {
+    margin-top: auto;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule-soft);
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 74ch;
+  }
+
+  .kicker b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  code,
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    font-size: .86em;
+  }
+
+  /* --- Lists ------------------------------------------------------ */
+  ul.plain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  ul.plain li {
+    font-size: 23px;
+    line-height: 1.42;
+    padding-left: 26px;
+    position: relative;
+    max-width: 66ch;
+  }
+
+  ul.plain li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .62em;
+    width: 9px;
+    height: 2px;
+    background: var(--tier, var(--ink-faint));
+  }
+
+  /* Numbered consequence blocks — the numbering is real sequence,
+   each item is answered by a later section of the deck. */
+  ol.steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    counter-reset: s;
+  }
+
+  ol.steps li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  ol.steps li::before {
+    content: counter(s);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+    color: var(--tier, var(--ink-faint));
+    border-top: 2px solid var(--tier, var(--rule));
+    padding-top: 5px;
+  }
+
+  ol.steps p {
+    font-size: 20px;
+    margin: 3px 0 0;
+    line-height: 1.42;
+    color: var(--ink-soft);
+    max-width: 58ch;
+  }
+
+  /* --- Panels & grids -------------------------------------------- */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+  }
+
+  .cols-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+
+  .panel {
+    background: var(--surface-2);
+    border: 1px solid var(--rule-soft);
+    border-top: 3px solid var(--pt, var(--rule));
+    padding: 20px 22px 22px;
+  }
+
+  .panel h3 {
+    color: var(--pt, var(--ink));
+  }
+
+  .panel ul.plain li {
+    font-size: 19px;
+    padding-left: 22px;
+  }
+
+  .panel ul.plain li::before {
+    background: var(--pt, var(--ink-faint));
+    top: .58em;
+  }
+
+  .panel p {
+    font-size: 19px;
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .callout {
+    border-left: 3px solid var(--tier, var(--ink));
+    padding: 4px 0 4px 24px;
+    font-size: 25px;
+    line-height: 1.4;
+    max-width: 60ch;
+  }
+
+  pre {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 17.5px;
+    line-height: 1.62;
+    background: var(--surface-2);
+    border: 1px solid var(--rule-soft);
+    padding: 20px 24px;
+    margin: 0;
+    overflow-x: auto;
+    color: var(--ink);
+  }
+
+  pre .c {
+    color: var(--ink-faint);
+  }
+
+  pre .k {
+    color: var(--tier, var(--ink));
+    font-weight: 600;
+  }
+
+  /* --- Table ------------------------------------------------------ */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+    line-height: 1.36;
+  }
+
+  thead th {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 650;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 9px;
+  }
+
+  thead th:nth-child(2) {
+    color: var(--t1);
+  }
+
+  thead th:nth-child(3) {
+    color: var(--t2);
+  }
+
+  thead th:nth-child(4) {
+    color: var(--t3);
+  }
+
+  tbody th {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    width: 148px;
+  }
+
+  /* --- Section flood --------------------------------------------- */
+  .slide.flood {
+    grid-template-columns: 1fr;
+    padding: 0;
+    background: var(--flood);
+    color: var(--flood-ink);
+  }
+
+  .flood-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 96px;
+  }
+
+  .flood .part-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    letter-spacing: .2em;
+    color: var(--flood-ink-soft);
+    margin: 0 0 18px;
+  }
+
+  .flood h1 {
+    color: var(--flood-ink);
+    font-size: 84px;
+    margin-bottom: 20px;
+  }
+
+  .flood p {
+    color: var(--flood-ink-soft);
+    font-size: 27px;
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  /* --- Title slide ------------------------------------------------ */
+  .slide.title-slide {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .title-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 96px;
+  }
+
+  .title-rule {
+    display: flex;
+    gap: 0;
+    height: 5px;
+    width: 232px;
+    margin-bottom: 34px;
+  }
+
+  .title-rule span {
+    flex: 1;
+  }
+
+  .title-inner h1 {
+    font-size: 82px;
+    max-width: 20ch;
+  }
+
+  .title-inner p {
+    font-size: 27px;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+
+  .title-meta {
+    margin-top: 46px;
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 14px;
+    letter-spacing: .08em;
+    color: var(--ink-faint);
+  }
+
+  .title-meta kbd {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    border: 1px solid var(--rule);
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin: 0 2px;
+    color: var(--ink-soft);
+  }
+
+  /* --- Figures ---------------------------------------------------- */
+  figure {
+    margin: 0;
+  }
+
+  figure svg {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-top: 14px;
+    line-height: 1.45;
+    max-width: 74ch;
+  }
+
+  .d-line {
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    opacity: .55;
+  }
+
+  .d-box {
+    fill: var(--surface-2);
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: 1;
+  }
+
+  .d-box-o {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: .4;
+  }
+
+  .d-accent {
+    stroke: var(--tier);
+  }
+
+  .d-accent-f {
+    fill: var(--tier);
+  }
+
+  .d-fill {
+    fill: currentColor;
+  }
+
+  .d-t {
+    fill: currentColor;
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .d-t-a {
+    fill: var(--tier);
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .d-l {
+    fill: currentColor;
+    opacity: .62;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+  }
+
+  .d-l-a {
+    fill: var(--tier);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+  }
+
+  .d-m {
+    fill: currentColor;
+    opacity: .5;
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  /* ---------------------------------------------------------------
+   HUD
+   --------------------------------------------------------------- */
+  #hud {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 22px;
+    border-top: 1px solid var(--rule-soft);
+    background: var(--ground);
+    font-family: Archivo, system-ui, sans-serif;
+  }
+
+  #spine {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+    max-width: 640px;
+  }
+
+  .seg {
+    flex: 1;
+    height: 4px;
+    background: var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seg i {
+    position: absolute;
+    inset: 0;
+    width: 0;
+    background: var(--sc);
+    transition: width .28s ease;
+  }
+
+  .seg:nth-child(1) {
+    --sc: var(--t1);
+  }
+
+  .seg:nth-child(2) {
+    --sc: var(--t2);
+  }
+
+  .seg:nth-child(3) {
+    --sc: var(--t3);
+  }
+
+  #hud .lbl {
+    font-size: 11.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  #count {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .btn {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    color: var(--ink);
+    border-color: var(--ink-faint);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--t1);
+    outline-offset: 2px;
+  }
+
+  /* --- Index overlay ---------------------------------------------- */
+  #index {
+    position: fixed;
+    inset: 0;
+    background: var(--ground);
+    z-index: 20;
+    overflow-y: auto;
+    padding: 46px 56px 70px;
+  }
+
+  #index[hidden] {
+    display: none;
+  }
+
+  #index h2 {
+    font-size: 26px;
+    margin-bottom: 26px;
+  }
+
+  .idx-group {
+    margin-bottom: 30px;
+  }
+
+  .idx-head {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 11.5px;
+    font-weight: 650;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gc, var(--ink-faint));
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid var(--gc, var(--rule));
+  }
+
+  .idx-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 3px;
+  }
+
+  .idx-item {
+    display: flex;
+    gap: 13px;
+    align-items: baseline;
+    padding: 8px 10px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: Newsreader, Georgia, serif;
+    font-size: 17px;
+    color: var(--ink);
+    width: 100%;
+  }
+
+  .idx-item:hover {
+    background: var(--surface-2);
+  }
+
+  .idx-item:focus-visible {
+    outline: 2px solid var(--gc, var(--t1));
+    outline-offset: -2px;
+  }
+
+  .idx-item span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    body {
+      overflow: visible;
+    }
+
+    #hud,
+    #index {
+      display: none;
+    }
+
+    #app {
+      display: block;
+      height: auto;
+      padding: 0;
+    }
+
+    #stage {
+      transform: none !important;
+      box-shadow: none;
+    }
+
+    .slide {
+      display: grid !important;
+      position: relative;
+      page-break-after: always;
+    }
+  }
+</style>
+
+
+<div id="app">
+  <div id="wrap">
+    <div id="stage">
+
+      <!-- 1 ------------------------------------------------------ -->
+      <section class="slide title-slide" data-part="0" data-title="Title">
+        <div class="title-inner">
+          <div class="title-rule">
+            <span style="background:var(--t1)"></span>
+            <span style="background:var(--t2)"></span>
+            <span style="background:var(--t3)"></span>
+          </div>
+          <h1>The GenAI Roadmap</h1>
+          <p>One mental model that sorts every term in this field into one of two boxes.</p>
+          <p>The problem was never that GenAI is hard. The problem is that nobody told you what order
+            to learn it in.</p>
+          <div class="title-meta">
+            <kbd>&rarr;</kbd> next &nbsp;·&nbsp; <kbd>&larr;</kbd> back &nbsp;·&nbsp; <kbd>I</kbd> index
+          </div>
+        </div>
+      </section>
+
+      <!-- 2 ------------------------------------------------------ -->
+      <section class="slide" data-part="0" data-title="You are not behind, you are unsorted">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Orientation</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Where this starts</p>
+          <h2>You are not behind. You are unsorted.</h2>
+          <p>Open any GenAI thread and the terms arrive all at once, flat, with no indication of which
+            ones are for you: <em class="hl">RAG &middot; RLHF &middot; quantization &middot; vector
+              DBs &middot; PEFT &middot; LLMOps &middot; prompt engineering</em>.</p>
+          <div class="cols-3">
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Where do I start?</h3>
+              <p>Every roadmap you find starts somewhere different, and all of them look plausible.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>Do I need to know this one?</h3>
+              <p>Half of these terms are for people who train models. You may never train a model.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>How do I keep up?</h3>
+              <p>A new model ships every week. Chasing releases is not a learning strategy.</p>
+            </div>
+          </div>
+          <div class="kicker">This session answers all three with <b>one diagram and one habit</b>
+            &mdash; and the habit is the part that keeps working long after the slides are over.</div>
+        </div>
+      </section>
+
+      <!-- 3 ------------------------------------------------------ -->
+      <section class="slide flood" data-part="1" style="--flood:var(--t1-flood)"
+        data-title="Part one — What generative AI is">
+        <div class="flood-inner">
+          <p class="part-num">PART ONE</p>
+          <h1>What generative AI is</h1>
+          <p>Where it came from, what it broke, and why it earned the attention it got.</p>
+        </div>
+      </section>
+
+      <!-- 4 ------------------------------------------------------ -->
+      <section class="slide" data-part="1" data-title="Definition">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">What Gen AI Is</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Definition</p>
+          <h2>A machine that produces work, not predictions</h2>
+          <p class="lead">Generative AI is AI that <strong>creates new content</strong> &mdash; text,
+            images, music, even code &mdash; by learning patterns from existing data, mimicking human
+            creativity.</p>
+          <div class="callout">The operative word is <em class="hl">new</em>. Not retrieved, not looked
+            up, not picked from a list. Written, for the first time, for you.</div>
+          <div class="kicker">Put that definition next to what AI could do five years ago and the size
+            of the shift becomes obvious. <b>That comparison is the next three slides.</b></div>
+        </div>
+      </section>
+
+      <!-- 5 ------------------------------------------------------ -->
+      <section class="slide" data-part="1" data-title="Sixty years of attempts">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">What Gen AI Is</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Historical context</p>
+          <h2>AI is sixty years old. Most of it didn&rsquo;t work.</h2>
+          <p>Techniques came and went, each one certain it was the answer:</p>
+          <ul class="plain">
+            <li><strong>Symbolic AI and expert systems</strong> &mdash; the big idea of the 1980s.
+              Encode human rules by hand, and keep encoding.</li>
+            <li><strong>Fuzzy logic</strong> &mdash; reasoning in degrees of truth rather than
+              true/false.</li>
+            <li><strong>Evolutionary algorithms</strong> &mdash; breed and mutate candidate solutions.</li>
+            <li><strong>NLP and Computer Vision</strong> &mdash; two separate fields back then, each
+              with its own toolbox and its own conferences.</li>
+          </ul>
+          <div class="kicker">One approach outlasted all of them: <b>machine learning.</b> Stop writing
+            the rules. Feed a statistical model a large amount of data and let it extract the patterns
+            itself. <b>Still relevant, still hiring.</b></div>
+        </div>
+      </section>
+
+      <!-- 6 ------------------------------------------------------ -->
+      <section class="slide" data-part="1" data-title="What classical ML was for">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">What Gen AI Is</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">The old job description</p>
+          <h2>Classical ML answered questions. It never made anything.</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Problem type</th>
+                <th>What you asked it</th>
+                <th>What came back</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Regression</strong></td>
+                <td>What will this company&rsquo;s stock close at tomorrow?</td>
+                <td>A number</td>
+              </tr>
+              <tr>
+                <td><strong>Classification</strong></td>
+                <td>Is this photo a cat or a dog?</td>
+                <td>A category</td>
+              </tr>
+              <tr>
+                <td><strong>Ranking</strong></td>
+                <td>Given this product, which products are most similar?</td>
+                <td>An ordered list</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="kicker">Look at the shape of every output: <b>a number, a label, an ordering.</b>
+            Nothing on this table required creativity &mdash; and the standard line was that AI never
+            would. <b>Within two years, that sentence stopped being true.</b></div>
+        </div>
+      </section>
+
+      <!-- 7 ------------------------------------------------------ -->
+      <section class="slide" data-part="1" data-title="Where GenAI sits">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">What Gen AI Is</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">The nested-circles model</p>
+          <h2>GenAI is not beside AI. It is inside it, four levels down.</h2>
+          <figure>
+            <svg viewBox="0 0 1030 290" role="img"
+              aria-label="Four nested rectangles: artificial intelligence contains machine learning, which contains deep learning, which contains generative AI.">
+              <rect class="d-box-o" x="2" y="2" width="1026" height="286" />
+              <text class="d-t" x="24" y="30">Artificial Intelligence</text>
+              <text class="d-l" x="1004" y="30" text-anchor="end">symbolic AI, expert systems, fuzzy
+                logic&hellip;</text>
+
+              <rect class="d-box-o" x="46" y="48" width="938" height="194" />
+              <text class="d-t" x="68" y="76">Machine Learning</text>
+              <text class="d-l" x="960" y="76" text-anchor="end">learn patterns from data instead of
+                hand-writing rules</text>
+
+              <rect class="d-box-o" x="90" y="94" width="850" height="102" />
+              <text class="d-t" x="112" y="122">Deep Learning</text>
+              <text class="d-l" x="916" y="122" text-anchor="end">neural networks</text>
+
+              <rect class="d-box d-accent" x="134" y="138" width="762" height="46"
+                style="stroke-width:2" />
+              <text class="d-t-a" x="515" y="166" text-anchor="middle">Generative AI</text>
+
+              <text class="d-l" x="515" y="268" text-anchor="middle" opacity=".55">each ring is a
+                strict subset of the one around it</text>
+            </svg>
+            <figcaption>Everything true of machine learning is still true of GenAI &mdash; that is what
+              nesting means. The innermost ring only became possible once one specific deep-learning
+              design arrived: <strong>the Transformer architecture.</strong></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 8 ------------------------------------------------------ -->
+      <section class="slide" data-part="1" data-title="Four areas of impact">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">What Gen AI Is</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Already happened, not coming soon</p>
+          <h2>Four industries that have already changed</h2>
+          <div class="cols">
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Customer support</h3>
+              <p>Serving customers at scale used to mean a call centre full of agents. Now a chatbot is
+                the <strong>first layer</strong> and only unresolved queries escalate. Where ten people
+                were needed, two or three may now do.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Content creation</h3>
+              <p>Blogs, websites, video, social. The honest test: you can no longer reliably tell
+                whether an article was written by a person. <strong>The output quality is that
+                  good.</strong></p>
+            </div>
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Education</h3>
+              <p>Planning a curriculum, getting unstuck at 1am, generating practice questions.
+                Effectively <strong>a personal tutor that is always available</strong> &mdash; and
+                schools are being forced to rethink how they teach.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Software development</h3>
+              <p>This one was supposed to be safe &mdash; creative, intellectual work. But models
+                write production-ready code, and you can change an application by writing a prompt.
+                <strong>Where five programmers were needed, two or three may do.</strong></p>
+            </div>
+          </div>
+          <div class="kicker">Real problems, daily utility, economic impact, new job titles. <b>GenAI
+              passes every test for a successful technology</b> &mdash; which is why it is worth a
+            durable mental model rather than chasing headlines.</div>
+        </div>
+      </section>
+
+      <!-- 9 ------------------------------------------------------ -->
+      <section class="slide flood" data-part="2" style="--flood:var(--t2-flood)"
+        data-title="Part two — The mental model">
+        <div class="flood-inner">
+          <p class="part-num">PART TWO</p>
+          <h1>The mental model</h1>
+          <p>One term at the centre, two directions out of it, and a habit you can run on every new
+            word you meet.</p>
+        </div>
+      </section>
+
+      <!-- 10 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="Foundation models">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">The Mental Model</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Step 1 &mdash; put one term at the centre</p>
+          <h2>Foundation models</h2>
+          <ol class="steps">
+            <li>
+              <div>
+                <h3>Very large scale</h3>
+                <p>A very large number of parameters. The architecture itself is huge.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Trained on roughly everything</h3>
+                <p>Close enough to &ldquo;all of the internet&rdquo; that the distinction stops
+                  mattering.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Enormously expensive</h3>
+                <p>Many GPUs and crores of rupees to train once. This is why so few organisations build
+                  them, and why almost everyone else uses them.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Generalised, not specialised</h3>
+                <p>The key property &mdash; and the one everything else in this deck hangs on.</p>
+              </div>
+            </li>
+          </ol>
+          <div class="kicker">That fourth point is the clean break with classical ML. <b>The next slide
+              is what it actually means.</b></div>
+        </div>
+      </section>
+
+      <!-- 11 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="Generalised vs specialised">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">The Mental Model</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">The property that matters</p>
+          <h2>One model, many jobs</h2>
+          <figure>
+            <svg viewBox="0 0 1030 238" role="img"
+              aria-label="On the left, three separate classical ML models each produce one kind of output. On the right, a single foundation model produces four different kinds of output.">
+              <defs>
+                <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+                  orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55" />
+                </marker>
+              </defs>
+
+              <text class="d-m" x="4" y="18">Classical ML &mdash; one model per task</text>
+
+              <rect class="d-box-o" x="4" y="40" width="150" height="38" />
+              <text class="d-l" x="79" y="64" text-anchor="middle">stock model</text>
+              <line class="d-line" x1="160" y1="59" x2="208" y2="59" marker-end="url(#arA)" />
+              <text class="d-l" x="218" y="63">tomorrow&rsquo;s price</text>
+
+              <rect class="d-box-o" x="4" y="98" width="150" height="38" />
+              <text class="d-l" x="79" y="122" text-anchor="middle">vision model</text>
+              <line class="d-line" x1="160" y1="117" x2="208" y2="117" marker-end="url(#arA)" />
+              <text class="d-l" x="218" y="121">cat or dog</text>
+
+              <rect class="d-box-o" x="4" y="156" width="150" height="38" />
+              <text class="d-l" x="79" y="180" text-anchor="middle">ranking model</text>
+              <line class="d-line" x1="160" y1="175" x2="208" y2="175" marker-end="url(#arA)" />
+              <text class="d-l" x="218" y="179">similar products</text>
+
+              <text class="d-l" x="4" y="224" opacity=".45">ask the stock model for a cricket score and
+                it has nothing to say</text>
+
+              <line class="d-line" x1="468" y1="6" x2="468" y2="230" style="opacity:.22" />
+
+              <text class="d-m" x="506" y="18">Foundation model &mdash; one model, many tasks</text>
+
+              <rect class="d-box d-accent" x="506" y="92" width="152" height="52"
+                style="stroke-width:2" />
+              <text class="d-t-a" x="582" y="123" text-anchor="middle">One LLM</text>
+
+              <line class="d-line d-accent" x1="664" y1="118" x2="734" y2="54" marker-end="url(#arA)"
+                style="opacity:.8" />
+              <line class="d-line d-accent" x1="664" y1="118" x2="734" y2="102" marker-end="url(#arA)"
+                style="opacity:.8" />
+              <line class="d-line d-accent" x1="664" y1="118" x2="734" y2="150" marker-end="url(#arA)"
+                style="opacity:.8" />
+              <line class="d-line d-accent" x1="664" y1="118" x2="734" y2="198" marker-end="url(#arA)"
+                style="opacity:.8" />
+
+              <text class="d-l" x="746" y="54">text generation</text>
+              <text class="d-l" x="746" y="106">summarisation</text>
+              <text class="d-l" x="746" y="154">sentiment analysis</text>
+              <text class="d-l" x="746" y="202">question answering</text>
+            </svg>
+            <figcaption>Nobody trained it to do four jobs. It was trained to predict the next word
+              &mdash; and doing that well enough, over enough text, taught it all four.
+              <strong>Make a very smart person read a very large number of books and they start solving
+                problems in domains you never assigned.</strong></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 12 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="LLMs and LMMs">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">The Mental Model</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">A note on the word</p>
+          <h2>Why it says &ldquo;foundation model,&rdquo; not &ldquo;LLM&rdquo;</h2>
+          <div class="cols">
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>LLM &mdash; Large Language Model</h3>
+              <p>Text in, text out. The backbone of GenAI as most people meet it, and the thing you
+                will spend most of your time building on.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>LMM &mdash; Large Multimodal Model</h3>
+              <p>Images, audio and video as well as text. Same idea, same scale, a wider set of inputs
+                and outputs.</p>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:30px">&ldquo;Foundation model&rdquo; is the term that
+            covers both. <em class="hl">But if it helps, mentally substitute &ldquo;LLM&rdquo; every
+              time you see it</em> &mdash; nothing in this roadmap breaks.</div>
+        </div>
+      </section>
+
+      <!-- 13 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="The split — user vs builder">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">The Mental Model</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Step 2 &mdash; split the world in two</p>
+          <h2>You are either using one, or building one</h2>
+          <figure style="margin-top:4px">
+            <svg viewBox="0 0 1030 278" role="img"
+              aria-label="Foundation models sit at the centre. An arrow left leads to the user's perspective, using a ready-made model. An arrow right leads to the builder's perspective, training and shipping the model. Fine-tuning sits below, joined by dashed lines to both sides.">
+              <defs>
+                <marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+                  orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity=".55" />
+                </marker>
+              </defs>
+
+              <rect class="d-box d-accent" x="380" y="24" width="270" height="104"
+                style="stroke-width:2" />
+              <text class="d-t-a" x="515" y="64" text-anchor="middle">Foundation Models</text>
+              <text class="d-l-a" x="515" y="88" text-anchor="middle">LLMs &middot; LMMs</text>
+              <text class="d-l" x="515" y="110" text-anchor="middle" opacity=".5">the centre of
+                gravity</text>
+
+              <line class="d-line" x1="372" y1="76" x2="306" y2="76" marker-end="url(#arB)" />
+              <text class="d-l" x="339" y="64" text-anchor="middle">use</text>
+              <rect class="d-box-o" x="16" y="34" width="282" height="84" />
+              <text class="d-t" x="157" y="68" text-anchor="middle">User&rsquo;s perspective</text>
+              <text class="d-l" x="157" y="92" text-anchor="middle">take a ready-made model and build
+                on it</text>
+
+              <line class="d-line" x1="658" y1="76" x2="724" y2="76" marker-end="url(#arB)" />
+              <text class="d-l" x="691" y="64" text-anchor="middle">build</text>
+              <rect class="d-box-o" x="732" y="34" width="282" height="84" />
+              <text class="d-t" x="873" y="68" text-anchor="middle">Builder&rsquo;s perspective</text>
+              <text class="d-l" x="873" y="92" text-anchor="middle">train the model and ship it to the
+                world</text>
+
+              <path class="d-line" d="M157,122 L157,184 L424,202" style="stroke-dasharray:5 5" />
+              <path class="d-line" d="M873,122 L873,184 L606,202" style="stroke-dasharray:5 5" />
+              <rect class="d-box-o" x="424" y="184" width="182" height="42" />
+              <text class="d-t" x="515" y="210" text-anchor="middle">Fine-tuning</text>
+              <text class="d-l" x="515" y="252" text-anchor="middle" opacity=".6">the one term that
+                lives on both sides</text>
+            </svg>
+            <figcaption><strong>The claim:</strong> every term, tool and technique in GenAI sits on one
+              of these two sides. Not most of them &mdash; all of them. And the side it sits on tells
+              you whether it is your problem.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 14 ----------------------------------------------------- -->
+      <section class="slide" data-part="2" data-title="The classification game">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">The Mental Model</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Step 3 &mdash; the habit</p>
+          <h2>Play the classification game</h2>
+          <table style="font-size:17px">
+            <thead>
+              <tr>
+                <th>Term</th>
+                <th>Side</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Prompt engineering</td>
+                <td><strong>User</strong></td>
+                <td>Refining the input you send to a model that already exists</td>
+              </tr>
+              <tr>
+                <td>RLHF</td>
+                <td><strong>Builder</strong></td>
+                <td>Shapes and safeguards a model&rsquo;s behaviour during its creation</td>
+              </tr>
+              <tr>
+                <td>RAG</td>
+                <td><strong>User</strong></td>
+                <td>Question answering over <em>your</em> documents, with someone else&rsquo;s model</td>
+              </tr>
+              <tr>
+                <td>Pre-training</td>
+                <td><strong>Builder</strong></td>
+                <td>Training on world-scale data, on world-scale hardware</td>
+              </tr>
+              <tr>
+                <td>Quantization</td>
+                <td><strong>Builder</strong></td>
+                <td>Optimising the model so it runs in constrained environments</td>
+              </tr>
+              <tr>
+                <td>AI agents</td>
+                <td><strong>User</strong></td>
+                <td>Software on top of a model that also <em>does</em> things &mdash; books the ticket</td>
+              </tr>
+              <tr>
+                <td>Vector databases</td>
+                <td><strong>User</strong></td>
+                <td>You need one the moment you implement RAG</td>
+              </tr>
+              <tr>
+                <td><strong>Fine-tuning</strong></td>
+                <td><em class="hl">Both</em></td>
+                <td>Done while building a model, and again while using one</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="kicker">The table is not the lesson &mdash; <b>the sorting is.</b> Run it for
+            eight months and you end up with the two curricula in part three.</div>
+        </div>
+      </section>
+
+      <!-- 15 ----------------------------------------------------- -->
+      <section class="slide flood" data-part="3" style="--flood:var(--t3-flood)"
+        data-title="Part three — Two curricula">
+        <div class="flood-inner">
+          <p class="part-num">PART THREE</p>
+          <h1>Two curricula</h1>
+          <p>What each side actually asks you to learn &mdash; and which one you should open first.</p>
+        </div>
+      </section>
+
+      <!-- 16 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="Builder — prerequisites">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Curriculum A &middot; builder&rsquo;s perspective</p>
+          <h2>Build a foundation model and ship it to the world</h2>
+          <p>More technical, and closest to what ML and DL practitioners already do. It has real
+            prerequisites &mdash; this is the one side you cannot start in the middle of.</p>
+          <ul class="plain">
+            <li><strong>Machine learning fundamentals</strong></li>
+            <li><strong>Deep learning fundamentals</strong></li>
+            <li><strong>A DL framework</strong> &mdash; TensorFlow or PyTorch. <em class="hl">PyTorch
+                preferred.</em></li>
+          </ul>
+          <div class="kicker">If those three are missing, the seven modules that follow will not land.
+            <b>That is useful information, not a discouragement</b> &mdash; it tells you which side to
+            open first.</div>
+        </div>
+      </section>
+
+      <!-- 17 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="Builder — modules 1 to 4">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Curriculum A &middot; the pipeline, first half</p>
+          <h2>From architecture to a model that fits on hardware</h2>
+          <ol class="steps">
+            <li>
+              <div>
+                <h3>Transformer architecture</h3>
+                <p>Every current foundation model is built on it. Encoder side, decoder side,
+                  embeddings, self-attention, layer normalisation, language modelling.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Types of transformers</h3>
+                <p>Encoder-only, decoder-only, encoder&ndash;decoder &mdash; and the actual
+                  architectures of BERT, GPT and the other well-known models.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Pre-training</h3>
+                <p>Training objectives, tokenization strategies, training strategies (local vs cloud,
+                  single machine vs distributed), the problems that only appear at this scale, and how
+                  to evaluate whether pre-training went well.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Optimization</h3>
+                <p>Foundation models are too large for normal hardware. Optimisation during training,
+                  model compression (quantization, knowledge distillation), and inference-time work to
+                  cut prediction latency.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 18 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="Builder — modules 5 to 7">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Curriculum A &middot; the pipeline, second half</p>
+          <h2>From a trained model to a deployed one</h2>
+          <div class="cols-3">
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>5 &middot; Fine-tuning</h3>
+              <p>Adapt the generalised model so it performs better on a specific task or task-type:
+                task-specific tuning, instruction tuning, continual pre-training in a domain, RLHF and
+                PEFT.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>6 &middot; Evaluation</h3>
+              <p>Thorough evaluation across many metrics before anything ships. This is also what
+                powers the LLM leaderboards &mdash; &ldquo;model X beat model Y&rdquo; is this step,
+                published.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>7 &middot; Deployment</h3>
+              <p>Last, and not optional. An undeployed model is of no use to anyone.</p>
+            </div>
+          </div>
+          <div class="kicker">Seven modules, in that order. <b>This is the pipeline a data scientist at
+              an organisation that actually builds foundation models runs through</b> &mdash; which is
+            a much smaller set of organisations than the internet implies.</div>
+        </div>
+      </section>
+
+      <!-- 19 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="User — building basic LLM apps">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Curriculum B &middot; user&rsquo;s perspective &middot; step 1</p>
+          <h2>Building basic LLM apps</h2>
+          <p>Less technical than the builder side, and &mdash; honestly &mdash; more fun. You get to
+            build things. It starts with one decision: which model, reached how.</p>
+          <div class="cols">
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>Closed-source models</h3>
+              <p>Someone else hosts them. You reach them over an <strong>API</strong> and pay per
+                token. Nothing to run, nothing to size.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>Open-source models</h3>
+              <p>You run them &mdash; locally or on your own server &mdash; with tools like
+                <strong>Hugging Face</strong> or <strong>Ollama</strong>. More control, more
+                responsibility.</p>
+            </div>
+          </div>
+          <div class="kicker">Then a framework to hold the application together, which is where
+            <b>LangChain</b> comes in &mdash; and where the rest of this playlist lives.</div>
+        </div>
+      </section>
+
+      <!-- 20 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="User — improving the response">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Curriculum B &middot; step 2</p>
+          <h2>Three ways to improve what comes back</h2>
+          <div class="cols-3">
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>Prompt engineering</h3>
+              <p>The art and science of writing the input you send a foundation model. Sounds trivial,
+                is not &mdash; there is already a large body of work to study here.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>RAG</h3>
+              <p>A model is trained on its own data and knows nothing about <strong>yours</strong>. RAG
+                shows it your private documents and does question answering over them. A whole field on
+                its own.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>Fine-tuning</h3>
+              <p>The same word as on the builder side, at a shallower depth. Here you adapt a
+                ready-made model; there you reach into the deeper layers.</p>
+            </div>
+          </div>
+          <div class="kicker">These three are where most of the real engineering work in GenAI
+            applications currently sits. <b>Reach for them in that order</b> &mdash; prompting is
+            cheapest, fine-tuning is costliest.</div>
+        </div>
+      </section>
+
+      <!-- 21 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="User — agents, LLMOps, the rest">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Curriculum B &middot; steps 3 to 5</p>
+          <h2>Agents, operations, and everything else</h2>
+          <ol class="steps">
+            <li>
+              <div>
+                <h3>AI agents</h3>
+                <p>An LLM app is usually a chatbot. An agent is a chatbot that can also <em>act</em>.
+                  Ask for the best places to visit in India, it says Goa &mdash; then you tell it to
+                  book the hotel, and it does. Mechanically: you give the model
+                  <strong>tools</strong> it can call. <strong>Chatbot + tools = AI agent.</strong></p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>LLMOps</h3>
+                <p>The umbrella for taking an LLM application to production: deployment, evaluation,
+                  monitoring, continuous improvement. A growing set of libraries exists to help.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Miscellaneous</h3>
+                <p>Multimodal foundation models &mdash; audio in, video out, and every other
+                  combination &mdash; plus diffusion-based models like Stable Diffusion.</p>
+              </div>
+            </li>
+          </ol>
+          <div class="kicker">Agents are the fastest-moving item on this list, and the one most worth
+            your attention after the basics. <b>It is also the one most often confused with the model
+              itself.</b></div>
+        </div>
+      </section>
+
+      <!-- 22 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="Should you learn both sides?">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">The question everyone asks</p>
+          <h2>Should you learn both sides?</h2>
+          <p>Yes &mdash; but the weighting depends entirely on the role you are aiming at.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>If your goal is</th>
+                <th>Focus on</th>
+                <th>Because</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Research scientist</strong></td>
+                <td>Builder side</td>
+                <td>Plus ML engineering and MLOps. This is data-science work.</td>
+              </tr>
+              <tr>
+                <td><strong>App developer using LLMs</strong></td>
+                <td>User side</td>
+                <td>Anyone with a software development background can do 80&ndash;85% of this work.</td>
+              </tr>
+              <tr>
+                <td><strong>AI Engineer</strong></td>
+                <td><em class="hl">Both, in parallel</em></td>
+                <td>The profile that is actually scarce.</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="kicker">The valuable profile is someone who <b>works on the user side but
+              understands how foundation models are built.</b> A software developer can build an AI
+            application today. Someone who knows both sides can explain why it behaves the way it does
+            &mdash; and command a better salary for it.</div>
+        </div>
+      </section>
+
+      <!-- 23 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="Key takeaways">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">What to carry out of here</p>
+          <h2>Five things, and the last one is the point</h2>
+          <ul class="plain">
+            <li><strong>Foundation models are the centre of gravity</strong> of the entire GenAI
+              landscape. Start every explanation there.</li>
+            <li><strong>Every GenAI term is either &ldquo;building a foundation model&rdquo; or
+                &ldquo;using one.&rdquo;</strong> Classify first, study second.</li>
+            <li><strong>The user side is more accessible; the builder side is more
+                differentiating.</strong> Aim for both if you want to be an AI engineer.</li>
+            <li><strong>GenAI passes every test for a successful technology</strong> &mdash; real
+              problems, daily utility, economic impact, new jobs, broad access.</li>
+            <li><strong>Do not chase every new release.</strong> Fit each new thing into the model; most
+              of it is a new instance of a slot you already understand.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 24 ----------------------------------------------------- -->
+      <section class="slide" data-part="3" data-title="The three questions, answered">
+        <div class="rail">
+          <div class="rail-dot"></div>
+          <div class="rail-name">Two Curricula</div>
+          <div class="rail-num"></div>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Back to the start</p>
+          <h2>A sentence each, as promised</h2>
+          <div class="cols-3">
+            <div class="panel" style="--pt:var(--t1)">
+              <h3>Where do I start?</h3>
+              <p>On the <strong>user side</strong>, unless you already have ML and DL fundamentals. It
+                needs no prerequisites you do not have, and you can ship something this week.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t2)">
+              <h3>Do I need to know this one?</h3>
+              <p>Classify it first. <strong>Builder-side terms are not your problem yet</strong>
+                &mdash; knowing that a word is someone else&rsquo;s job is itself progress.</p>
+            </div>
+            <div class="panel" style="--pt:var(--t3)">
+              <h3>How do I keep up?</h3>
+              <p>You stop trying to. <strong>You keep up with the slots, not the releases</strong>
+                &mdash; a new model is a new instance of something you already understand.</p>
+            </div>
+          </div>
+          <div class="kicker">If those three now feel obvious, that was the whole job &mdash; and notice
+            that <b>none of the answers required you to know a single model name.</b></div>
+        </div>
+      </section>
+
+      <!-- 25 ----------------------------------------------------- -->
+      <section class="slide title-slide" data-part="3" data-title="Close">
+        <div class="title-inner">
+          <div class="title-rule">
+            <span style="background:var(--t1)"></span>
+            <span style="background:var(--t2)"></span>
+            <span style="background:var(--t3)"></span>
+          </div>
+          <h1>Classify first. Study second.</h1>
+          <p><b style="color:var(--t1)">Foundation models</b> at the centre. <b
+              style="color:var(--t2)">Using one</b> on the left, <b style="color:var(--t3)">building
+              one</b> on the right. Every term you meet from here goes on a side.</p>
+          <p style="margin-top:26px">Next in the playlist: we start on the user side, with LangChain.</p>
+          <div class="title-meta">
+            <kbd>I</kbd> index &nbsp;·&nbsp; slides, notes and code are in the repo
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+<nav id="hud">
+  <button class="btn" id="prev" aria-label="Previous slide">Prev</button>
+  <button class="btn" id="next" aria-label="Next slide">Next</button>
+  <div id="spine" aria-hidden="true">
+    <div class="seg"><i></i></div>
+    <div class="seg"><i></i></div>
+    <div class="seg"><i></i></div>
+  </div>
+  <span class="lbl" id="partname">Orientation</span>
+  <span id="count">01 / 25</span>
+  <button class="btn" id="idxbtn">Index</button>
+</nav>
+
+<div id="index" hidden>
+  <h2>Jump to a slide</h2>
+  <div id="idxbody"></div>
+</div>
+
+<script>
+  (function () {
+    var stage = document.getElementById('stage');
+    var wrap = document.getElementById('wrap');
+    var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
+    var index = document.getElementById('index');
+    var TIERS = { '0': 'var(--ink-soft)', '1': 'var(--t1)', '2': 'var(--t2)', '3': 'var(--t3)' };
+    var NAMES = { '0': 'Orientation', '1': 'What Gen AI Is', '2': 'The Mental Model', '3': 'Two Curricula' };
+    var cur = 0;
+
+    function fit() {
+      var k = Math.min(window.innerWidth / 1280, (window.innerHeight - 54) / 720);
+      stage.style.transform = 'scale(' + k + ')';
+      wrap.style.width = (1280 * k) + 'px';
+      wrap.style.height = (720 * k) + 'px';
+    }
+
+    function partProgress(part) {
+      var inPart = slides.filter(function (s) { return s.dataset.part === part; });
+      if (!inPart.length) return 0;
+      var seen = inPart.filter(function (s) { return slides.indexOf(s) <= cur; }).length;
+      return seen / inPart.length;
+    }
+
+    function show(i) {
+      cur = Math.max(0, Math.min(slides.length - 1, i));
+      slides.forEach(function (s, n) { s.classList.toggle('on', n === cur); });
+
+      var part = slides[cur].dataset.part;
+      stage.style.setProperty('--tier', TIERS[part]);
+      document.getElementById('partname').textContent = NAMES[part];
+      document.getElementById('count').textContent =
+        String(cur + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+
+      var bars = document.querySelectorAll('#spine .seg i');
+      ['1', '2', '3'].forEach(function (p, n) {
+        bars[n].style.width = (partProgress(p) * 100) + '%';
+      });
+
+      var num = slides[cur].querySelector('.rail-num');
+      if (num) num.textContent = String(cur + 1).padStart(2, '0');
+
+      try { localStorage.setItem('genai-roadmap-slide', String(cur)); } catch (e) { }
+    }
+
+    function buildIndex() {
+      var body = document.getElementById('idxbody');
+      var order = ['0', '1', '2', '3'];
+      order.forEach(function (p) {
+        var items = slides.filter(function (s) { return s.dataset.part === p; });
+        if (!items.length) return;
+        var g = document.createElement('div');
+        g.className = 'idx-group';
+        g.style.setProperty('--gc', TIERS[p]);
+        var h = document.createElement('div');
+        h.className = 'idx-head';
+        h.textContent = NAMES[p];
+        g.appendChild(h);
+        var list = document.createElement('div');
+        list.className = 'idx-list';
+        items.forEach(function (s) {
+          var n = slides.indexOf(s);
+          var b = document.createElement('button');
+          b.className = 'idx-item';
+          b.innerHTML = '<span>' + String(n + 1).padStart(2, '0') + '</span>';
+          b.appendChild(document.createTextNode(s.dataset.title || ''));
+          b.addEventListener('click', function () { show(n); toggleIndex(false); });
+          list.appendChild(b);
+        });
+        g.appendChild(list);
+        body.appendChild(g);
+      });
+    }
+
+    function toggleIndex(on) {
+      var want = (typeof on === 'boolean') ? on : index.hidden;
+      index.hidden = !want;
+      if (want) { var f = index.querySelector('.idx-item'); if (f) f.focus(); }
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var k = e.key;
+      if (k === 'Escape') { toggleIndex(false); return; }
+      if (k === 'i' || k === 'I') { e.preventDefault(); toggleIndex(); return; }
+      if (!index.hidden) return;
+      if (k === 'ArrowRight' || k === ' ' || k === 'PageDown' || k === 'j') { e.preventDefault(); show(cur + 1); }
+      else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'k') { e.preventDefault(); show(cur - 1); }
+      else if (k === 'Home') { e.preventDefault(); show(0); }
+      else if (k === 'End') { e.preventDefault(); show(slides.length - 1); }
+    });
+
+    document.getElementById('next').addEventListener('click', function () { show(cur + 1); });
+    document.getElementById('prev').addEventListener('click', function () { show(cur - 1); });
+    document.getElementById('idxbtn').addEventListener('click', function () { toggleIndex(); });
+
+    window.addEventListener('resize', fit);
+
+    buildIndex();
+    fit();
+
+    var start = 0;
+    try {
+      var saved = parseInt(localStorage.getItem('genai-roadmap-slide'), 10);
+      if (!isNaN(saved) && saved >= 0 && saved < slides.length) start = saved;
+    } catch (e) { }
+    show(start);
+  })();
+</script>
