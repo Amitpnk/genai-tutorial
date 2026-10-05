@@ -30,7 +30,7 @@ that statement stopped being true.
 
 ### Where GenAI sits (the nested-circles mental model)
 
-![AI-ML](../images/01-ai-ml-dl-genai-agentai.png.png)
+![AI-ML](../images/01-ai-ml-dl-genai-agentai.png)
 
 - **AI** — the umbrella (symbolic AI, expert systems, fuzzy logic, …)
 - **ML** — statistics- and model-based learning from data
