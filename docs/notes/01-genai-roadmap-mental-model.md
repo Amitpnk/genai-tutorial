@@ -1,6 +1,6 @@
 # GenAI Roadmap — The Builder vs. User Mental Model
 
-## 2. What Generative AI is
+## 1. What Generative AI is
 
 **Definition:** a type of AI that creates new content — text, images, music, even
 code — by learning patterns from existing data, mimicking human creativity.
@@ -30,9 +30,7 @@ that statement stopped being true.
 
 ### Where GenAI sits (the nested-circles mental model)
 
-```
-AI  ⊃  Machine Learning  ⊃  Deep Learning  ⊃  Generative AI
-```
+![AI-ML](../images/01-ai-ml-dl-genai-agentai.png.png)
 
 - **AI** — the umbrella (symbolic AI, expert systems, fuzzy logic, …)
 - **ML** — statistics- and model-based learning from data
@@ -92,13 +90,7 @@ video, and audio, not just text. That is why the diagram says "Foundation Models
 
 ### Step 2 — Split everything into two perspectives
 
-```
-                     +----------------------+
-   USER'S            |  FOUNDATION MODELS   |            BUILDER'S
- PERSPECTIVE  <------|      (the core)      |------>   PERSPECTIVE
- use a ready-made    +----------------------+     build & deploy the
- foundation model                                  foundation model
-```
+![FoundationModel](../images/01-foundation-models.drawio.svg)
 
 **The claim:** every term, tool, and technology in GenAI belongs on one of the two sides — either
 you are *using* a ready-made foundation model, or you are *building* one.
